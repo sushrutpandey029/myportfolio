@@ -1,0 +1,122 @@
+{% extends "base/admin_base.html" %}
+
+{% block title %}{{ title }} - Admin{% endblock %}
+
+{% block header_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Back Link -->
+    <div class="mb-6">
+        <a href="{{ url_for('admin_bp.admin_videos') }}"
+            class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            Back to Videos
+        </a>
+    </div>
+
+    <div
+        class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6 md:p-8">
+            <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+
+                <!-- Video Details Section -->
+                <div class="space-y-6">
+                    <h3
+                        class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary">smart_display</span>
+                        Video Details
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- URL Field (Full Width) -->
+                        <div class="md:col-span-2 space-y-2">
+                            {{ form.video_url.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                            {{ form.video_url(class="w-full px-4 py-2.5 bg-slate-50 dark:bg-black/20 border
+                            border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary/50
+                            focus:border-primary text-slate-900 dark:text-white placeholder-slate-400 transition-all",
+                            placeholder="https://www.youtube.com/watch?v=...") }}
+                            {% if form.video_url.errors %}
+                            <p class="text-sm text-red-500 mt-1">{{ form.video_url.errors[0] }}</p>
+                            {% endif %}
+                            <p class="text-xs text-slate-500">Supports standard YouTube URLs (watch?v=...), short links
+                                (youtu.be/...), and embed links.</p>
+                        </div>
+
+                        <!-- Title Field -->
+                        <div class="md:col-span-2 space-y-2">
+                            {{ form.title.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                            {{ form.title(class="w-full px-4 py-2.5 bg-slate-50 dark:bg-black/20 border border-slate-300
+                            dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary
+                            text-slate-900 dark:text-white placeholder-slate-400 transition-all") }}
+                            {% if form.title.errors %}
+                            <p class="text-sm text-red-500 mt-1">{{ form.title.errors[0] }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Category Field -->
+                        <div class="space-y-2">
+                            {{ form.category.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                            {{ form.category(class="w-full px-4 py-2.5 bg-slate-50 dark:bg-black/20 border
+                            border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary/50
+                            focus:border-primary text-slate-900 dark:text-white placeholder-slate-400 transition-all",
+                            placeholder="e.g. Tutorials, Webinars") }}
+                            {% if form.category.errors %}
+                            <p class="text-sm text-red-500 mt-1">{{ form.category.errors[0] }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Status Field -->
+                        <div class="space-y-2">
+                            {{ form.is_active.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                            {{ form.is_active(class="w-full px-4 py-2.5 bg-slate-50 dark:bg-black/20 border
+                            border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary/50
+                            focus:border-primary text-slate-900 dark:text-white transition-all appearance-none
+                            bg-no-repeat
+                            bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22m6%208%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')]
+                            bg-[right_0.5rem_center] bg-[length:1.5em_1.5em]") }}
+                        </div>
+
+                        <!-- Description Field -->
+                        <div class="md:col-span-2 space-y-2">
+                            {{ form.description.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300")
+                            }}
+                            {{ form.description(rows=5, class="w-full px-4 py-2.5 bg-slate-50 dark:bg-black/20 border
+                            border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary/50
+                            focus:border-primary text-slate-900 dark:text-white placeholder-slate-400 transition-all
+                            resize-y") }}
+                            {% if form.description.errors %}
+                            <p class="text-sm text-red-500 mt-1">{{ form.description.errors[0] }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end gap-3">
+                    <a href="{{ url_for('admin_bp.admin_videos') }}"
+                        class="px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        Cancel
+                    </a>
+                    {{ form.submit(class="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary-dark text-white font-bold
+                    shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all transform active:scale-95
+                    cursor-pointer") }}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Preview (Only if editing and ID exists) -->
+    {% if video and video.video_id %}
+    <div
+        class="mt-8 bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden p-6">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Video Preview</h3>
+        <div class="aspect-video bg-black rounded-lg overflow-hidden max-w-2xl mx-auto shadow-xl">
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/{{ video.video_id }}" frameborder="0"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

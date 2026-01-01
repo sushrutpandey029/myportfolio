@@ -1,0 +1,428 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="flex flex-1 w-full max-w-[1440px] mx-auto">
+    <!-- Sidebar Filters -->
+    <aside
+        class="hidden lg:flex flex-col w-72 p-6 border-r border-white/10 bg-background-dark h-[calc(100vh-65px)] sticky top-[65px] overflow-y-auto">
+        <div class="mb-8">
+            <h3 class="text-white text-lg font-bold mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined">filter_list</span> Filters
+            </h3>
+        </div>
+
+        <div class="mb-8">
+            <h4 class="text-text-secondary text-xs font-bold uppercase tracking-wider mb-3">Categories</h4>
+            <div class="flex flex-col gap-3">
+                <label class="flex items-center gap-3 group cursor-pointer">
+                    <input checked
+                        class="form-checkbox rounded border-white/20 text-primary focus:ring-primary bg-transparent size-5"
+                        type="checkbox" />
+                    <span
+                        class="text-white text-sm font-medium group-hover:text-primary transition-colors">Programming</span>
+                </label>
+                <label class="flex items-center gap-3 group cursor-pointer">
+                    <input
+                        class="form-checkbox rounded border-white/20 text-primary focus:ring-primary bg-transparent size-5"
+                        type="checkbox" />
+                    <span class="text-white text-sm font-medium group-hover:text-primary transition-colors">Design &
+                        UI/UX</span>
+                </label>
+                <label class="flex items-center gap-3 group cursor-pointer">
+                    <input
+                        class="form-checkbox rounded border-white/20 text-primary focus:ring-primary bg-transparent size-5"
+                        type="checkbox" />
+                    <span class="text-white text-sm font-medium group-hover:text-primary transition-colors">Digital
+                        Marketing</span>
+                </label>
+                <label class="flex items-center gap-3 group cursor-pointer">
+                    <input
+                        class="form-checkbox rounded border-white/20 text-primary focus:ring-primary bg-transparent size-5"
+                        type="checkbox" />
+                    <span class="text-white text-sm font-medium group-hover:text-primary transition-colors">Business &
+                        Finance</span>
+                </label>
+                <label class="flex items-center gap-3 group cursor-pointer">
+                    <input
+                        class="form-checkbox rounded border-white/20 text-primary focus:ring-primary bg-transparent size-5"
+                        type="checkbox" />
+                    <span class="text-white text-sm font-medium group-hover:text-primary transition-colors">Writing &
+                        Translation</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="mb-8">
+            <h4 class="text-text-secondary text-xs font-bold uppercase tracking-wider mb-3">Price Range</h4>
+            <div class="flex flex-col gap-3">
+                <label class="flex items-center gap-3 group cursor-pointer">
+                    <input class="form-radio border-white/20 text-primary focus:ring-primary bg-transparent size-5"
+                        name="price" type="radio" />
+                    <span class="text-white text-sm font-medium group-hover:text-primary transition-colors">All
+                        Prices</span>
+                </label>
+                <label class="flex items-center gap-3 group cursor-pointer">
+                    <input class="form-radio border-white/20 text-primary focus:ring-primary bg-transparent size-5"
+                        name="price" type="radio" />
+                    <span class="text-white text-sm font-medium group-hover:text-primary transition-colors">Free
+                        Only</span>
+                </label>
+                <label class="flex items-center gap-3 group cursor-pointer">
+                    <input class="form-radio border-white/20 text-primary focus:ring-primary bg-transparent size-5"
+                        name="price" type="radio" />
+                    <span class="text-white text-sm font-medium group-hover:text-primary transition-colors">Under
+                        $20</span>
+                </label>
+                <label class="flex items-center gap-3 group cursor-pointer">
+                    <input class="form-radio border-white/20 text-primary focus:ring-primary bg-transparent size-5"
+                        name="price" type="radio" />
+                    <span class="text-white text-sm font-medium group-hover:text-primary transition-colors">$20 -
+                        $100</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="mt-auto">
+            <button
+                class="w-full py-2.5 px-4 bg-surface-dark hover:bg-surface-highlight text-white rounded-lg text-sm font-bold transition-colors">
+                Reset Filters
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-4 md:p-8 lg:p-10 flex flex-col min-w-0">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+            <div class="flex flex-col gap-3">
+                <h1 class="text-white text-3xl md:text-4xl font-black leading-tight tracking-tight">Study Materials</h1>
+                <p class="text-text-secondary text-base font-normal max-w-xl">Boost your freelance career with our
+                    curated study materials, guides, and templates designed for professionals.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-medium text-text-secondary">Sort by:</span>
+                <div class="relative">
+                    <select
+                        class="appearance-none bg-surface-dark border border-transparent text-white py-2 pl-4 pr-10 rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary focus:outline-none cursor-pointer">
+                        <option>Most Popular</option>
+                        <option>Newest Added</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                    </select>
+                    <div
+                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-secondary">
+                        <span class="material-symbols-outlined text-xl">expand_more</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Tabs Bar -->
+        <div class="flex flex-col gap-6 mb-8">
+            <!-- Search -->
+            <div class="w-full">
+                <label class="flex flex-col h-12 w-full">
+                    <div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm">
+                        <div
+                            class="text-text-secondary flex border border-r-0 border-white/10 bg-surface-dark items-center justify-center pl-4 rounded-l-xl">
+                            <span class="material-symbols-outlined text-2xl">search</span>
+                        </div>
+                        <input
+                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-xl text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-l-0 border-white/10 bg-surface-dark h-full placeholder:text-text-secondary px-4 pl-2 text-base font-normal leading-normal"
+                            placeholder="Search notes by title, topic, or author..." value="" />
+                    </div>
+                </label>
+            </div>
+
+            <!-- Tabs -->
+            <div class="border-b border-white/10">
+                <div class="flex gap-8 overflow-x-auto no-scrollbar">
+                    <a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-3 pt-2 whitespace-nowrap px-1"
+                        href="#">
+                        <p class="text-sm font-bold leading-normal tracking-[0.015em]">All Materials</p>
+                    </a>
+                    <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-text-secondary hover:text-white pb-3 pt-2 whitespace-nowrap px-1 transition-colors"
+                        href="#">
+                        <p class="text-sm font-bold leading-normal tracking-[0.015em]">Free Notes</p>
+                    </a>
+                    <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-text-secondary hover:text-white pb-3 pt-2 whitespace-nowrap px-1 transition-colors"
+                        href="#">
+                        <p class="text-sm font-bold leading-normal tracking-[0.015em]">Paid Notes</p>
+                    </a>
+                    <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-text-secondary hover:text-white pb-3 pt-2 whitespace-nowrap px-1 transition-colors"
+                        href="#">
+                        <p class="text-sm font-bold leading-normal tracking-[0.015em]">Video Courses</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Material Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <!-- Card 1: Free -->
+            <div
+                class="group flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+                <div class="relative h-48 overflow-hidden">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA9wusmWCQgFqtVQiK5coJVPtKuPyTLdAd0GPQor0QVoQ0gRbcCxQneEL3-WsRCV-z3X49hJPop80ftVM9NGnNsk38G5h6ZfVgDi1mGBlAtv7g80wmQygb-hPZP18_uYsjwBGwjphb3zgyH9hC9ilbjMNFSqsM-rxXORbG0ndiotwG5XB4zVGJeZFtOLQfNZ9VSEOS9vRK2uiE-C_L9INvmdAzswaA-NScQ_cfad8l7IodTQRlNH94QY9z_6mibgd7bE8bGRnlaeQ');">
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-black/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide border border-white/10">
+                        Free</div>
+                    <div
+                        class="absolute bottom-3 left-3 bg-white/90 dark:bg-black/70 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium text-white">
+                        <span class="material-symbols-outlined text-sm">description</span> PDF
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span
+                            class="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">Programming</span>
+                        <span class="text-xs text-text-secondary">• 4.8 (120 reviews)</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                        Intro to Python for Freelancers</h3>
+                    <p class="text-text-secondary text-sm mb-4 line-clamp-2">A comprehensive guide to automating your
+                        freelance workflow using Python scripts. Includes templates and code snippets.</p>
+                    <div class="mt-auto pt-4 border-t border-white/10 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="size-6 rounded-full bg-cover bg-center"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAP3dxfjyf1kghhvnko35CBMBGtSRhwtcjdPdS1KN03tVoHyB1MdVAyjHp6sIjjW3QK5HCaEUdl6NfcFnGyds7CvgGPkxBD8hq8XKbT2HRwHWpzSMGli7K014-cH_uqWO2eDSZd_c-wSKhzKKY2_e-E2LZ2rite-gCyfwtdB4b2x2POA8aq-n05zzqthyrPcDTFahUbZc3Iz8mGnrF6jAsafuc-4A75e9a6YP7kN65oq-EX2ZO7PH6c1ij-Acw9HoR5BR6xrFq3_Q');">
+                            </div>
+                            <span class="text-xs font-medium text-white">Sarah Jenkins</span>
+                        </div>
+                        <button
+                            class="bg-surface-highlight hover:bg-primary hover:text-white text-white px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">download</span> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Paid -->
+            <div
+                class="group flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+                <div class="relative h-48 overflow-hidden">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA0MeZZsRlJrhJEVXjvV8IHB-bXjLxLXX6VWYDHkcX6O-DgouQIo8gfaZD2Gtoc0gi_kIrDNdpUf9oA25lfTR05FERGc7-v2TeEN8agX5D4CDgxR0lAqX-x9_07I3j28HjyDpMlvT12cA0BZQJdKP1Kw3HzPjdibRTJq4eskshSIzopR5_TL_6TdlYE2ELfpEucN7GsMhcGXXxPs6or7RMImyOkVwtShyJAYlwZbiz7W6VdLuVBzUC05idLPBOYbuHRWhpQ7YErA');">
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide shadow-lg shadow-primary/20">
+                        $24.99</div>
+                    <div
+                        class="absolute bottom-3 left-3 bg-white/90 dark:bg-black/70 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium text-white">
+                        <span class="material-symbols-outlined text-sm">play_circle</span> Video
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span
+                            class="text-xs font-bold text-purple-500 bg-purple-500/10 px-2 py-0.5 rounded">Design</span>
+                        <span class="text-xs text-text-secondary">• 4.9 (85 reviews)</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                        Mastering UI/UX Principles</h3>
+                    <p class="text-text-secondary text-sm mb-4 line-clamp-2">Learn the fundamental principles of UI/UX
+                        design to create user-friendly interfaces that convert better.</p>
+                    <div class="mt-auto pt-4 border-t border-white/10 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="size-6 rounded-full bg-cover bg-center"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDO8W8-_tajVTI5VQ_M5nmkEAk7a2rUccJ-hdVBwyNf-SEi1Cj-v3z7GXwDXzym0YjTeJIKNlsc7E7ChwC6b88mIz0Oju3Mgm5OtA3ZvlDWRIhpBlgxsHT1jaLz8jX24eZf-_abwejjuEvQhs7RycTZdi3TdmYuWHHlFD6iD4CyMuRzxWzqDv0dxgx5arkGvdtN6YeiFaXPOS8h_O47tdYotx6cu_yibOAonIU5GuHTu52LTrCAagU2x7Q1a0G3BD9INww7MxjzsQ');">
+                            </div>
+                            <span class="text-xs font-medium text-white">Mike Chen</span>
+                        </div>
+                        <button
+                            class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
+                            <span class="material-symbols-outlined text-[18px]">shopping_cart</span> Buy Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Free -->
+            <div
+                class="group flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+                <div class="relative h-48 overflow-hidden">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDbvM-Up4j6Zti9Fwo_wSfdnjNXCC2NZDeenoy2efhrAJzJSdjdDdTrjcwmHkq9CbSUMUC_xoTPDiFhDLPMON-GrsvoMQXiaY0bEEz9d9b1bghIDZLsa-0rs6Pa2psbAUg8cRUPccjZ1jJntDi5Wl5PYmtkxrOK1vi4cH3dM_gMLY1PXnYd8hz_w_s7Q-9LHfQOyBdQKWcbO3zIJVQqnlF2TXA54awsv7fnAhDlretZ6ZboeiqncF9wPvkHaZa-9jdU7xOHZ_T6RA');">
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-black/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide border border-white/10">
+                        Free</div>
+                    <div
+                        class="absolute bottom-3 left-3 bg-white/90 dark:bg-black/70 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium text-white">
+                        <span class="material-symbols-outlined text-sm">table_chart</span> XLS
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span
+                            class="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded">Finance</span>
+                        <span class="text-xs text-text-secondary">• 4.5 (342 reviews)</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                        Freelance Tax Calculator</h3>
+                    <p class="text-text-secondary text-sm mb-4 line-clamp-2">Don't let taxes surprise you. Use this
+                        Excel template to estimate your quarterly tax payments easily.</p>
+                    <div class="mt-auto pt-4 border-t border-white/10 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="size-6 rounded-full bg-cover bg-center"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBvm2bveLRnkBn-Ly_6wzPDTxRLmnNrmKO6Cd-BUJ5Cw-SQXom_MD3JFooXu1En8ATfejApjx0QJ9ilKom7vWMibDi7BP7_YEjk7v2OOuCvtTjbA7CsHKdD5H8rGzFkeFVLz74EDP0IGzVK-O1FYm0x0CnnLPenqdg47ndgHGaJRSrCawPgxHFUvB5ltSxbcSb30B6cyqs-4ajvG6UUqbgdWM6beZhbRTrPX0ms7OeIEBH84vcVtwjvPPZ9iijqiJ3JlxmMIJhD7w');">
+                            </div>
+                            <span class="text-xs font-medium text-white">TaxPros</span>
+                        </div>
+                        <button
+                            class="bg-surface-highlight hover:bg-primary hover:text-white text-white px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">download</span> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Paid -->
+            <div
+                class="group flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+                <div class="relative h-48 overflow-hidden">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDezquVU9MT_SB5O7LitnUJTqjCamwBQv30ikUxHyp8fVYAPIqh-MCCkFeADf6S_X1B43uxVyoDciKEaRyzILKNvcw-Vcr3HhNqBlQdDPlIeeevwbPgNtsyil1Ba9ZS_O7R6L0IdYepPbooLOLEcilNiyMc2dSIuPudbuPJeeOxban3LvJE_IOf-aV0MPl6seMATcCA9I7357c3HQk0beBMxrP3BJC5quK5x8ijOHUmd11lwVAxFTPfhTElYsQA0O2GGJa6XGRoRg');">
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide shadow-lg shadow-primary/20">
+                        $49.00</div>
+                    <div
+                        class="absolute bottom-3 left-3 bg-white/90 dark:bg-black/70 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium text-white">
+                        <span class="material-symbols-outlined text-sm">library_books</span> E-Book
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span
+                            class="text-xs font-bold text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded">Marketing</span>
+                        <span class="text-xs text-text-secondary">• 5.0 (22 reviews)</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                        Instagram Growth 2024</h3>
+                    <p class="text-text-secondary text-sm mb-4 line-clamp-2">The ultimate playbook for growing your
+                        personal brand on Instagram. Strategies for reels, stories, and posts.</p>
+                    <div class="mt-auto pt-4 border-t border-white/10 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="size-6 rounded-full bg-cover bg-center"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWs2JJUC_1m0caYXzHCHH3MOJswDec39wGwKfNCKBnZ8Il5N3byQdzqe1luEe10ZskJoBMHM6drlz8lvGf9kjQH9qw17yMRBSzarClbctBcXtV7K2OriB6CdDaxIg8iiT37xnDkcSpNSf8Oll6mzf0xgj2LlJCjd6A83tJB3tcafQ4Ya-26b1TGvHFusvYWuFrfJgpZXBaw1AA6rUHZ1ypEOkQByOwYL1kaF0kHna24RXd3NutZsiaqGSlLMlO4QtF14dcPaX9TQ');">
+                            </div>
+                            <span class="text-xs font-medium text-white">GrowthHacker</span>
+                        </div>
+                        <button
+                            class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
+                            <span class="material-symbols-outlined text-[18px]">shopping_cart</span> Buy Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Free -->
+            <div
+                class="group flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+                <div class="relative h-48 overflow-hidden">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCdB5jfpbInpIxldDZS2m50Wvlqtxy6pe1R9rNd4VU4IG08bsQ40PBeaz7uBqNc8-L8LFc1E81zZwrk9usxovt7izAG_1qWd4SzKpvN7wzagkCPNXlXR_9uKiDTItjezzLc8RGpRmD1ZdyqADKE3WGiEXgawy9hsKEFJBE5jPGDtGsp_xfswbCM2rtCDxYVTt4oIGfECQcNV5yWrCFo0hqWJ3rYlgeqIzHwpOrO8HqYKu-Z7R02XLf59De1Y9JxK9xUpTVqD4K7VA');">
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-black/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide border border-white/10">
+                        Free</div>
+                    <div
+                        class="absolute bottom-3 left-3 bg-white/90 dark:bg-black/70 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium text-white">
+                        <span class="material-symbols-outlined text-sm">description</span> DOCX
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-xs font-bold text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded">Business</span>
+                        <span class="text-xs text-text-secondary">• 4.2 (56 reviews)</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                        Client Contract Template</h3>
+                    <p class="text-text-secondary text-sm mb-4 line-clamp-2">Protect yourself and your work with this
+                        standard freelance contract template. Easy to customize.</p>
+                    <div class="mt-auto pt-4 border-t border-white/10 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="size-6 rounded-full bg-cover bg-center"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAnIGheBcw_v_3xMWJXNVFYewA-R0bmOekj8RzL-JAEiMng0KsYNbdnApK635PlUVmY0KLob0NFyhrY4W7YvpLlKVHp8W-Pf2Bd6Stlj6G2V8X79ntcWRjnF9lSr3iDqt6PIrbRjdlVk4KFW502rMG2iTpf0c1ST4UKIKwx3u7OeRGbmRET7oipkri2sJwZicyzmV2iLt0bP42mJ_crU2vFAGBS47oew-5Czc9A-P4T6zFB-Rrv1ugTaTwHBGuX8R7Ur1KYkt-XCA');">
+                            </div>
+                            <span class="text-xs font-medium text-white">LegalEase</span>
+                        </div>
+                        <button
+                            class="bg-surface-highlight hover:bg-primary hover:text-white text-white px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">download</span> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Paid -->
+            <div
+                class="group flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+                <div class="relative h-48 overflow-hidden">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCniWV7ZyMHbSDhyHC5BdVDN481O6l7Ty3EJrqR4P8T9osYLINw46Ivm71SOXfYHou6-EyY93f8x_u9z_wrWSF8IoRtHAFoJXHXOBQBA59w9fGLU8iZwAKqF2Yoe9NSl8moUe1WrgcuT20boFGl60Zkngvt3Px2Tmo_vQMjhxe0MMIlWoJWhspftEKDzpmKcn4coT0SDBrgpnPkwK_gh36gypLLk6D5vpfgHPv_XQgrh311bHtAx_tZKfoGpPsy58A3K6hnMj9HLQ');">
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide shadow-lg shadow-primary/20">
+                        $9.99</div>
+                    <div
+                        class="absolute bottom-3 left-3 bg-white/90 dark:bg-black/70 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium text-white">
+                        <span class="material-symbols-outlined text-sm">folder_zip</span> Assets
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span
+                            class="text-xs font-bold text-purple-500 bg-purple-500/10 px-2 py-0.5 rounded">Design</span>
+                        <span class="text-xs text-text-secondary">• 4.7 (201 reviews)</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                        Premium Icon Pack</h3>
+                    <p class="text-text-secondary text-sm mb-4 line-clamp-2">A set of 500+ premium vector icons for your
+                        next web project. Includes SVG, PNG, and AI formats.</p>
+                    <div class="mt-auto pt-4 border-t border-white/10 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="size-6 rounded-full bg-cover bg-center"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArjtrQoGEJ3v6tSMxVWkcjEVBeSr12p4MMXcPtHWrpIjCKhN-HEkg-vS8yO0tiuBpS-UTAtflX2_ukhUVGYwORF-RJDXY43LsPHl08kCD_xQegWrV2WV20BM_YkKz8Ck37zPXPNAJvLcnO_krB34K0YVfQppBUEW4aeEBcLD2Itatxr6i7sFU2-m9UbgoXvlJgjDgHjKKGbthFEhSXClz1NwASRb0HSgFKK10Zx0CfhR0OKrCgfrcmP8GaRqRbDJyThMlo3g-iCw');">
+                            </div>
+                            <span class="text-xs font-medium text-white">IconMaster</span>
+                        </div>
+                        <button
+                            class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
+                            <span class="material-symbols-outlined text-[18px]">shopping_cart</span> Buy Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-12 flex justify-center pb-8">
+            <button
+                class="flex items-center gap-2 px-6 py-3 bg-surface-dark hover:bg-surface-highlight text-white font-bold rounded-lg transition-colors border border-white/10">
+                <span class="material-symbols-outlined">refresh</span> Load More Materials
+            </button>
+        </div>
+    </main>
+</div>
+
+<style>
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>
+{% endblock %}

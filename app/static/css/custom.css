@@ -1,0 +1,291 @@
+/* Custom CSS for Freelancing Platform */
+
+/* Dark Theme Overrides */
+body {
+    background-color: #0B1120 !important;
+    color: #f8fafc !important;
+}
+
+.container {
+    padding-top: 6rem;
+    /* Account for fixed header */
+}
+
+/* Card Dark Theme */
+.card {
+    background-color: #161e2e !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    color: #f8fafc !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.card-header {
+    background-color: #1f2937 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    color: #f8fafc !important;
+}
+
+.card-body {
+    background-color: #161e2e !important;
+}
+
+.card-title {
+    color: #f8fafc !important;
+}
+
+.card-text {
+    color: #94a3b8 !important;
+}
+
+/* Alert Dark Theme */
+.alert {
+    border: none;
+    border-radius: 0.375rem;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background-color: rgba(34, 197, 94, 0.1) !important;
+    color: #86efac !important;
+    border-left-color: #22c55e !important;
+}
+
+.alert-danger {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    color: #fca5a5 !important;
+    border-left-color: #ef4444 !important;
+}
+
+.alert-warning {
+    background-color: rgba(251, 191, 36, 0.1) !important;
+    color: #fcd34d !important;
+    border-left-color: #fbbf24 !important;
+}
+
+.alert-info {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    color: #93c5fd !important;
+    border-left-color: #3b82f6 !important;
+}
+
+/* Table Dark Theme */
+.table {
+    color: #f8fafc !important;
+    background-color: #161e2e !important;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    background-color: #1f2937 !important;
+    color: #f8fafc !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.table td {
+    border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.05) !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* List Group Dark Theme */
+.list-group-item {
+    background-color: #161e2e !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    color: #f8fafc !important;
+}
+
+.list-group-item:hover {
+    background-color: #1f2937 !important;
+}
+
+/* Custom CSS for Freelancing Platform */
+
+
+/* Header styling */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    margin: 0 5px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #fff !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+/* Card styling - additional properties */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Button styling */
+.btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-primary {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+.btn-success {
+    background-color: #22c55e;
+    border-color: #22c55e;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #16a34a;
+    border-color: #16a34a;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #ef4444;
+    border-color: #ef4444;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #dc2626;
+    border-color: #dc2626;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6366f1;
+    border-color: #6366f1;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+    color: white;
+}
+
+/* Footer styling */
+footer {
+    margin-top: auto;
+}
+
+/* Form styling */
+.form-control,
+.form-select,
+textarea.form-control {
+    background-color: #161e2e !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #f8fafc !important;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+    background-color: #1f2937 !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+    color: #f8fafc !important;
+}
+
+.form-control::placeholder {
+    color: #94a3b8 !important;
+}
+
+.form-label {
+    color: #f8fafc !important;
+    font-weight: 500;
+}
+
+/* Badge styling */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.75em;
+}
+
+/* Pagination styling */
+.pagination .page-link {
+    color: #007bff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.pagination .page-link:hover {
+    color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .jumbotron {
+        padding: 2rem 1rem;
+    }
+
+    .card-img-top {
+        height: 150px;
+    }
+}
+
+/* Dashboard styling */
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Table styling */
+.table th {
+    border-top: none;
+    font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Alert styling */
+.alert {
+    border: none;
+    border-radius: 0.375rem;
+}
+
+/* Video container */
+.ratio {
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+    overflow: hidden;
+}

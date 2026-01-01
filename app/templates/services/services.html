@@ -1,0 +1,701 @@
+{% extends "base/base.html" %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    :root {
+        --primary: #6366f1;
+        --secondary: #8b5cf6;
+        --accent: #ec4899;
+        --dark-bg: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.5);
+        --border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        min-height: 100vh;
+    }
+
+    /* Animated Background */
+    .animated-bg {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .animated-bg::before {
+        content: '';
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+        top: 10%;
+        left: 10%;
+        animation: float 20s ease-in-out infinite;
+    }
+
+    .animated-bg::after {
+        content: '';
+        position: absolute;
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+        bottom: 10%;
+        right: 10%;
+        animation: float 25s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        33% {
+            transform: translate(30px, -30px) scale(1.1);
+        }
+
+        66% {
+            transform: translate(-20px, 20px) scale(0.9);
+        }
+    }
+
+    /* Service Card Styles */
+    .service-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .service-card::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+        border-radius: 24px;
+        opacity: 0;
+        transition: opacity 0.4s;
+        z-index: -1;
+    }
+
+    .service-card:hover::before {
+        opacity: 0.3;
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+    }
+
+    .service-image {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .service-card:hover .service-image {
+        transform: scale(1.1);
+    }
+
+    .service-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        height: 220px;
+    }
+
+    .service-image-wrapper::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.8) 100%);
+    }
+
+    /* Badge Styles */
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-category {
+        background: rgba(99, 102, 241, 0.2);
+        border: 1px solid rgba(99, 102, 241, 0.4);
+        color: #a5b4fc;
+    }
+
+    .badge-premium {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Filter Controls */
+    .filter-control {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 14px 18px;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s;
+        outline: none;
+    }
+
+    .filter-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .filter-control::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Button Styles */
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        padding: 14px 28px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-primary:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+    }
+
+    /* Category Pills */
+    .category-pill {
+        position: relative;
+        padding: 12px 24px;
+        background: rgba(30, 41, 59, 0.4);
+        backdrop-filter: blur(10px);
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+    }
+
+    .category-pill::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        opacity: 0;
+        transition: opacity 0.3s;
+        border-radius: 50px;
+    }
+
+    .category-pill:hover {
+        transform: translateY(-2px) scale(1.05);
+        border-color: rgba(99, 102, 241, 0.5);
+        color: white;
+        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+    }
+
+    .category-pill:hover::before {
+        opacity: 0.2;
+    }
+
+    .category-pill.active {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-color: transparent;
+        color: white;
+        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
+        transform: translateY(-2px) scale(1.05);
+    }
+
+    .category-pill.active::before {
+        opacity: 0;
+    }
+
+    /* Price Tag */
+    .price-tag {
+        font-size: 28px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Loading Animation */
+    .loader {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(99, 102, 241, 0.2);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Scroll Reveal */
+    .scroll-reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+    }
+
+    .empty-state-icon {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 24px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        color: var(--primary);
+    }
+
+    /* Gradient Text */
+    .gradient-text {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="animated-bg"></div>
+
+<div class="relative z-10 min-h-screen pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Hero Section -->
+        <div class="text-center mb-16 scroll-reveal">
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black mb-6 leading-tight">
+                <span class="text-white/40">Professional</span><br>
+                <span class="gradient-text">Services</span><br>
+                <span class="text-white">For Your Business</span>
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                Discover premium solutions tailored to your needs.
+                <span class="text-white font-semibold">Quality delivered on time.</span>
+            </p>
+        </div>
+
+        <!-- Filters -->
+        <div class="mb-12 scroll-reveal" style="transition-delay: 0.1s;">
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto mb-8">
+                <div class="relative group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl opacity-0 group-hover:opacity-30 blur-xl transition-opacity">
+                    </div>
+                    <div class="relative flex items-center">
+                        <span
+                            class="material-symbols-outlined absolute left-5 text-gray-400 text-2xl pointer-events-none z-10">search</span>
+                        <input type="text" id="search-input" placeholder="Search for services..."
+                            class="w-full pl-14 pr-6 py-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl text-white text-lg font-medium placeholder-gray-500 focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="flex flex-wrap justify-center gap-3 mb-6">
+                <button class="category-pill active" data-category="all" onclick="selectCategory(this, 'all')">
+                    <span class="relative z-10 flex items-center gap-2">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">grid_view</span>
+                        All Services
+                    </span>
+                </button>
+                {% for cat in categories %}
+                <button class="category-pill" data-category="{{ cat|lower }}"
+                    onclick="selectCategory(this, '{{ cat|lower }}')">
+                    <span class="relative z-10">{{ cat }}</span>
+                </button>
+                {% endfor %}
+            </div>
+
+            <!-- Results Count -->
+            <div class="text-center mt-6">
+                <p id="results-count" class="text-gray-400 font-medium"></p>
+            </div>
+        </div>
+
+        <!-- Services Grid -->
+        <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Loading State -->
+            <div id="loading" class="col-span-full flex flex-col items-center justify-center py-20">
+                <div class="loader mb-4"></div>
+                <p class="text-gray-400 text-lg">Loading amazing services...</p>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden">
+            <div class="service-card max-w-2xl mx-auto">
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <span class="material-symbols-outlined">search_off</span>
+                    </div>
+                    <h3 class="text-3xl font-black text-white mb-4">No Services Found</h3>
+                    <p class="text-gray-400 text-lg mb-8">
+                        We couldn't find any services matching your criteria.<br>
+                        Try adjusting your filters or browse all categories.
+                    </p>
+                    <button id="show-all-services" class="btn-primary">
+                        <span class="relative z-10">Show All Services</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination-container" class="flex justify-center gap-3"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let allServices = [];
+        let filteredServices = [];
+        const servicesPerPage = 6;
+        let currentPage = 1;
+
+        // Fetch services data
+        async function fetchServicesData() {
+            try {
+                const response = await fetch('{{ url_for("services.services_data") }}');
+                const data = await response.json();
+                allServices = data.services;
+                filteredServices = [...allServices];
+
+                document.getElementById('loading')?.remove();
+                renderServices();
+                updateResultsCount(filteredServices.length);
+                initializeScrollReveal();
+            } catch (error) {
+                console.error('Error fetching services:', error);
+                const loadingElement = document.getElementById('loading');
+                if (loadingElement) {
+                    loadingElement.innerHTML = '<p class="text-red-500 text-center py-12 text-xl">Failed to load services. Please refresh the page.</p>';
+                }
+            }
+        }
+
+        // Create service card
+        function createServiceCard(service) {
+            const card = document.createElement('div');
+            card.className = 'scroll-reveal';
+
+            card.innerHTML = `
+            <article class="service-card" data-category="${service.category.toLowerCase()}">
+                <!-- Image -->
+                <div class="service-image-wrapper">
+                    <img 
+                        src="${service.image_url ? '/static/' + service.image_url : 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80'}" 
+                        alt="${service.title}"
+                        class="service-image"
+                    >
+                    
+                    <!-- Badges -->
+                    <div class="absolute top-4 left-4 z-10">
+                        <span class="badge badge-category">${service.category}</span>
+                    </div>
+                    <div class="absolute top-4 right-4 z-10">
+                        <span class="badge badge-premium">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                            Premium
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-6 flex-1 flex flex-col">
+                    <h3 class="text-2xl font-black text-white mb-3 leading-tight hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-primary hover:to-secondary transition-all">
+                        ${service.title}
+                    </h3>
+                    
+                    <p class="text-gray-400 mb-6 leading-relaxed flex-1">
+                        ${service.description.substring(0, 120)}${service.description.length > 120 ? '...' : ''}
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="flex items-center gap-4 mb-6 text-sm">
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <span class="material-symbols-outlined" style="font-size: 18px;">schedule</span>
+                            <span>3-5 Days</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <span class="material-symbols-outlined" style="font-size: 18px;">cached</span>
+                            <span>Revisions</span>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="flex items-center justify-between pt-6 border-t border-white/10">
+                        <div>
+                            ${service.price ? `
+                                <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Starting from</div>
+                                <div class="price-tag">₹${service.price.toLocaleString()}</div>
+                            ` : `
+                                <div class="text-sm font-bold text-primary uppercase tracking-wider">Contact for Price</div>
+                            `}
+                        </div>
+                        <a href="/services/service/${service.id}" class="btn-primary" style="padding: 12px 24px;">
+                            <span class="relative z-10 flex items-center gap-2">
+                                View
+                                <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        `;
+
+            return card;
+        }
+
+        // Render services
+        function renderServices() {
+            const servicesGrid = document.getElementById('services-grid');
+            const startIndex = (currentPage - 1) * servicesPerPage;
+            const endIndex = startIndex + servicesPerPage;
+            const servicesToShow = filteredServices.slice(startIndex, endIndex);
+
+            servicesGrid.innerHTML = '';
+
+            if (servicesToShow.length === 0) {
+                document.getElementById('empty-state').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('empty-state').classList.add('hidden');
+
+            servicesToShow.forEach(service => {
+                const serviceCard = createServiceCard(service);
+                servicesGrid.appendChild(serviceCard);
+            });
+
+            initializeScrollReveal();
+            renderPagination();
+        }
+
+        // Filter services
+        let selectedCategory = 'all';
+
+        window.selectCategory = function (button, category) {
+            // Update active state
+            document.querySelectorAll('.category-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            button.classList.add('active');
+
+            // Update selected category and filter
+            selectedCategory = category;
+            filterServices();
+        };
+
+        function filterServices() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+            filteredServices = allServices.filter(service => {
+                const matchesSearch = !searchTerm ||
+                    service.title.toLowerCase().includes(searchTerm) ||
+                    service.description.toLowerCase().includes(searchTerm);
+
+                const matchesCategory = selectedCategory === 'all' ||
+                    service.category.toLowerCase() === selectedCategory;
+
+                return matchesSearch && matchesCategory;
+            });
+
+            currentPage = 1;
+            renderServices();
+            updateResultsCount(filteredServices.length);
+        }
+
+        // Update results count
+        function updateResultsCount(count) {
+            const resultsElement = document.getElementById('results-count');
+            if (resultsElement) {
+                resultsElement.textContent = `${count} service${count !== 1 ? 's' : ''} available`;
+            }
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredServices.length / servicesPerPage);
+            const paginationContainer = document.getElementById('pagination-container');
+
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '<nav class="flex items-center gap-2">';
+
+            // Previous button
+            paginationHTML += `
+            <button 
+                onclick="changePage(${currentPage - 1})" 
+                ${currentPage === 1 ? 'disabled' : ''}
+                class="btn-primary ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}"
+                style="padding: 10px 14px;">
+                <span class="relative z-10 material-symbols-outlined" style="font-size: 20px;">chevron_left</span>
+            </button>
+        `;
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                <button 
+                    onclick="changePage(${i})" 
+                    class="btn-primary ${i === currentPage ? '' : 'opacity-70'}"
+                    style="padding: 10px 18px; min-width: 48px;">
+                    <span class="relative z-10">${i}</span>
+                </button>
+            `;
+            }
+
+            // Next button
+            paginationHTML += `
+            <button 
+                onclick="changePage(${currentPage + 1})" 
+                ${currentPage === totalPages ? 'disabled' : ''}
+                class="btn-primary ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}"
+                style="padding: 10px 14px;">
+                <span class="relative z-10 material-symbols-outlined" style="font-size: 20px;">chevron_right</span>
+            </button>
+        `;
+
+            paginationHTML += '</nav>';
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        // Change page
+        window.changePage = function (page) {
+            const totalPages = Math.ceil(filteredServices.length / servicesPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderServices();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // Initialize scroll reveal
+        function initializeScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('search-input')?.addEventListener('input', filterServices);
+
+        document.getElementById('show-all-services')?.addEventListener('click', function () {
+            document.getElementById('search-input').value = '';
+            selectedCategory = 'all';
+
+            // Reset category pills
+            document.querySelectorAll('.category-pill').forEach(pill => {
+                pill.classList.remove('active');
+                if (pill.dataset.category === 'all') {
+                    pill.classList.add('active');
+                }
+            });
+
+            filteredServices = [...allServices];
+            currentPage = 1;
+            renderServices();
+            updateResultsCount(filteredServices.length);
+        });
+
+        // Initialize
+        fetchServicesData();
+        initializeScrollReveal();
+    });
+</script>
+{% endblock %}

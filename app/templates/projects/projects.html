@@ -1,0 +1,455 @@
+{% extends "base/base.html" %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+    :root {
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --glass-bg: rgba(15, 23, 42, 0.5);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --shimmer: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    }
+
+    body {
+        font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Premium Background */
+    .premium-bg {
+        background:
+            radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 70%),
+            #0B1120;
+        background-attachment: fixed;
+    }
+
+    /* Animated Grid */
+    .grid-bg {
+        background-image:
+            linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: grid-move 20s linear infinite;
+    }
+
+    @keyframes grid-move {
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: 50px 50px;
+        }
+    }
+
+    /* Project Card */
+    .project-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .project-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--shimmer);
+        transition: left 0.7s;
+    }
+
+    .project-card:hover::before {
+        left: 100%;
+    }
+
+    .project-card:hover {
+        transform: translateY(-12px) scale(1.02);
+        border-color: rgba(99, 102, 241, 0.4);
+        box-shadow:
+            0 30px 60px -12px rgba(99, 102, 241, 0.3),
+            0 0 80px -20px rgba(168, 85, 247, 0.2);
+    }
+
+    /* Category Pills */
+    .category-pill {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .category-pill::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .category-pill:hover::before,
+    .category-pill.active::before {
+        opacity: 1;
+    }
+
+    .category-pill.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: #667eea;
+        box-shadow: 0 10px 40px -5px rgba(102, 126, 234, 0.5);
+        transform: translateY(-3px);
+    }
+
+    /* Floating Animation */
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .float-animation {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    /* Gradient Text */
+    .gradient-text {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% auto;
+        animation: gradient-shift 3s linear infinite;
+    }
+
+    @keyframes gradient-shift {
+        0% {
+            background-position: 0% center;
+        }
+
+        100% {
+            background-position: 200% center;
+        }
+    }
+
+    /* Scroll Reveal */
+    .scroll-reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Image Hover */
+    .project-image {
+        transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .project-card:hover .project-image {
+        transform: scale(1.15) rotate(2deg);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="relative min-h-screen premium-bg grid-bg overflow-hidden">
+    <!-- Floating Particles -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="particle w-64 h-64 bg-primary/10 blur-[100px] absolute top-20 left-10 float-animation"></div>
+        <div class="particle w-96 h-96 bg-secondary/10 blur-[120px] absolute bottom-20 right-10 float-animation"
+            style="animation-delay: -3s;"></div>
+        <div class="particle w-80 h-80 bg-accent/10 blur-[110px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 float-animation"
+            style="animation-delay: -1.5s;"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pt-28 pb-12 px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center space-y-4 mb-12 scroll-reveal" style="transition-delay: 0.1s;">
+                <h1 class="text-3xl lg:text-5xl font-black leading-[1.15] tracking-tight">
+                    <span class="text-white/30">Download</span>
+                    <br>
+                    <span class="gradient-text">Premium Projects</span>
+                    <br>
+                    <span class="text-white">For Free</span>
+                </h1>
+                <p class="max-w-xl mx-auto text-base text-text-secondary leading-relaxed">
+                    Browse our collection of completed works and downloadable projects.
+                    <span class="text-white font-semibold">Quality code, free to use.</span>
+                </p>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex flex-wrap justify-center gap-2 scroll-reveal" style="transition-delay: 0.2s;">
+                <button onclick="filterProjects('All')"
+                    class="category-filter category-pill relative px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all active text-white"
+                    data-category="All">
+                    <span class="relative z-10">All Projects</span>
+                </button>
+                {% for cat in categories %}
+                <button onclick="filterProjects('{{ cat.name if cat.name else cat }}')"
+                    class="category-filter category-pill relative px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all text-text-secondary hover:text-white"
+                    data-category="{{ cat.name if cat.name else cat }}">
+                    <span class="relative z-10">{{ cat.name if cat.name else cat }}</span>
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Grid Section -->
+    <section class="pb-20 px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="flex items-center justify-between mb-8 scroll-reveal">
+                <div>
+                    <h2 class="text-2xl font-black text-white tracking-tight">
+                        Available Projects
+                        <span class="text-text-secondary ml-2">({{ projects.total if projects.total is defined else
+                            '0'}})</span>
+                    </h2>
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            {% if projects and projects.items %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for project in projects.items %}
+                <div class="project-item scroll-reveal" data-category="{{ project.category or 'General' }}">
+                    <article class="project-card group relative h-full rounded-2xl overflow-hidden">
+                        <!-- Glow Effect -->
+                        <div
+                            class="absolute -inset-[1px] bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500">
+                        </div>
+
+                        <div class="relative h-full flex flex-col">
+                            <!-- Project Image -->
+                            <div class="relative h-48 overflow-hidden">
+                                {% if project.image_url %}
+                                <img src="{{ url_for('static', filename=project.image_url) }}" alt="{{ project.title }}"
+                                    class="project-image w-full h-full object-cover">
+                                {% else %}
+                                <div
+                                    class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+                                    <span class="material-symbols-outlined text-6xl text-white/20">folder</span>
+                                </div>
+                                {% endif %}
+
+                                <!-- Type Badge -->
+                                <div class="absolute top-3 right-3">
+                                    <div
+                                        class="px-2.5 py-1 rounded-lg bg-{% if project.project_type == 'free' %}green{% else %}purple{% endif %}-500 shadow-xl">
+                                        <span class="text-[9px] font-black text-white uppercase tracking-wider">
+                                            {% if project.project_type == 'free' %}Free{% else %}Demo{% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Category Badge -->
+                                <div class="absolute top-3 left-3">
+                                    <div
+                                        class="px-2.5 py-1 rounded-lg bg-black/40 backdrop-blur-md border border-white/10">
+                                        <span class="text-[10px] font-bold text-primary uppercase tracking-wide">
+                                            {{ project.category or 'General' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Project Content -->
+                            <div class="flex-1 p-5 flex flex-col">
+                                <h3
+                                    class="text-lg font-black text-white mb-2 leading-tight line-clamp-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-secondary transition-all duration-300">
+                                    {{ project.title }}
+                                </h3>
+
+                                <p class="text-xs text-text-secondary leading-relaxed mb-4 line-clamp-2 flex-1">
+                                    {{ project.description or 'No description available.' }}
+                                </p>
+
+                                <!-- Stats -->
+                                <div class="flex items-center gap-2 mb-4">
+                                    <div
+                                        class="px-2.5 py-1 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-primary text-xs">download</span>
+                                        <span class="text-[10px] font-bold text-white">{{ project.download_count or 0
+                                            }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Footer -->
+                                <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+                                    <a href="{{ url_for('projects.download_project', project_id=project.id) }}"
+                                        class="flex-1 group/btn relative overflow-hidden">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl opacity-0 group-hover/btn:opacity-100 transition-opacity blur">
+                                        </div>
+                                        <div
+                                            class="relative px-4 h-10 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center gap-1.5 shadow-lg transition-all group-hover/btn:shadow-2xl group-hover/btn:shadow-green-500/50 group-hover/btn:scale-105">
+                                            <span class="material-symbols-outlined text-white text-base">download</span>
+                                            <span
+                                                class="text-white text-xs font-bold uppercase tracking-wider">Download</span>
+                                        </div>
+                                    </a>
+
+                                    <a href="{{ url_for('projects.project_detail', project_id=project.id) }}"
+                                        class="h-10 w-10 rounded-xl bg-surface-dark border border-white/10 flex items-center justify-center hover:bg-primary hover:border-primary hover:scale-105 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-white text-base">arrow_outward</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <!-- Empty State -->
+            <div class="scroll-reveal">
+                <div class="project-card rounded-3xl p-20 text-center">
+                    <div
+                        class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-5xl text-primary">folder_off</span>
+                    </div>
+                    <h3 class="text-3xl font-black text-white mb-3">No Projects Found</h3>
+                    <p class="text-text-secondary max-w-md mx-auto mb-8">
+                        We couldn't find any projects matching your criteria. Try adjusting your filters or explore all
+                        categories.
+                    </p>
+                    <a href="{{ url_for('projects.projects_list', category='All') }}"
+                        class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold uppercase tracking-wider transition-all hover:shadow-2xl hover:shadow-primary/50 hover:scale-105">
+                        <span>Browse All Projects</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Pagination -->
+            {% if projects and projects.pages > 1 %}
+            <nav class="flex justify-center items-center gap-3 mt-16 scroll-reveal">
+                <!-- Previous -->
+                {% if projects.has_prev %}
+                <a href="{{ url_for('projects.projects_list', page=projects.prev_num, category=selected_category) }}"
+                    class="h-14 w-14 rounded-xl bg-surface-dark border border-white/10 hover:bg-primary hover:border-primary transition-all flex items-center justify-center group">
+                    <span
+                        class="material-symbols-outlined text-white transition-transform group-hover:-translate-x-1">chevron_left</span>
+                </a>
+                {% endif %}
+
+                <div class="px-4 py-2 rounded-xl bg-surface-dark border border-white/10">
+                    <span class="text-white text-sm font-bold">Page {{ projects.page }} of {{ projects.pages }}</span>
+                </div>
+
+                <!-- Next -->
+                {% if projects.has_next %}
+                <a href="{{ url_for('projects.projects_list', page=projects.next_num, category=selected_category) }}"
+                    class="h-14 w-14 rounded-xl bg-surface-dark border border-white/10 hover:bg-primary hover:border-primary transition-all flex items-center justify-center group">
+                    <span
+                        class="material-symbols-outlined text-white transition-transform group-hover:translate-x-1">chevron_right</span>
+                </a>
+                {% endif %}
+            </nav>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Scroll Reveal Animation
+    document.addEventListener('DOMContentLoaded', () => {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for category links
+        document.querySelectorAll('.category-pill').forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (link.getAttribute('href').includes('category=')) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
+    });
+
+    // Client-side filtering function for projects
+    function filterProjects(category) {
+        const projectItems = document.querySelectorAll('.project-item');
+        const filterButtons = document.querySelectorAll('.category-filter');
+
+        // Update active state on filter buttons
+        filterButtons.forEach(btn => {
+            if (btn.dataset.category === category) {
+                btn.classList.add('active', 'text-white');
+                btn.classList.remove('text-text-secondary');
+            } else {
+                btn.classList.remove('active', 'text-white');
+                btn.classList.add('text-text-secondary');
+            }
+        });
+
+        // Filter project items with smooth animation
+        projectItems.forEach((item, index) => {
+            const itemCategory = item.dataset.category;
+
+            if (category === 'All' || itemCategory === category) {
+                setTimeout(() => {
+                    item.style.display = 'block';
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.9) translateY(20px)';
+
+                    setTimeout(() => {
+                        item.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1) translateY(0)';
+                    }, 10);
+                }, index * 80);
+            } else {
+                item.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+                item.style.opacity = '0';
+                item.style.transform = 'scale(0.95) translateY(10px)';
+                setTimeout(() => {
+                    item.style.display = 'none';
+                }, 400);
+            }
+        });
+
+        // Smooth scroll to projects grid
+        window.scrollTo({ top: document.querySelector('.grid').offsetTop - 100, behavior: 'smooth' });
+    }
+</script>
+{% endblock %}

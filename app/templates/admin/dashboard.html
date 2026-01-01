@@ -1,0 +1,243 @@
+{% extends "base/admin_base.html" %}
+
+{% block header_title %}{% endblock %}
+
+{% block title %}Dashboard - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="max-w-[1400px] mx-auto flex flex-col gap-8 pb-10">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Dashboard Overview</h1>
+            <p class="text-slate-500 dark:text-slate-400 mt-1">Welcome back, {{ current_user.username }}! Here's what's
+                happening today.</p>
+        </div>
+
+    </div>
+
+    <!-- KPI Stats Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Users -->
+        <a href="{{ url_for('admin_bp.admin_users') }}"
+            class="group p-6 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.02] cursor-pointer no-underline block">
+            <div class="flex justify-between items-start mb-4">
+                <div
+                    class="p-3 rounded-xl bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">group</span>
+                </div>
+                <span
+                    class="flex items-center gap-1 text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-full">
+                    <span class="material-symbols-outlined text-[14px]">trending_up</span> +5%
+                </span>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Users</p>
+            <h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ user_count }}</h3>
+        </a>
+
+        <!-- Inquiries -->
+        <a href="{{ url_for('admin_bp.admin_inquiries') }}"
+            class="group p-6 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.02] cursor-pointer no-underline block">
+            <div class="flex justify-between items-start mb-4">
+                <div
+                    class="p-3 rounded-xl bg-purple-500/10 text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">mail</span>
+                </div>
+                <span
+                    class="flex items-center gap-1 text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-full">
+                    <span class="material-symbols-outlined text-[14px]">trending_up</span> +12%
+                </span>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">New Inquiries</p>
+            <h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ inquiry_count }}</h3>
+        </a>
+
+        <!-- Blogs -->
+        <a href="{{ url_for('admin_bp.admin_blogs') }}"
+            class="group p-6 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.02] cursor-pointer no-underline block">
+            <div class="flex justify-between items-start mb-4">
+                <div
+                    class="p-3 rounded-xl bg-pink-500/10 text-pink-500 group-hover:bg-pink-500 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">article</span>
+                </div>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Published Blogs</p>
+            <h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ blog_count }}</h3>
+        </a>
+
+        <!-- Projects -->
+        <a href="{{ url_for('admin_bp.admin_projects') }}"
+            class="group p-6 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.02] cursor-pointer no-underline block">
+            <div class="flex justify-between items-start mb-4">
+                <div
+                    class="p-3 rounded-xl bg-orange-500/10 text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">rocket_launch</span>
+                </div>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Projects</p>
+            <h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ project_count }}</h3>
+        </a>
+
+        <!-- Services -->
+        <a href="{{ url_for('admin_bp.admin_services') }}"
+            class="group p-6 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.02] cursor-pointer no-underline block">
+            <div class="flex justify-between items-start mb-4">
+                <div
+                    class="p-3 rounded-xl bg-cyan-500/10 text-cyan-500 group-hover:bg-cyan-500 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">work</span>
+                </div>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Services</p>
+            <h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ service_count }}</h3>
+        </a>
+
+        <!-- Study Materials -->
+        <a href="{{ url_for('admin_bp.admin_materials') }}"
+            class="group p-6 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.02] cursor-pointer no-underline block">
+            <div class="flex justify-between items-start mb-4">
+                <div
+                    class="p-3 rounded-xl bg-teal-500/10 text-teal-500 group-hover:bg-teal-500 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">menu_book</span>
+                </div>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Study Materials</p>
+            <h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ material_count }}</h3>
+        </a>
+
+        <!-- Videos -->
+        <a href="{{ url_for('admin_bp.admin_videos') }}"
+            class="group p-6 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.02] cursor-pointer no-underline block">
+            <div class="flex justify-between items-start mb-4">
+                <div
+                    class="p-3 rounded-xl bg-red-500/10 text-red-500 group-hover:bg-red-500 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">smart_display</span>
+                </div>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">YouTube Videos</p>
+            <h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ video_count }}</h3>
+        </a>
+
+        <!-- Team -->
+        <a href="{{ url_for('admin_bp.admin_team_members') }}"
+            class="group p-6 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.02] cursor-pointer no-underline block">
+            <div class="flex justify-between items-start mb-4">
+                <div
+                    class="p-3 rounded-xl bg-indigo-500/10 text-indigo-500 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">groups</span>
+                </div>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Team Members</p>
+            <h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ team_count }}</h3>
+        </a>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Chart Section (Activity) -->
+        <div
+            class="lg:col-span-2 rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">Analytics Overview</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Website traffic & engagement</p>
+                </div>
+                <!-- Mock Time Period Select -->
+                <div
+                    class="px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 font-medium">
+                    Last 30 Days
+                </div>
+            </div>
+            <!-- Reusing the SVG chart but maybe slightly improved look -->
+            <div class="w-full h-72 relative flex items-end">
+                <!-- Simple SVG Wave Chart (Mock) -->
+                <svg fill="none" class="w-full h-full" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#2b8cee" stop-opacity="0.2" />
+                            <stop offset="100%" stop-color="#2b8cee" stop-opacity="0" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M0,250 C150,300 350,100 500,200 C650,300 850,50 1000,150 L1000,300 L0,300 Z"
+                        fill="url(#chartFill)" />
+                    <path d="M0,250 C150,300 350,100 500,200 C650,300 850,50 1000,150" stroke="#2b8cee" stroke-width="3"
+                        fill="none" stroke-linecap="round" />
+                </svg>
+                <!-- Labels -->
+                <div class="absolute bottom-0 w-full flex justify-between text-xs text-slate-400 px-4 pb-2">
+                    <span>1 Nov</span><span>5 Nov</span><span>10 Nov</span><span>15 Nov</span><span>20
+                        Nov</span><span>25 Nov</span><span>30 Nov</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inquiries / Quick Actions Column -->
+        <div class="flex flex-col gap-6">
+            <!-- Quick Actions -->
+            <div
+                class="rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Quick Actions</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="{{ url_for('admin_bp.admin_blog_form') }}"
+                        class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-primary hover:text-white text-slate-600 dark:text-slate-400 transition-all font-medium border border-slate-100 dark:border-slate-700/50 hover:border-primary no-underline group">
+                        <span
+                            class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">post_add</span>
+                        <span class="text-xs">Add Blog</span>
+                    </a>
+                    <a href="{{ url_for('admin_bp.admin_project_form') }}"
+                        class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-primary hover:text-white text-slate-600 dark:text-slate-400 transition-all font-medium border border-slate-100 dark:border-slate-700/50 hover:border-primary no-underline group">
+                        <span
+                            class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">add_to_photos</span>
+                        <span class="text-xs">Add Project</span>
+                    </a>
+                    <a href="{{ url_for('admin_bp.admin_service_form') }}"
+                        class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-primary hover:text-white text-slate-600 dark:text-slate-400 transition-all font-medium border border-slate-100 dark:border-slate-700/50 hover:border-primary no-underline group">
+                        <span
+                            class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">add_business</span>
+                        <span class="text-xs">Add Service</span>
+                    </a>
+                    <a href="{{ url_for('admin_bp.admin_users') }}"
+                        class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-primary hover:text-white text-slate-600 dark:text-slate-400 transition-all font-medium border border-slate-100 dark:border-slate-700/50 hover:border-primary no-underline group">
+                        <span
+                            class="material-symbols-outlined text-[28px] group-hover:scale-110 transition-transform">person_add</span>
+                        <span class="text-xs">Add User</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Inquiries Preview -->
+            <div
+                class="rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col flex-1">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Recent Inquiries</h3>
+                    <a href="{{ url_for('admin_bp.admin_inquiries') }}"
+                        class="text-xs font-bold text-primary hover:text-blue-400">View All</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                    {% if recent_inquiries %}
+                    {% for inquiry in recent_inquiries[:4] %}
+                    <div
+                        class="flex items-start gap-3 pb-3 border-b border-slate-100 dark:border-slate-700/50 last:border-0 last:pb-0">
+                        <div
+                            class="size-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-primary font-bold text-xs uppercase">
+                            {{ inquiry.name[0] }}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-semibold text-slate-900 dark:text-white truncate">{{ inquiry.subject
+                                }}</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ inquiry.name }} • {{
+                                inquiry.created_at.strftime('%d %b') }}</p>
+                        </div>
+                        <span title="{{ inquiry.status|title }}"
+                            class="size-2 rounded-full {% if inquiry.status == 'new' %}bg-blue-500{% elif inquiry.status == 'contacted' %}bg-yellow-500{% else %}bg-green-500{% endif %}"></span>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="text-sm text-slate-500 text-center py-4">No new inquiries.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

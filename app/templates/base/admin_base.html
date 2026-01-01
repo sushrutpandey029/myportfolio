@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% block title %}Admin Dashboard - Flask Freelance{% endblock %}</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-dark": "#1c2b3e", // Slightly lighter than background-dark for cards
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar for sidebar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2b8cee;
+            border-radius: 3px;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white transition-colors duration-200">
+    <div class="relative flex h-screen w-full overflow-hidden">
+        <!-- Side Navigation -->
+        {% block sidebar %}
+        <aside
+            class="hidden md:flex w-64 flex-col bg-white dark:bg-background-dark border-r border-slate-200 dark:border-slate-800 h-full flex-shrink-0 transition-colors duration-200">
+            <div class="flex h-full flex-col p-4 gap-6">
+                <!-- Logo / Brand -->
+                <div class="flex gap-3 items-center px-2 flex-shrink-0">
+                    <div class="flex items-center justify-center rounded-full size-10 bg-primary/10 text-primary">
+                        <span class="material-symbols-outlined text-[24px]">admin_panel_settings</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="text-slate-900 dark:text-white text-base font-bold leading-normal">Flask
+                            Freelance</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-normal">Admin Panel
+                        </p>
+                    </div>
+                </div>
+                <!-- Navigation Links -->
+                <nav class="flex flex-col gap-1 overflow-y-auto pr-2 custom-scrollbar flex-1 min-h-0">
+                    <!-- Dashboard -->
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_dashboard' %}bg-primary text-white shadow-lg shadow-primary/20{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} group transition-all duration-200"
+                        href="{{ url_for('admin_bp.admin_dashboard') }}">
+                        <span
+                            class="material-symbols-outlined {% if request.endpoint == 'admin_bp.admin_dashboard' %}fill{% endif %}">dashboard</span>
+                        <p class="text-sm font-medium leading-normal">Dashboard</p>
+                    </a>
+
+                    <!-- Section: Pages -->
+                    <div
+                        class="mt-4 mb-2 px-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                        Pages</div>
+
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'home_page' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_content_home_page') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'home_page' in request.endpoint %}fill{% endif %}">home</span>
+                        <span class="text-sm font-medium">Home Page</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'about' in request.endpoint and 'content' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_content_home_about') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'about' in request.endpoint and 'content' in request.endpoint %}fill{% endif %}">info</span>
+                        <span class="text-sm font-medium">About Page</span>
+                    </a>
+
+                    <!-- Section: Content -->
+                    <div
+                        class="mt-4 mb-2 px-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                        Content</div>
+
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'service' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_services') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'service' in request.endpoint %}fill{% endif %}">work</span>
+                        <span class="text-sm font-medium">Services</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'project' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_projects') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'project' in request.endpoint %}fill{% endif %}">rocket_launch</span>
+                        <span class="text-sm font-medium">Projects</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'blog' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_blogs') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'blog' in request.endpoint %}fill{% endif %}">article</span>
+                        <span class="text-sm font-medium">Blogs</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'material' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_materials') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'material' in request.endpoint %}fill{% endif %}">menu_book</span>
+                        <span class="text-sm font-medium">Study Materials</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'video' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_videos') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'video' in request.endpoint %}fill{% endif %}">smart_display</span>
+                        <span class="text-sm font-medium">Videos</span>
+                    </a>
+
+                    <!-- Section: Management -->
+                    <div
+                        class="mt-4 mb-2 px-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                        Management</div>
+
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'inquir' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_inquiries') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'inquir' in request.endpoint %}fill{% endif %}">mail</span>
+                        <span class="text-sm font-medium">Inquiries</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'user' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_users') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'user' in request.endpoint %}fill{% endif %}">group</span>
+                        <span class="text-sm font-medium">Users</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'team' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_team_members') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'team' in request.endpoint %}fill{% endif %}">groups</span>
+                        <span class="text-sm font-medium">Team Members</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.endpoint and 'skill' in request.endpoint %}bg-slate-100 dark:bg-slate-800 text-primary{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50{% endif %} transition-colors"
+                        href="{{ url_for('admin_bp.admin_skills') }}">
+                        <span
+                            class="material-symbols-outlined text-[20px] {% if request.endpoint and 'skill' in request.endpoint %}fill{% endif %}">psychology</span>
+                        <span class="text-sm font-medium">Skills</span>
+                    </a>
+                </nav>
+                <!-- Bottom Links -->
+                <div class="flex flex-col gap-1 mt-auto">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors"
+                        href="{{ url_for('pages.home') }}">
+                        <span class="material-symbols-outlined">home</span>
+                        <p class="text-sm font-medium leading-normal">Public Site</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors"
+                        href="{{ url_for('auth.logout') }}">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium leading-normal">Logout</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+        {% endblock %}
+
+        <!-- Main Content Wrapper -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+            <!-- Top Header -->
+            <header
+                class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8 py-4 flex-shrink-0 z-10">
+                <div class="flex items-center gap-8 w-full max-w-2xl">
+                    <button class="md:hidden text-slate-500 dark:text-slate-400" onclick="toggleMobileSidebar()">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
+                        {% block header_title %}Admin Dashboard{% endblock %}
+                    </h2>
+
+                </div>
+                <div class="flex items-center gap-6">
+                    <!-- Notifications -->
+                    <button
+                        class="relative flex items-center justify-center rounded-lg size-10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span
+                            class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-background-dark"></span>
+                    </button>
+                    <!-- Profile Dropdown Trigger -->
+                    <div class="flex items-center gap-3 cursor-pointer">
+                        <div
+                            class="flex items-center justify-center rounded-full size-9 bg-primary text-white font-bold text-sm">
+                            {{ current_user.username[0]|upper }}
+                        </div>
+                        <div class="hidden md:flex flex-col">
+                            <span class="text-sm font-medium text-slate-900 dark:text-white">{{ current_user.username
+                                }}</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 capitalize">{{ current_user.role
+                                }}</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scrollable Dashboard Content -->
+            <div class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark p-8 relative">
+                <!-- Flash Messages -->
+                <div class="max-w-[1200px] mx-auto mb-6">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div
+                        class="mb-4 p-4 rounded-lg {% if category == 'danger' or category == 'error' %}bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400{% elif category == 'success' %}bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400{% else %}bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400{% endif %} flex justify-between items-center">
+                        <span>{{ message }}</span>
+                        <button type="button" onclick="this.parentElement.remove()"
+                            class="text-sm opacity-70 hover:opacity-100">✕</button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+
+                {% block content %}
+                <!-- Default content or overridden by child templates -->
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Sidebar Overlay & Script -->
+    <div id="mobileSidebarBackdrop" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"
+        onclick="toggleMobileSidebar()"></div>
+    <div id="mobileSidebar"
+        class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-background-dark z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col">
+        <!-- Mobile Sidebar Content (Clone of desktop sidebar content) -->
+        <div class="flex h-full flex-col justify-between p-4">
+            <div class="flex flex-col gap-6">
+                <!-- Logo -->
+                <div class="flex gap-3 items-center px-2">
+                    <div class="flex items-center justify-center rounded-full size-10 bg-primary/10 text-primary">
+                        <span class="material-symbols-outlined text-[24px]">admin_panel_settings</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="text-slate-900 dark:text-white text-base font-bold leading-normal">Flask Freelance
+                        </h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-normal">Admin Panel</p>
+                    </div>
+                    <button class="ml-auto text-slate-500" onclick="toggleMobileSidebar()">✕</button>
+                </div>
+
+                <!-- Navigation Links (Mobile) -->
+                <nav class="flex flex-col gap-2">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_dashboard' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_dashboard') }}">
+                        <span class="material-symbols-outlined fill">dashboard</span>
+                        <p class="text-sm font-medium">Dashboard</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_users' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_users') }}">
+                        <span class="material-symbols-outlined">group</span>
+                        <p class="text-sm font-medium">Users</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_services' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_services') }}">
+                        <span class="material-symbols-outlined">work</span>
+                        <p class="text-sm font-medium">Services</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_projects' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_projects') }}">
+                        <span class="material-symbols-outlined">view_kanban</span>
+                        <p class="text-sm font-medium">Projects</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_blogs' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_blogs') }}">
+                        <span class="material-symbols-outlined">article</span>
+                        <p class="text-sm font-medium">Blogs</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_materials' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_materials') }}">
+                        <span class="material-symbols-outlined">menu_book</span>
+                        <p class="text-sm font-medium">Study Materials</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_videos' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_videos') }}">
+                        <span class="material-symbols-outlined">smart_display</span>
+                        <p class="text-sm font-medium">YouTube Videos</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_inquiries' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_inquiries') }}">
+                        <span class="material-symbols-outlined">chat</span>
+                        <p class="text-sm font-medium">Inquiries</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_team_members' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_team_members') }}">
+                        <span class="material-symbols-outlined">groups</span>
+                        <p class="text-sm font-medium">Team Members</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if request.endpoint == 'admin_bp.admin_content_home_about' %}bg-primary text-white{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark{% endif %}"
+                        href="{{ url_for('admin_bp.admin_content_home_about') }}">
+                        <span class="material-symbols-outlined">description</span>
+                        <p class="text-sm font-medium">Page Content</p>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark"
+                    href="{{ url_for('pages.home') }}">
+                    <span class="material-symbols-outlined">home</span>
+                    <p class="text-sm font-medium">Public Site</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-surface-dark"
+                    href="{{ url_for('auth.logout') }}">
+                    <span class="material-symbols-outlined">logout</span>
+                    <p class="text-sm font-medium">Logout</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('mobileSidebar');
+            const backdrop = document.getElementById('mobileSidebarBackdrop');
+
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>

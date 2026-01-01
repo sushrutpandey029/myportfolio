@@ -1,0 +1,510 @@
+{% extends "base/admin_base.html" %}
+
+{% block title %}Edit About Page Content - Admin Panel{% endblock %}
+
+{% block header_title %}Edit About Page Content{% endblock %}
+
+{% block content %}
+<div class="max-w-[1200px] mx-auto pb-32">
+    <!-- Breadcrumbs & Heading -->
+    <div class="mb-8">
+        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm mb-2">
+            <a href="{{ url_for('admin_bp.admin_dashboard') }}" class="hover:text-primary transition-colors">Admin</a>
+            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+            <a href="{{ url_for('admin_bp.admin_content_home_about') }}"
+                class="hover:text-primary transition-colors">About Page Content</a>
+            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+            <span class="text-slate-900 dark:text-white">Edit</span>
+        </div>
+        <div class="flex items-center justify-between">
+            <div>
+                <h1
+                    class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-tight mb-2">
+                    Edit About Page Content</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-lg">Update the content displayed on your public About
+                    page.</p>
+            </div>
+        </div>
+    </div>
+
+    <form method="POST" class="space-y-6">
+        {{ form.hidden_tag() }}
+
+        <!-- Hero Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-xl">
+                    <span class="material-symbols-outlined text-2xl text-primary">star</span>
+                </div>
+                <div>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">Hero Section</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Main header, image, and statistics</p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Hero Image -->
+                <div class="md:col-span-2 space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Current Hero Image</label>
+                    <div class="flex items-center gap-4 p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        {% if content.hero_image_url %}
+                        {% if content.hero_image_url.startswith('http') %}
+                        <img src="{{ content.hero_image_url }}" alt="Hero" class="h-20 w-20 object-cover rounded-lg">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='uploads/about/' + content.hero_image_url) }}"
+                            alt="Hero" class="h-20 w-20 object-cover rounded-lg">
+                        {% endif %}
+                        {% else %}
+                        <div
+                            class="h-20 w-20 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
+                            <span class="material-symbols-outlined text-slate-400">image</span>
+                        </div>
+                        {% endif %}
+                        <div class="flex-1">
+                            {{ form.hero_image.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300")
+                            }}
+                            {{ form.hero_image(class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
+                            file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10
+                            file:text-primary hover:file:bg-primary/20 dark:text-slate-400") }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 space-y-2">
+                    {{ form.hero_title.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.hero_title(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+                <div class="md:col-span-2 space-y-2">
+                    {{ form.hero_subtitle.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.hero_subtitle(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 resize-none", rows=3)
+                    }}
+                </div>
+
+                <!-- Stats -->
+                <div class="space-y-2">
+                    {{ form.hero_stat_1_count.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.hero_stat_1_count(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+                <div class="space-y-2">
+                    {{ form.hero_stat_1_label.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.hero_stat_1_label(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+
+                <div class="space-y-2">
+                    {{ form.hero_stat_2_count.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.hero_stat_2_count(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+                <div class="space-y-2">
+                    {{ form.hero_stat_2_label.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.hero_stat_2_label(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+
+                <div class="space-y-2">
+                    {{ form.hero_stat_3_count.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.hero_stat_3_count(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+                <div class="space-y-2">
+                    {{ form.hero_stat_3_label.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.hero_stat_3_label(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
+                    <span class="material-symbols-outlined text-2xl text-blue-500">flag</span>
+                </div>
+                <div>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">Mission Section</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Company mission statement</p>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    {{ form.mission_title.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.mission_title(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+                <div class="space-y-2">
+                    {{ form.mission_content.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.mission_content(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 resize-none", rows=4)
+                    }}
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl">
+                    <span class="material-symbols-outlined text-2xl text-green-500">visibility</span>
+                </div>
+                <div>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">Vision Section</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Future goals and aspirations</p>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    {{ form.vision_title.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.vision_title(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+                <div class="space-y-2">
+                    {{ form.vision_content.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.vision_content(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 resize-none", rows=4)
+                    }}
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Values Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-gradient-to-br from-pink-500/20 to-rose-500/20 rounded-xl">
+                    <span class="material-symbols-outlined text-2xl text-pink-500">favorite</span>
+                </div>
+                <div>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">Core Values</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Company values and principles</p>
+                </div>
+            </div>
+            <!-- Values Section -->
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    {{ form.values_title.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.values_title(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Value 1 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-4">
+                        <h4 class="font-bold text-slate-900 dark:text-white">Value 1</h4>
+                        <div class="space-y-2">
+                            {{ form.value1_title(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                            placeholder="Title") }}
+                            {{ form.value1_description(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none",
+                            rows=2, placeholder="Description") }}
+                        </div>
+                    </div>
+
+                    <!-- Value 2 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-4">
+                        <h4 class="font-bold text-slate-900 dark:text-white">Value 2</h4>
+                        <div class="space-y-2">
+                            {{ form.value2_title(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                            placeholder="Title") }}
+                            {{ form.value2_description(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none",
+                            rows=2, placeholder="Description") }}
+                        </div>
+                    </div>
+
+                    <!-- Value 3 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-4">
+                        <h4 class="font-bold text-slate-900 dark:text-white">Value 3</h4>
+                        <div class="space-y-2">
+                            {{ form.value3_title(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                            placeholder="Title") }}
+                            {{ form.value3_description(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none",
+                            rows=2, placeholder="Description") }}
+                        </div>
+                    </div>
+
+                    <!-- Value 4 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-4">
+                        <h4 class="font-bold text-slate-900 dark:text-white">Value 4</h4>
+                        <div class="space-y-2">
+                            {{ form.value4_title(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                            placeholder="Title") }}
+                            {{ form.value4_description(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none",
+                            rows=2, placeholder="Description") }}
+                        </div>
+                    </div>
+
+                    <!-- Value 5 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-4">
+                        <h4 class="font-bold text-slate-900 dark:text-white">Value 5</h4>
+                        <div class="space-y-2">
+                            {{ form.value5_title(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                            placeholder="Title") }}
+                            {{ form.value5_description(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none",
+                            rows=2, placeholder="Description") }}
+                        </div>
+                    </div>
+
+                    <!-- Value 6 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-4">
+                        <h4 class="font-bold text-slate-900 dark:text-white">Value 6</h4>
+                        <div class="space-y-2">
+                            {{ form.value6_title(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                            placeholder="Title") }}
+                            {{ form.value6_description(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                            border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none",
+                            rows=2, placeholder="Description") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History & Timeline Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-gradient-to-br from-orange-500/20 to-amber-500/20 rounded-xl">
+                    <span class="material-symbols-outlined text-2xl text-orange-500">auto_stories</span>
+                </div>
+                <div>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">History & Timeline</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Company story and milestones</p>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    {{ form.story_title.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.story_title(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+                <div class="space-y-2">
+                    {{ form.story_content.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.story_content(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 resize-none", rows=5)
+                    }}
+                </div>
+
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white pt-4">Timeline Events</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Timeline 1 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-2">
+                        <span class="text-xs font-bold uppercase text-slate-500">Event 1</span>
+                        {{ form.timeline_year_1(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm mb-2",
+                        placeholder="Year (e.g. 2019)") }}
+                        {{ form.timeline_title_1(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm mb-2",
+                        placeholder="Title") }}
+                        {{ form.timeline_content_1(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                        resize-none", rows=3, placeholder="Description") }}
+                    </div>
+
+                    <!-- Timeline 2 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-2">
+                        <span class="text-xs font-bold uppercase text-slate-500">Event 2</span>
+                        {{ form.timeline_year_2(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm mb-2",
+                        placeholder="Year") }}
+                        {{ form.timeline_title_2(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm mb-2",
+                        placeholder="Title") }}
+                        {{ form.timeline_content_2(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                        resize-none", rows=3, placeholder="Description") }}
+                    </div>
+
+                    <!-- Timeline 3 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-2">
+                        <span class="text-xs font-bold uppercase text-slate-500">Event 3</span>
+                        {{ form.timeline_year_3(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm mb-2",
+                        placeholder="Year") }}
+                        {{ form.timeline_title_3(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm mb-2",
+                        placeholder="Title") }}
+                        {{ form.timeline_content_3(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                        resize-none", rows=3, placeholder="Description") }}
+                    </div>
+
+                    <!-- Timeline 4 -->
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-2">
+                        <span class="text-xs font-bold uppercase text-slate-500">Event 4</span>
+                        {{ form.timeline_year_4(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm mb-2",
+                        placeholder="Year") }}
+                        {{ form.timeline_title_4(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm mb-2",
+                        placeholder="Title") }}
+                        {{ form.timeline_content_4(class="w-full rounded-lg bg-white dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-2.5 text-sm
+                        resize-none", rows=3, placeholder="Description") }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl">
+                    <span class="material-symbols-outlined text-2xl text-indigo-500">groups</span>
+                </div>
+                <div>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">Team Section</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Team introduction headers</p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    {{ form.team_title.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.team_title(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+                <div class="space-y-2">
+                    {{ form.team_subtitle.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.team_subtitle(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 resize-none", rows=3)
+                    }}
+                </div>
+            </div>
+        </section>
+
+        <!-- Call-to-Action Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-xl">
+                    <span class="material-symbols-outlined text-2xl text-red-500">campaign</span>
+                </div>
+                <div>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">Call-to-Action</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Final engagement section</p>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    {{ form.cta_title.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.cta_title(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                </div>
+
+                <div class="space-y-2">
+                    {{ form.cta_subtitle.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300") }}
+                    {{ form.cta_subtitle(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                    border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                    focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 resize-none", rows=3)
+                    }}
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        {{ form.cta_button_text.label(class="text-sm font-semibold text-slate-700 dark:text-slate-300")
+                        }}
+                        {{ form.cta_button_text(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                        focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                        {{ form.cta_button_link(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                        focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 mt-2",
+                        placeholder="Route (e.g. services.services_list)") }}
+                    </div>
+                    <div class="space-y-2">
+                        {{ form.cta_button_2_text.label(class="text-sm font-semibold text-slate-700
+                        dark:text-slate-300") }}
+                        {{ form.cta_button_2_text(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                        focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400") }}
+                        {{ form.cta_button_2_link(class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border
+                        border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none
+                        focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 mt-2",
+                        placeholder="Route (e.g. projects.projects_list)") }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sticky Action Bar -->
+        <div class="fixed bottom-0 left-0 w-full bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-4 z-40"
+            style="padding-left: calc(var(--sidebar-width, 0px) + 1rem);">
+            <div class="max-w-[1200px] mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+                    <span class="material-symbols-outlined text-[18px]">info</span>
+                    <span>Make sure to save your changes</span>
+                </div>
+                <div class="flex gap-4">
+                    <a href="{{ url_for('admin_bp.admin_content_home_about') }}"
+                        class="px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-white font-medium hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors">
+                        Cancel
+                    </a>
+                    {{ form.submit(class="px-8 py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-blue-600
+                    transition-colors shadow-lg shadow-blue-500/20 flex items-center gap-2") }}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Adjust footer padding based on sidebar width
+    function adjustFooterWidth() {
+        const sidebar = document.querySelector('aside');
+        const footer = document.querySelector('.fixed.bottom-0');
+        if (sidebar && footer && window.innerWidth >= 768) {
+            footer.style.paddingLeft = 'calc(256px + 1rem)';
+        } else if (footer) {
+            footer.style.paddingLeft = '1rem';
+        }
+    }
+
+    window.addEventListener('resize', adjustFooterWidth);
+    window.addEventListener('load', adjustFooterWidth);
+</script>
+{% endblock %}

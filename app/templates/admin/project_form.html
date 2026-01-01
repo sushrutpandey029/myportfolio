@@ -1,0 +1,233 @@
+{% extends "base/admin_base.html" %}
+
+{% block title %}{{ title }} - Admin Panel{% endblock %}
+
+{% block header_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-3xl">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-8">
+        <a class="hover:text-primary transition-colors" href="{{ url_for('admin_bp.admin_dashboard') }}">Dashboard</a>
+        <span class="material-symbols-outlined text-base">chevron_right</span>
+        <a class="hover:text-primary transition-colors" href="{{ url_for('admin_bp.admin_projects') }}">Projects</a>
+        <span class="material-symbols-outlined text-base">chevron_right</span>
+        <span class="font-medium text-slate-900 dark:text-white">{{ title }}</span>
+    </div>
+
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{{ title }}</h1>
+        <p class="mt-2 text-slate-500 dark:text-slate-400 text-base">Manage project details, including category, type,
+            and pricing.</p>
+    </div>
+
+    <div
+        class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-surface-dark shadow-sm overflow-hidden">
+        <form method="POST" enctype="multipart/form-data" class="flex flex-col gap-6 p-6 sm:p-8">
+            {{ form.hidden_tag() }}
+
+            <!-- Title Field -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.title.label.text }}</label>
+                <div class="relative">
+                    {% if form.title.errors %}
+                    {{ form.title(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10 px-4 py-3
+                    text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1 focus:ring-red-500
+                    focus:outline-none transition-all") }}
+                    <div class="mt-1 text-xs text-red-500">{{ form.title.errors[0] }}</div>
+                    {% else %}
+                    {{ form.title(class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50
+                    dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-primary
+                    focus:ring-1 focus:ring-primary focus:outline-none transition-all", placeholder="e.g. E-commerce
+                    Platform Source Code") }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Description Field -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.description.label.text
+                    }}</label>
+                <div class="relative">
+                    {% if form.description.errors %}
+                    {{ form.description(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10 px-4
+                    py-3 text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1 focus:ring-red-500
+                    focus:outline-none transition-all", rows="5") }}
+                    <div class="mt-1 text-xs text-red-500">{{ form.description.errors[0] }}</div>
+                    {% else %}
+                    {{ form.description(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                    bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                    focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all", rows="5",
+                    placeholder="Describe the project features, technologies used...") }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-1">
+                <!-- Category Field -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.category_id.label.text
+                        }}</label>
+                    <div class="relative">
+                        {% if form.category_id.errors %}
+                        {{ form.category_id(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10
+                        px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1
+                        focus:ring-red-500 focus:outline-none transition-all appearance-none") }}
+                        <div class="mt-1 text-xs text-red-500">{{ form.category_id.errors[0] }}</div>
+                        {% else %}
+                        {{ form.category_id(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                        bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                        focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all
+                        appearance-none cursor-pointer") }}
+                        {% endif %}
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Upload Field -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.image.label.text }}</label>
+                <div class="relative">
+                    {{ form.image(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                    bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                    focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all
+                    cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
+                    file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-blue-600") }}
+                    {% if form.image.errors %}
+                    <div class="mt-1 text-xs text-red-500">{{ form.image.errors[0] }}</div>
+                    {% endif %}
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Upload a preview image for the project
+                        (JPG, PNG, JPEG, or WEBP)</p>
+                </div>
+            </div>
+
+            <!-- Project File Upload Field -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.file.label.text }}</label>
+                <div class="relative">
+                    {{ form.file(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                    bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                    focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all
+                    cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
+                    file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-blue-600") }}
+                    {% if form.file.errors %}
+                    <div class="mt-1 text-xs text-red-500">{{ form.file.errors[0] }}</div>
+                    {% endif %}
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Upload the project ZIP file for download
+                    </p>
+                </div>
+            </div>
+
+            <!-- Google Drive Link Field -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.google_drive_link.label.text
+                    }}</label>
+                <div class="relative">
+                    {% if form.google_drive_link.errors %}
+                    {{ form.google_drive_link(class="w-full rounded-lg border border-red-500 bg-red-50
+                    dark:bg-red-900/10 px-4 py-3
+                    text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1 focus:ring-red-500
+                    focus:outline-none transition-all") }}
+                    <div class="mt-1 text-xs text-red-500">{{ form.google_drive_link.errors[0] }}</div>
+                    {% else %}
+                    {{ form.google_drive_link(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                    bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                    focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all",
+                    placeholder="https://drive.google.com/file/d/...") }}
+                    {% endif %}
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                        Paste Google Drive link here. If provided, users will be redirected to this link instead of
+                        downloading the uploaded file.
+                    </p>
+                </div>
+            </div>
+
+            <!-- GitHub Link Field -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.github_link.label.text
+                    }}</label>
+                <div class="relative">
+                    {% if form.github_link.errors %}
+                    {{ form.github_link(class="w-full rounded-lg border border-red-500 bg-red-50
+                    dark:bg-red-900/10 px-4 py-3
+                    text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1 focus:ring-red-500
+                    focus:outline-none transition-all") }}
+                    <div class="mt-1 text-xs text-red-500">{{ form.github_link.errors[0] }}</div>
+                    {% else %}
+                    {{ form.github_link(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                    bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                    focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all",
+                    placeholder="https://github.com/username/repository") }}
+                    {% endif %}
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                        Paste GitHub repository link here. If provided along with Google Drive, GitHub will be
+                        prioritized.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+                <!-- Project Type Field -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.project_type.label.text
+                        }}</label>
+                    <div class="relative">
+                        {% if form.project_type.errors %}
+                        {{ form.project_type(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10
+                        px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1
+                        focus:ring-red-500 focus:outline-none transition-all appearance-none") }}
+                        {% else %}
+                        {{ form.project_type(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                        bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                        focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all
+                        appearance-none cursor-pointer") }}
+                        {% endif %}
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Field -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.is_active.label.text
+                        }}</label>
+                    <div class="relative">
+                        {% if form.is_active.errors %}
+                        {{ form.is_active(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10
+                        px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1
+                        focus:ring-red-500 focus:outline-none transition-all appearance-none") }}
+                        {% else %}
+                        {{ form.is_active(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                        bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                        focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all
+                        appearance-none cursor-pointer") }}
+                        {% endif %}
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-700">
+                <a href="{{ url_for('admin_bp.admin_projects') }}"
+                    class="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors no-underline">
+                    Cancel
+                </a>
+                <button type="submit"
+                    class="px-6 py-2.5 rounded-lg bg-primary hover:bg-blue-600 text-white text-sm font-bold shadow-sm shadow-blue-500/20 transition-all flex items-center gap-2 border-none cursor-pointer">
+                    <span class="material-symbols-outlined text-[20px]">save</span>
+                    {{ form.submit.label.text }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

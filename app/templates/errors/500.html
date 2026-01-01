@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto text-center">
+        <h1 class="display-1">500</h1>
+        <h2>Internal Server Error</h2>
+        <p class="lead">Something went wrong on our end. Please try again later.</p>
+        
+        <div class="mt-4">
+            <a href="{{ url_for('pages.home') }}" class="btn btn-primary btn-lg">Go Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="min-h-screen pt-24 pb-20 px-6 lg:px-8 max-w-4xl mx-auto">
+    <div class="mb-12">
+        <a href="{{ url_for('admin_bp.admin_categories') }}"
+            class="inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-6 group">
+            <span class="material-symbols-outlined text-lg transition-transform group-hover:-translate-x-1">west</span>
+            <span class="text-xs font-black uppercase tracking-widest">Back to Categories</span>
+        </a>
+        <h1 class="text-4xl font-black text-white tracking-tight">{{ title }}</h1>
+    </div>
+
+    <div class="glass-card-premium p-10 rounded-[3rem]">
+        <form method="POST" class="space-y-8">
+            {{ form.hidden_tag() }}
+
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-primary uppercase tracking-[0.3em] ml-1">Category Name</label>
+                {{ form.name(class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white
+                font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary/50 outline-none transition-all",
+                placeholder="e.g. Visual Design") }}
+                {% for error in form.name.errors %}
+                <span class="text-red-500 text-[10px] font-bold uppercase mt-1 ml-1">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-primary uppercase tracking-[0.3em] ml-1">Description
+                    (Optional)</label>
+                {{ form.description(class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white
+                font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary/50 outline-none transition-all",
+                placeholder="Brief explanation of this category...") }}
+                {% for error in form.description.errors %}
+                <span class="text-red-500 text-[10px] font-bold uppercase mt-1 ml-1">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="pt-6">
+                {{ form.submit(class="w-full py-5 rounded-2xl bg-primary text-white font-black text-sm uppercase
+                tracking-[0.2em] hover:bg-primary-dark transition-all shadow-xl shadow-primary/20 cursor-pointer") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .glass-card-premium {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if title %}{{ title }} - Freelancing Platform{% else %}Freelancing Platform{% endif %}</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3b82f6", // Blue 500
+                        "primary-dark": "#2563eb", // Blue 600
+                        "secondary": "#6366f1", // Indigo 500
+                        "background-dark": "#0B1120", // Very dark blue/slate
+                        "surface-dark": "#161e2e", // Slightly lighter
+                        "surface-highlight": "#1f2937",
+                        "border-dark": "#1f2937", // Gray 800
+                        "text-primary": "#f8fafc", // Slate 50
+                        "text-secondary": "#94a3b8", // Slate 400
+                        "accent": "#0ea5e9" // Sky 500
+                    },
+                    fontFamily: {
+                        "sans": ["Plus Jakarta Sans", "sans-serif"],
+                    },
+                    backgroundImage: {
+                        'hero-glow': "radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, rgba(11, 17, 32, 0) 70%)",
+                        'card-gradient': "linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.5) 100%)"
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0B1120;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+
+        .glass-nav {
+            background: rgba(11, 17, 32, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body
+    class="bg-background-dark text-text-primary font-sans antialiased overflow-x-hidden selection:bg-primary selection:text-white flex flex-col min-h-screen">
+    {% include 'base/header.html' %}
+
+    <main role="main" class="flex-1 w-full">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="fixed top-24 right-6 z-[60] flex flex-col gap-2 max-w-sm w-full pointer-events-none">
+            {% for category, message in messages %}
+            {% set colors = {'success': 'bg-emerald-500', 'error': 'bg-red-500', 'danger': 'bg-red-500', 'warning':
+            'bg-amber-500', 'info': 'bg-blue-500'} %}
+            {% set color = colors[category] if category in colors else 'bg-blue-500' %}
+            <div class="{{ color }} text-white px-6 py-4 rounded-xl shadow-xl flex items-center justify-between pointer-events-auto animate-pulse"
+                role="alert">
+                <span class="font-medium text-sm">{{ message }}</span>
+                <button type="button" class="ml-4 opacity-80 hover:opacity-100" onclick="this.parentElement.remove()">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'base/footer.html' %}
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

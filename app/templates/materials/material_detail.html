@@ -1,0 +1,438 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="layout-container flex h-full grow flex-col max-w-[1440px] mx-auto w-full px-4 lg:px-20 py-8">
+    <!-- Breadcrumbs -->
+    <div class="flex flex-wrap gap-2 pb-6 px-4">
+        <a class="text-text-secondary hover:text-white transition-colors text-sm font-medium leading-normal"
+            href="{{ url_for('materials.materials_list') }}">Resources</a>
+        <span class="text-text-secondary text-sm font-medium leading-normal">/</span>
+        <a class="text-text-secondary hover:text-white transition-colors text-sm font-medium leading-normal"
+            href="#">Programming</a>
+        <span class="text-text-secondary text-sm font-medium leading-normal">/</span>
+        <a class="text-text-secondary hover:text-white transition-colors text-sm font-medium leading-normal"
+            href="#">Flask</a>
+        <span class="text-text-secondary text-sm font-medium leading-normal">/</span>
+        <span class="text-white text-sm font-medium leading-normal">Advanced Mastery</span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- Main Content Column -->
+        <div class="lg:col-span-8 flex flex-col gap-8">
+            <!-- Heading Area -->
+            <div class="flex flex-col gap-4">
+                <h1 class="text-white text-3xl md:text-5xl font-black leading-tight tracking-tight">
+                    Advanced Flask Mastery for Freelancers
+                </h1>
+                <p class="text-text-secondary text-lg font-normal leading-relaxed max-w-[720px]">
+                    Master the art of building scalable web applications with Flask, SQLAlchemy, and Celery. A complete
+                    guide from setup to deployment.
+                </p>
+
+                <!-- Meta Info -->
+                <div class="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-text-secondary mt-2">
+                    <div class="flex items-center gap-1.5">
+                        <span
+                            class="bg-yellow-500/10 text-yellow-500 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">Best
+                            Seller</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="text-yellow-400 font-bold">4.8</span>
+                        <div class="flex text-yellow-400 text-[16px]">
+                            <span class="material-symbols-outlined filled text-[16px]">star</span>
+                            <span class="material-symbols-outlined filled text-[16px]">star</span>
+                            <span class="material-symbols-outlined filled text-[16px]">star</span>
+                            <span class="material-symbols-outlined filled text-[16px]">star</span>
+                            <span class="material-symbols-outlined filled text-[16px]">star_half</span>
+                        </div>
+                        <span
+                            class="text-text-secondary underline decoration-text-secondary/50 cursor-pointer hover:text-white">(120
+                            ratings)</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px]">group</span>
+                        <span>1,500 students</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px]">update</span>
+                        <span>Last updated Oct 2023</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px]">language</span>
+                        <span>English</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About / Feature Section -->
+            <div class="rounded-xl border border-white/10 bg-surface-dark p-6 md:p-8">
+                <h2 class="text-xl md:text-2xl font-bold text-white mb-6">What you'll learn</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Structure large Flask applications using
+                            Blueprints and Application Factories.</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Handle complex database relationships and
+                            migrations with SQLAlchemy & Alembic.</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Implement asynchronous background tasks using
+                            Celery and Redis.</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Secure your application with role-based access
+                            control and OAuth.</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Deploy production-ready apps to AWS or
+                            DigitalOcean using Docker.</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Build RESTful APIs for mobile and frontend
+                            consumption.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Curriculum Section -->
+            <div class="flex flex-col gap-6">
+                <h2 class="text-2xl font-bold text-white">Course Content</h2>
+                <div
+                    class="flex flex-col rounded-lg border border-white/10 bg-surface-dark divide-y divide-white/10 overflow-hidden">
+                    <!-- Section 1 -->
+                    <details class="group" open>
+                        <summary
+                            class="flex cursor-pointer items-center justify-between p-4 bg-surface-highlight hover:bg-white/5 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span
+                                    class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform">expand_more</span>
+                                <span class="font-bold text-white">Section 1: Getting Started with Scalable
+                                    Architecture</span>
+                            </div>
+                            <span class="text-sm text-text-secondary">3 lectures • 45m</span>
+                        </summary>
+                        <div class="px-4 py-2 bg-surface-dark">
+                            <div class="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">play_circle</span>
+                                    <a class="text-primary hover:underline text-sm md:text-base" href="#">Introduction
+                                        and Application Factory Pattern</a>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span
+                                        class="hidden sm:inline-block text-xs text-primary font-medium border border-primary/30 px-2 py-0.5 rounded">Preview</span>
+                                    <span class="text-sm text-text-secondary">15:00</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">play_circle</span>
+                                    <span class="text-white text-sm md:text-base">Setting up Blueprints for Modular
+                                        Code</span>
+                                </div>
+                                <span class="text-sm text-text-secondary">20:00</span>
+                            </div>
+                            <div class="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">description</span>
+                                    <span class="text-white text-sm md:text-base">Project Structure Cheat Sheet</span>
+                                </div>
+                                <span class="text-sm text-text-secondary">PDF</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Section 2 -->
+                    <details class="group">
+                        <summary
+                            class="flex cursor-pointer items-center justify-between p-4 bg-surface-highlight hover:bg-white/5 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span
+                                    class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform">expand_more</span>
+                                <span class="font-bold text-white">Section 2: Database Management</span>
+                            </div>
+                            <span class="text-sm text-text-secondary">4 lectures • 1h 20m</span>
+                        </summary>
+                        <div class="px-4 py-2 bg-surface-dark">
+                            <div class="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">play_circle</span>
+                                    <span class="text-white text-sm md:text-base">Advanced SQLAlchemy Models</span>
+                                </div>
+                                <span class="text-sm text-text-secondary">25:00</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Section 3 -->
+                    <details class="group">
+                        <summary
+                            class="flex cursor-pointer items-center justify-between p-4 bg-surface-highlight hover:bg-white/5 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span
+                                    class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform">expand_more</span>
+                                <span class="font-bold text-white">Section 3: Background Tasks with Celery</span>
+                            </div>
+                            <span class="text-sm text-text-secondary">2 lectures • 55m</span>
+                        </summary>
+                        <div class="px-4 py-2 bg-surface-dark">
+                            <div class="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">play_circle</span>
+                                    <span class="text-white text-sm md:text-base">Configuring Redis and Celery
+                                        Worker</span>
+                                </div>
+                                <span class="text-sm text-text-secondary">30:00</span>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Instructor Section -->
+            <div class="flex flex-col gap-6 pt-6">
+                <h2 class="text-2xl font-bold text-white">Instructor</h2>
+                <div
+                    class="flex flex-col sm:flex-row gap-6 items-start rounded-xl border border-white/10 bg-surface-dark p-6">
+                    <div class="shrink-0">
+                        <img alt="Instructor Jane Doe"
+                            class="size-24 rounded-full object-cover border-2 border-white/10"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSoDiaWyPkspMfzFw_Nd2OBYi7EzBXjdPvIAkx_4PDQT8sXEGmNl_deL6bHgBkLbFz8WSFsyfdBZSZAbg4YlYd_nhTUfSkdJxD2Q0Mf3wvkNyRR2PqK_LvceooFpuvl8dZTtTruPBFfBr-KEAucMbfjeQCFc1bQA7pGBx_ZtfQ8t2p07fZp3Ay7wXPdlyzAPNyjf6u-ziCJ64wDWLjuJQHOoUw2jpb0QJrB4-xloqGdpG-k_8icDqYa2RVxDGPWqnhkGC5CqFzLQ" />
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <div>
+                            <h3
+                                class="text-xl font-bold text-white hover:text-primary cursor-pointer transition-colors">
+                                Jane Doe</h3>
+                            <p class="text-primary text-sm font-medium">Senior Full Stack Developer & Python Expert</p>
+                        </div>
+                        <div class="flex gap-4 text-text-secondary text-sm">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[18px]">school</span>
+                                <span>45,000 Students</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[18px]">play_lesson</span>
+                                <span>12 Courses</span>
+                            </div>
+                        </div>
+                        <p class="text-white text-sm leading-relaxed">
+                            Jane is a software engineer with over 10 years of experience building scalable web
+                            applications. She has worked with top tech companies in Silicon Valley and now focuses on
+                            teaching advanced Python patterns to freelancers looking to level up their careers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Section -->
+            <div class="flex flex-col gap-6 pt-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-2xl font-bold text-white">Student Feedback</h2>
+                    <div class="hidden sm:block">
+                        <select
+                            class="bg-surface-highlight border-none rounded text-white text-sm focus:ring-1 focus:ring-primary py-2 px-4">
+                            <option>Newest First</option>
+                            <option>Highest Rated</option>
+                            <option>Lowest Rated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid gap-4">
+                    <!-- Review 1 -->
+                    <div class="border-b border-white/10 pb-6 last:border-0">
+                        <div class="flex gap-4">
+                            <div
+                                class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg shrink-0">
+                                M
+                            </div>
+                            <div class="flex flex-col gap-2 w-full">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-bold text-white">Michael Scott</h4>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            <div class="flex text-yellow-400">
+                                                <span class="material-symbols-outlined filled text-[16px]">star</span>
+                                                <span class="material-symbols-outlined filled text-[16px]">star</span>
+                                                <span class="material-symbols-outlined filled text-[16px]">star</span>
+                                                <span class="material-symbols-outlined filled text-[16px]">star</span>
+                                                <span class="material-symbols-outlined filled text-[16px]">star</span>
+                                            </div>
+                                            <span class="text-text-secondary text-xs">2 weeks ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-white text-sm leading-relaxed">
+                                    This is exactly what I needed. Most tutorials stop at the basics, but this course
+                                    actually shows you how to structure a real app. The Celery section was a lifesaver
+                                    for my current client project.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="border-b border-white/10 pb-6 last:border-0">
+                        <div class="flex gap-4">
+                            <img alt="Reviewer" class="size-10 rounded-full object-cover shrink-0"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaC4kyWvUucNSnZ1Lyaza2SRQYsau3WqHWlCHtaaNfB_QnXbNUoQdt4op9Xp1awsFeEUNLC9mJrUMGKJgLBhgDtulWTPkU6GZKHBrEBjL-rk48qpbHr1GANZgu0AHTTotgoKcquDh-wRqC8FasArhz1M80T14yHFrybK9zEX3v1Y26vvgESXKQ7FXt4WR1UP_Zq3u8LP8BF4h_XozkqYLPa_WAgnBfsquWwYur-rxJmfBTP0STB6u-IoSUdjIl5d896Csd8GncsA" />
+                            <div class="flex flex-col gap-2 w-full">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-bold text-white">David Chen</h4>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            <div class="flex text-yellow-400">
+                                                <span class="material-symbols-outlined filled text-[16px]">star</span>
+                                                <span class="material-symbols-outlined filled text-[16px]">star</span>
+                                                <span class="material-symbols-outlined filled text-[16px]">star</span>
+                                                <span class="material-symbols-outlined filled text-[16px]">star</span>
+                                                <span class="material-symbols-outlined text-[16px]">star</span>
+                                            </div>
+                                            <span class="text-text-secondary text-xs">1 month ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-white text-sm leading-relaxed">
+                                    Great content, but I wish there was more focus on testing. The Docker section was
+                                    excellent though.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    class="w-full md:w-auto self-start text-sm font-bold text-white border border-white/20 px-4 py-2 rounded-lg hover:bg-surface-highlight transition-colors">
+                    See all reviews
+                </button>
+            </div>
+        </div>
+
+        <!-- Sticky Sidebar Column -->
+        <div class="lg:col-span-4 relative">
+            <div class="sticky top-24 flex flex-col gap-6">
+                <!-- Purchase Card -->
+                <div class="bg-surface-dark border border-white/10 rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative w-full aspect-video bg-gray-800">
+                        <!-- Video Play Overlay -->
+                        <div
+                            class="absolute inset-0 z-10 flex items-center justify-center bg-black/30 group cursor-pointer hover:bg-black/40 transition-colors">
+                            <div
+                                class="size-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/50 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined filled text-white text-[32px]">play_arrow</span>
+                            </div>
+                        </div>
+                        <img alt="Course Thumbnail" class="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtWZj8Xv3VEAY9PURL5JY9_laII6RvC6IJoK41nj1stYjRox3wZ40UMSFsaapRqTBLcKudhTPWDtyVq4bpkj2sBBVmdjBA4DUwBn55VKgfUK7t4VsACz4pNlHddF2wJYEm8Z-0R14Iz51Ly5XO8w5JQ1DMeuQ_lYNB_7G0EEynYtjxP_pgNIs9qP-lrSeoBMiaTNsWUkGspbmYFvPOgYzFQKdDhHfWLJnGVRNIB8n752vZgOUm-thLV2-7yBDlPYncK92bmjSbFA" />
+                        <div
+                            class="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-white">
+                            Preview this course</div>
+                    </div>
+
+                    <div class="p-6 flex flex-col gap-6">
+                        <div>
+                            <div class="flex items-end gap-3 mb-2">
+                                <span class="text-3xl font-black text-white">$49.99</span>
+                                <span class="text-text-secondary text-lg line-through mb-1">$89.99</span>
+                                <span
+                                    class="text-xs font-bold text-green-400 bg-green-400/20 px-2 py-1 rounded mb-1.5 ml-auto">45%
+                                    OFF</span>
+                            </div>
+                            <p class="text-red-500 text-sm flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">alarm</span>
+                                <span>5 hours left at this price!</span>
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col gap-3">
+                            <button
+                                class="w-full h-12 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <span>Buy Now</span>
+                            </button>
+                            <button
+                                class="w-full h-12 bg-transparent border border-white/20 text-white hover:bg-surface-highlight font-bold rounded-lg transition-colors">
+                                Add to Cart
+                            </button>
+                        </div>
+
+                        <p class="text-center text-xs text-text-secondary">30-Day Money-Back Guarantee</p>
+
+                        <div class="pt-6 border-t border-white/10">
+                            <h3 class="font-bold text-white mb-4 text-sm">This course includes:</h3>
+                            <ul class="flex flex-col gap-3 text-sm text-white">
+                                <li class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">ondemand_video</span>
+                                    <span>12.5 hours on-demand video</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">description</span>
+                                    <span>5 articles & 10 downloadable resources</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-text-secondary text-[20px]">code</span>
+                                    <span>Full source code access</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">all_inclusive</span>
+                                    <span>Full lifetime access</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">devices</span>
+                                    <span>Access on mobile and TV</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">verified</span>
+                                    <span>Certificate of completion</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="flex justify-between items-center pt-2">
+                            <button
+                                class="text-sm font-medium text-white underline decoration-gray-500 underline-offset-2 hover:text-primary">Share</button>
+                            <button
+                                class="text-sm font-medium text-white underline decoration-gray-500 underline-offset-2 hover:text-primary">Gift
+                                this course</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Training Ad -->
+                <div class="rounded-xl border border-white/10 p-6 bg-surface-dark">
+                    <h3 class="font-bold text-white mb-2">Training 5 or more people?</h3>
+                    <p class="text-sm text-text-secondary mb-4">Get your team access to FreelanceHub's top 5,000+
+                        courses.</p>
+                    <button
+                        class="w-full py-2 bg-transparent border border-white text-white hover:bg-surface-highlight font-bold text-sm rounded transition-colors">
+                        FreelanceHub Business
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .material-symbols-outlined.filled {
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+</style>
+{% endblock %}

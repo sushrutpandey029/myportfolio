@@ -1,0 +1,211 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-background-dark py-20">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-16 text-center">
+            <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 backdrop-blur-xl mb-6">
+                <span class="material-symbols-outlined text-primary text-lg">shield</span>
+                <span class="text-xs font-bold text-primary uppercase tracking-wider">Legal</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight">
+                Privacy <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Policy</span>
+            </h1>
+            <p class="text-text-secondary text-lg">Last updated: December 31, 2025</p>
+        </div>
+
+        <!-- Content -->
+        <div class="prose prose-invert prose-lg max-w-none">
+            <div class="bg-surface-dark/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 space-y-8">
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">info</span>
+                        Introduction
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed">
+                        Welcome to {{ env.BRAND_NAME }}. We respect your privacy and are committed to protecting your
+                        personal data.
+                        This privacy policy will inform you about how we look after your personal data when you visit
+                        our website
+                        and tell you about your privacy rights and how the law protects you.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">storage</span>
+                        Information We Collect
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed mb-4">
+                        We may collect, use, store and transfer different kinds of personal data about you:
+                    </p>
+                    <ul class="space-y-3 text-text-secondary">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span><strong class="text-white">Identity Data:</strong> First name, last name,
+                                username</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span><strong class="text-white">Contact Data:</strong> Email address, phone number</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span><strong class="text-white">Technical Data:</strong> IP address, browser type, device
+                                information</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span><strong class="text-white">Usage Data:</strong> Information about how you use our
+                                website and services</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span><strong class="text-white">Profile Data:</strong> Your preferences, feedback, and
+                                survey responses</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">analytics</span>
+                        How We Use Your Information
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed mb-4">
+                        We use your personal data for the following purposes:
+                    </p>
+                    <ul class="space-y-3 text-text-secondary">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span>To provide and maintain our services</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span>To notify you about changes to our services</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span>To provide customer support</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span>To gather analysis or valuable information to improve our services</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span>To monitor the usage of our services</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span>To detect, prevent and address technical issues</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">security</span>
+                        Data Security
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed">
+                        We have put in place appropriate security measures to prevent your personal data from being
+                        accidentally lost,
+                        used or accessed in an unauthorized way, altered or disclosed. We limit access to your personal
+                        data to those
+                        employees, agents, contractors and other third parties who have a business need to know.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">group</span>
+                        Data Sharing
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed">
+                        We do not sell, trade, or rent your personal identification information to others. We may share
+                        generic
+                        aggregated demographic information not linked to any personal identification information with
+                        our business
+                        partners and trusted affiliates for the purposes outlined above.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">gavel</span>
+                        Your Legal Rights
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed mb-4">
+                        Under data protection laws, you have rights including:
+                    </p>
+                    <ul class="space-y-3 text-text-secondary">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-accent mt-1">verified_user</span>
+                            <span><strong class="text-white">Right to access:</strong> Request copies of your personal
+                                data</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-accent mt-1">verified_user</span>
+                            <span><strong class="text-white">Right to rectification:</strong> Request correction of
+                                inaccurate data</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-accent mt-1">verified_user</span>
+                            <span><strong class="text-white">Right to erasure:</strong> Request deletion of your
+                                personal data</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-accent mt-1">verified_user</span>
+                            <span><strong class="text-white">Right to object:</strong> Object to processing of your
+                                personal data</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-accent mt-1">verified_user</span>
+                            <span><strong class="text-white">Right to data portability:</strong> Request transfer of
+                                your data</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">mail</span>
+                        Contact Us
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed mb-4">
+                        If you have any questions about this Privacy Policy, please contact us:
+                    </p>
+                    <div class="bg-white/5 rounded-2xl p-6 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">email</span>
+                            <a href="mailto:{{ env.CONTACT_EMAIL }}"
+                                class="text-white hover:text-primary transition-colors">
+                                {{ env.CONTACT_EMAIL }}
+                            </a>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">call</span>
+                            <a href="tel:{{ env.CONTACT_PHONE }}"
+                                class="text-white hover:text-primary transition-colors">
+                                {{ env.CONTACT_PHONE }}
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="border-t border-white/10 pt-8">
+                    <p class="text-sm text-text-secondary italic">
+                        This privacy policy is subject to change without notice. Please review this page periodically
+                        for updates.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

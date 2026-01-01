@@ -1,0 +1,774 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<!-- Hero Section with Modern Profile Display -->
+<section class="relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-[#050914] to-background-dark">
+    <!-- Animated Background -->
+    <div
+        class="absolute top-0 left-0 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[140px] -ml-64 -mt-64 animate-pulse-slow">
+    </div>
+    <div
+        class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-500/15 rounded-full blur-[120px] -mr-48 -mb-48 animate-float">
+    </div>
+    <div class="absolute top-1/3 right-1/4 w-[300px] h-[300px] bg-secondary/10 rounded-full blur-[100px] opacity-50">
+    </div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Left Content -->
+            <div class="space-y-8">
+
+
+                <h1 class="text-4xl md:text-6xl font-black text-white leading-[1.1] tracking-tight">
+                    {{ content.hero_title|safe }}
+                </h1>
+
+                <p class="text-xl text-text-secondary leading-relaxed max-w-xl">
+                    {{ content.hero_subtitle }}
+                </p>
+
+                <!-- Stats Mini Cards -->
+                <div class="grid grid-cols-3 gap-4 pt-4">
+                    <div class="bg-surface-dark/50 backdrop-blur-sm border border-white/5 rounded-2xl p-4 text-center">
+                        <p class="text-2xl font-black text-white mb-1">{{ content.hero_stat_1_count }}</p>
+                        <p class="text-xs text-text-secondary font-semibold">{{ content.hero_stat_1_label }}</p>
+                    </div>
+                    <div class="bg-surface-dark/50 backdrop-blur-sm border border-white/5 rounded-2xl p-4 text-center">
+                        <p class="text-2xl font-black text-white mb-1">{{ content.hero_stat_2_count }}</p>
+                        <p class="text-xs text-text-secondary font-semibold">{{ content.hero_stat_2_label }}</p>
+                    </div>
+                    <div class="bg-surface-dark/50 backdrop-blur-sm border border-white/5 rounded-2xl p-4 text-center">
+                        <p class="text-2xl font-black text-white mb-1">{{ content.hero_stat_3_count }}</p>
+                        <p class="text-xs text-text-secondary font-semibold">{{ content.hero_stat_3_label }}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Visual - Team Showcase -->
+            <div class="relative hidden lg:block">
+                <!-- Main Featured Profile -->
+                <div class="relative">
+                    <div
+                        class="absolute -inset-4 bg-gradient-to-r from-primary via-purple-500 to-secondary rounded-[3rem] blur-2xl opacity-30 animate-pulse-slow">
+                    </div>
+
+                    <div
+                        class="relative bg-surface-dark/80 backdrop-blur-xl border border-white/10 rounded-[3rem] p-6 overflow-hidden">
+                        <!-- Featured Profile Image -->
+                        <img src="{% if content.hero_image_url %}{% if content.hero_image_url.startswith('http') %}{{ content.hero_image_url }}{% else %}{{ url_for('static', filename='uploads/about/' + content.hero_image_url) }}{% endif %}{% else %}https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80{% endif %}"
+                            alt="Our Team"
+                            class="w-full h-[320px] object-cover rounded-[2rem] transition-transform duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
+                        </div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <h3 class="text-2xl font-black text-white mb-2">Architects of Innovation</h3>
+                            <p class="text-primary font-bold uppercase tracking-widest text-xs">A Global Collective
+                                of Visionaries</p>
+                        </div>
+                    </div>
+
+                    <!-- Team Info Badge -->
+                    <div
+                        class="mt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex -space-x-3">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-500 border-2 border-surface-dark">
+                                </div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-secondary border-2 border-surface-dark">
+                                </div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-primary border-2 border-surface-dark">
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-white font-bold text-sm">50+ Members</p>
+                                <p class="text-text-secondary text-xs">Active Team</p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-green-500/10 text-green-400 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 border border-green-500/20">
+                            <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision Section -->
+<section id="mission" class="relative py-24 overflow-hidden">
+    <!-- Sophisticated Background Decorative Elements -->
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[160px] -mr-64 -mt-64"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[140px] -ml-64 -mb-64">
+    </div>
+    <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-1 bg-gradient-to-r from-transparent via-white/5 to-transparent rotate-12">
+    </div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xl mb-6">
+                <span class="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Core Philosophy</span>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-black text-white mb-6 tracking-tighter">
+                Our <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-400 to-secondary">Purpose</span>
+            </h2>
+            <p class="text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed font-medium">
+                We're architecting a future where boundaries vanish, and talent is the only currency that matters.
+                Our mission is to empower the next generation of global builders.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+            <!-- Redesigned Mission Card -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-primary via-indigo-500 to-purple-600 rounded-[3rem] opacity-20 blur-xl group-hover:opacity-40 transition duration-700">
+                </div>
+                <div
+                    class="relative bg-surface-dark/40 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-8 md:p-10 h-full overflow-hidden transition-all duration-700 hover:scale-[1.01] hover:border-white/20">
+                    <!-- Glass Background Decoration -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16">
+                    </div>
+
+                    <div class="relative z-10">
+                        <div class="mb-10">
+                            <div
+                                class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-primary/10 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-2xl">
+                                <span class="material-symbols-outlined text-4xl">rocket_launch</span>
+                            </div>
+                        </div>
+
+                        <h3 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">{{
+                            content.mission_title }}</h3>
+                        <p class="text-lg text-text-secondary leading-relaxed mb-10 font-medium">
+                            {{ content.mission_content }}
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div class="flex items-center gap-4 group/item">
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover/item:border-primary/50 transition-colors">
+                                    <span class="material-symbols-outlined text-primary text-xl">hub</span>
+                                </div>
+                                <span class="text-white/80 font-bold text-sm tracking-wide">Elite Network</span>
+                            </div>
+                            <div class="flex items-center gap-4 group/item">
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover/item:border-primary/50 transition-colors">
+                                    <span class="material-symbols-outlined text-primary text-xl">api</span>
+                                </div>
+                                <span class="text-white/80 font-bold text-sm tracking-wide">Tech First</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Redesigned Vision Card -->
+            <div class="group relative mt-12 lg:mt-0">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-purple-500 via-indigo-500 to-secondary rounded-[3rem] opacity-20 blur-xl group-hover:opacity-40 transition duration-700">
+                </div>
+                <div
+                    class="relative bg-surface-dark/40 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-8 md:p-10 h-full overflow-hidden transition-all duration-700 hover:scale-[1.01] hover:border-white/20">
+                    <!-- Glass Background Decoration -->
+                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-secondary/10 rounded-full blur-3xl -ml-16 -mb-16">
+                    </div>
+
+                    <div class="relative z-10">
+                        <div class="mb-10 text-right">
+                            <div
+                                class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-secondary/10 border border-secondary/20 text-secondary group-hover:bg-secondary group-hover:text-white transition-all duration-500 shadow-2xl">
+                                <span class="material-symbols-outlined text-4xl">visibility</span>
+                            </div>
+                        </div>
+
+                        <h3 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight text-right">{{
+                            content.vision_title }}
+                        </h3>
+                        <p class="text-lg text-text-secondary leading-relaxed mb-10 font-medium text-right">
+                            {{ content.vision_content }}
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-end">
+                            <div class="flex items-center gap-4 group/item justify-end">
+                                <span class="text-white/80 font-bold text-sm tracking-wide">Global Uptime</span>
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover/item:border-secondary/50 transition-colors">
+                                    <span class="material-symbols-outlined text-secondary text-xl">language</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 group/item justify-end">
+                                <span class="text-white/80 font-bold text-sm tracking-wide">Zero Barriers</span>
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover/item:border-secondary/50 transition-colors">
+                                    <span class="material-symbols-outlined text-secondary text-xl">bolt</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Values Section -->
+<section class="py-24 relative overflow-hidden">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xl mb-6">
+                <span class="text-[10px] font-black text-purple-400 uppercase tracking-[0.2em]">What Drives Us</span>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">{{ content.values_title }}</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Value 1 -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition duration-300">
+                </div>
+                <div
+                    class="relative bg-surface-dark border border-white/5 rounded-2xl p-8 h-full hover:border-primary/30 transition-all duration-300">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">psychology</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ content.value1_title }}</h3>
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        {{ content.value1_description }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Value 2 -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition duration-300">
+                </div>
+                <div
+                    class="relative bg-surface-dark border border-white/5 rounded-2xl p-8 h-full hover:border-purple-500/30 transition-all duration-300">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">diversity_3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ content.value2_title }}</h3>
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        {{ content.value2_description }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Value 3 -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition duration-300">
+                </div>
+                <div
+                    class="relative bg-surface-dark border border-white/5 rounded-2xl p-8 h-full hover:border-green-500/30 transition-all duration-300">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-green-500/10 flex items-center justify-center text-green-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">verified_user</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ content.value3_title }}</h3>
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        {{ content.value3_description }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Value 4 -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition duration-300">
+                </div>
+                <div
+                    class="relative bg-surface-dark border border-white/5 rounded-2xl p-8 h-full hover:border-orange-500/30 transition-all duration-300">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">speed</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ content.value4_title }}</h3>
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        {{ content.value4_description }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Value 5 -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition duration-300">
+                </div>
+                <div
+                    class="relative bg-surface-dark border border-white/5 rounded-2xl p-8 h-full hover:border-indigo-500/30 transition-all duration-300">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">school</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ content.value5_title }}</h3>
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        {{ content.value5_description }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Value 6 -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition duration-300">
+                </div>
+                <div
+                    class="relative bg-surface-dark border border-white/5 rounded-2xl p-8 h-full hover:border-pink-500/30 transition-all duration-300">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-400 mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">favorite</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ content.value6_title }}</h3>
+                    <p class="text-text-secondary text-sm leading-relaxed">
+                        {{ content.value6_description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Journey Timeline -->
+<section class="py-24 relative bg-surface-dark/30 overflow-hidden">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xl mb-6">
+                <span class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">Our Story</span>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-black text-white mb-6">{{ content.story_title }}</h2>
+        </div>
+
+        <div class="relative">
+            <!-- Vertical Line -->
+            <div
+                class="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-purple-500 to-secondary hidden md:block">
+            </div>
+
+            <div class="space-y-16">
+                <!-- 2019 -->
+                <div class="relative">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2 md:text-right md:pr-12">
+                            <div
+                                class="bg-surface-dark border border-white/10 rounded-2xl p-8 hover:border-primary/30 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10">
+                                <span
+                                    class="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-bold mb-4">{{
+                                    content.timeline_year_1 }}</span>
+                                <h3 class="text-2xl font-bold text-white mb-3">{{ content.timeline_title_1 }}</h3>
+                                <p class="text-text-secondary leading-relaxed">
+                                    {{ content.timeline_content_1 }}
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-primary border-4 border-background-dark shadow-lg shadow-primary/50 z-10">
+                        </div>
+                        <div class="md:w-1/2"></div>
+                    </div>
+                </div>
+
+                <!-- 2021 -->
+                <div class="relative">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2"></div>
+                        <div
+                            class="hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-purple-500 border-4 border-background-dark shadow-lg shadow-purple-500/50 z-10">
+                        </div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <div
+                                class="bg-surface-dark border border-white/10 rounded-2xl p-8 hover:border-purple-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10">
+                                <span
+                                    class="inline-block bg-purple-500/10 text-purple-400 px-4 py-1.5 rounded-full text-sm font-bold mb-4">{{
+                                    content.timeline_year_2 }}</span>
+                                <h3 class="text-2xl font-bold text-white mb-3">{{ content.timeline_title_2 }}</h3>
+                                <p class="text-text-secondary leading-relaxed">
+                                    {{ content.timeline_content_2 }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2023 -->
+                <div class="relative">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2 md:text-right md:pr-12">
+                            <div
+                                class="bg-surface-dark border border-white/10 rounded-2xl p-8 hover:border-secondary/30 transition-all duration-300 hover:shadow-2xl hover:shadow-secondary/10">
+                                <span
+                                    class="inline-block bg-secondary/10 text-secondary px-4 py-1.5 rounded-full text-sm font-bold mb-4">{{
+                                    content.timeline_year_3 }}</span>
+                                <h3 class="text-2xl font-bold text-white mb-3">{{ content.timeline_title_3 }}</h3>
+                                <p class="text-text-secondary leading-relaxed">
+                                    {{ content.timeline_content_3 }}
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-secondary border-4 border-background-dark shadow-lg shadow-secondary/50 z-10">
+                        </div>
+                        <div class="md:w-1/2"></div>
+                    </div>
+                </div>
+
+                <!-- 2025 -->
+                <div class="relative">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2"></div>
+                        <div
+                            class="hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary border-4 border-background-dark shadow-lg shadow-primary/50 z-10 animate-pulse">
+                        </div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <div
+                                class="bg-surface-dark border border-white/10 rounded-2xl p-8 hover:border-accent/30 transition-all duration-300 hover:shadow-2xl hover:shadow-accent/10">
+                                <span
+                                    class="inline-block bg-accent/10 text-accent px-4 py-1.5 rounded-full text-sm font-bold mb-4">{{
+                                    content.timeline_year_4 }}</span>
+                                <h3 class="text-2xl font-bold text-white mb-3">{{ content.timeline_title_4 }}</h3>
+                                <p class="text-text-secondary leading-relaxed">
+                                    {{ content.timeline_content_4 }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Ultra-Premium Leadership Showcase (Commented Out)
+<section class="py-32 relative overflow-hidden bg-[#050914]">
+    <!-- Atmospheric Background Effects -->
+    <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[160px] opacity-30"></div>
+    <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[140px] opacity-30">
+    </div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xl mb-6">
+                <span class="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Architects of Growth</span>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-black text-white mb-6 tracking-tighter">Meet Our <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-400 to-secondary">Leadership</span>
+            </h2>
+            <p class="text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed font-medium">
+                A world-class collective of visionaries, engineers, and digital architects.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Team Member 1: CEO -->
+            <div class="group relative">
+                <!-- Dynamic Aura Border -->
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-primary via-indigo-500 to-purple-600 rounded-[2.5rem] opacity-0 group-hover:opacity-60 blur-md transition duration-700">
+                </div>
+
+                <div
+                    class="relative bg-surface-dark/60 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] overflow-hidden transition-all duration-700 group-hover:-translate-y-3">
+                    <div class="relative h-[320px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"
+                            alt="Sarah Johnson"
+                            class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 contrast-[1.1]">
+
+                        <!-- Premium Gradient Overlay -->
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/20 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-75">
+                        </div>
+
+                        <!-- Content Pod -->
+                        <div class="absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-700">
+                            <div class="space-y-1 mb-6">
+                                <h3 class="text-2xl font-black text-white tracking-tight">Sarah Johnson</h3>
+                                <p class="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Chief
+                                    Executive Officer</p>
+                            </div>
+
+                            <!-- Interactive Social Bar -->
+                            <div
+                                class="flex gap-4 pt-4 border-t border-white/10 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                <a href="#"
+                                    class="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 text-white hover:bg-primary hover:text-white transition-all duration-300 shadow-xl">
+                                    <i class="fa-brands fa-linkedin-in text-sm"></i>
+                                </a>
+                                <a href="#"
+                                    class="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 text-white hover:bg-[#1DA1F2] hover:text-white transition-all duration-300 shadow-xl">
+                                    <i class="fa-brands fa-x-twitter text-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 2: CTO -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-purple-500 via-indigo-500 to-primary rounded-[2.5rem] opacity-0 group-hover:opacity-60 blur-md transition duration-700">
+                </div>
+
+                <div
+                    class="relative bg-surface-dark/60 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] overflow-hidden transition-all duration-700 group-hover:-translate-y-3">
+                    <div class="relative h-[320px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=600&auto=format&fit=crop"
+                            alt="Michael Chen"
+                            class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 contrast-[1.1]">
+
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/20 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-75">
+                        </div>
+
+                        <div class="absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-700">
+                            <div class="space-y-1 mb-6">
+                                <h3 class="text-2xl font-black text-white tracking-tight">Michael Chen</h3>
+                                <p class="text-purple-400 font-black uppercase tracking-[0.2em] text-[10px]">Chief Tech
+                                    Officer</p>
+                            </div>
+
+                            <div
+                                class="flex gap-4 pt-4 border-t border-white/10 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                <a href="#"
+                                    class="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 text-white hover:bg-[#333] hover:text-white transition-all duration-300 shadow-xl">
+                                    <i class="fa-brands fa-github text-sm"></i>
+                                </a>
+                                <a href="#"
+                                    class="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 text-white hover:bg-primary hover:text-white transition-all duration-300 shadow-xl">
+                                    <i class="fa-brands fa-linkedin-in text-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 3: Design -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-pink-500 via-rose-500 to-indigo-500 rounded-[2.5rem] opacity-0 group-hover:opacity-60 blur-md transition duration-700">
+                </div>
+
+                <div
+                    class="relative bg-surface-dark/60 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] overflow-hidden transition-all duration-700 group-hover:-translate-y-3">
+                    <div class="relative h-[320px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=600&auto=format&fit=crop"
+                            alt="Emily Davis"
+                            class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 contrast-[1.1]">
+
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/20 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-75">
+                        </div>
+
+                        <div class="absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-700">
+                            <div class="space-y-1 mb-6">
+                                <h3 class="text-2xl font-black text-white tracking-tight">Emily Davis</h3>
+                                <p class="text-accent font-black uppercase tracking-[0.2em] text-[10px]">Head of Product
+                                    Design</p>
+                            </div>
+
+                            <div
+                                class="flex gap-4 pt-4 border-t border-white/10 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                <a href="#"
+                                    class="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 text-white hover:bg-[#EA4C89] hover:text-white transition-all duration-300 shadow-xl">
+                                    <i class="fa-brands fa-dribbble text-sm"></i>
+                                </a>
+                                <a href="#"
+                                    class="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 text-white hover:bg-[#1769ff] hover:text-white transition-all duration-300 shadow-xl">
+                                    <i class="fa-brands fa-behance text-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 4: Marketing -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-0.5 bg-gradient-to-br from-blue-500 via-cyan-500 to-indigo-500 rounded-[2.5rem] opacity-0 group-hover:opacity-60 blur-md transition duration-700">
+                </div>
+
+                <div
+                    class="relative bg-surface-dark/60 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] overflow-hidden transition-all duration-700 group-hover:-translate-y-3">
+                    <div class="relative h-[320px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600&auto=format&fit=crop"
+                            alt="Marcus Thompson"
+                            class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 contrast-[1.1]">
+
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/20 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-75">
+                        </div>
+
+                        <div class="absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-700">
+                            <div class="space-y-1 mb-6">
+                                <h3 class="text-2xl font-black text-white tracking-tight">Marcus Thompson</h3>
+                                <p class="text-secondary font-black uppercase tracking-[0.2em] text-[10px]">Head of
+                                    Markets</p>
+                            </div>
+
+                            <div
+                                class="flex gap-4 pt-4 border-t border-white/10 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                <a href="#"
+                                    class="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 text-white hover:bg-primary hover:text-white transition-all duration-300 shadow-xl">
+                                    <i class="fa-brands fa-linkedin-in text-sm"></i>
+                                </a>
+                                <a href="#"
+                                    class="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 text-white hover:bg-[#1DA1F2] hover:text-white transition-all duration-300 shadow-xl">
+                                    <i class="fa-brands fa-x-twitter text-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+#}
+
+<!-- Ultra-Premium Join Us CTA Section -->
+<section class="py-20 relative overflow-hidden">
+    <!-- Sophisticated Mesh Gradient Background -->
+    <div class="absolute inset-0 z-0">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 blur-[100px]">
+        </div>
+        <div
+            class="absolute top-0 right-0 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[100px] animate-pulse-slow">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-[250px] h-[250px] bg-indigo-500/10 rounded-full blur-[80px] animate-float">
+        </div>
+    </div>
+
+    <div class="mx-auto max-w-6xl px-6 relative z-10">
+        <div class="relative group">
+            <div
+                class="absolute -inset-1 bg-gradient-to-r from-primary via-purple-500 to-secondary rounded-[3rem] opacity-20 blur-xl group-hover:opacity-30 transition duration-1000">
+            </div>
+
+            <div
+                class="relative bg-surface-dark/40 backdrop-blur-[100px] border border-white/10 rounded-[3rem] p-10 md:p-16 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+
+                <div class="text-center relative z-10">
+                    <div
+                        class="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl mb-8">
+                        <span class="flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-primary opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                        </span>
+                        <span class="text-[10px] font-black text-white uppercase tracking-[0.4em]">Become a Part of
+                            Us</span>
+                    </div>
+
+                    <h2 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-[1.1]">
+                        {{ content.cta_title|safe }}
+                    </h2>
+
+                    <p class="text-lg text-text-secondary max-w-xl mx-auto leading-relaxed mb-12 font-medium">
+                        {{ content.cta_subtitle }}
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                        <a href="{{ url_for(content.cta_button_link) if content.cta_button_link else '#' }}"
+                            class="group relative w-full sm:w-auto px-8 py-4 rounded-[1.5rem] overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95 shadow-2xl">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-r from-primary via-purple-600 to-secondary animate-gradient-xy">
+                            </div>
+                            <span
+                                class="relative text-white font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3">
+                                {{ content.cta_button_text or 'Get Started' }}
+                                <span
+                                    class="material-symbols-outlined text-lg group-hover:translate-x-1.5 transition-transform duration-300">arrow_forward</span>
+                            </span>
+                        </a>
+
+                        <a href="{{ url_for(content.cta_button_2_link) if content.cta_button_2_link else '#' }}"
+                            class="group w-full sm:w-auto px-8 py-4 rounded-[1.5rem] border border-white/10 text-white font-black uppercase tracking-widest text-xs transition-all duration-500 hover:bg-white/5 hover:border-white/20 backdrop-blur-sm flex items-center justify-center gap-3">
+                            {{ content.cta_button_2_text }}
+                            <span
+                                class="material-symbols-outlined text-lg opacity-50 group-hover:opacity-100 transition-opacity">rocket</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<style>
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    @keyframes float-delayed {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    @keyframes pulse-slow {
+
+        0%,
+        100% {
+            opacity: 0.3;
+        }
+
+        50% {
+            opacity: 0.6;
+        }
+    }
+
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .animate-float-delayed {
+        animation: float-delayed 6s ease-in-out infinite;
+        animation-delay: 1s;
+    }
+
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+</style>
+{% endblock %}

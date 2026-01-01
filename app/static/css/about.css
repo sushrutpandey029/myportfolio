@@ -1,0 +1,30 @@
+/* About page specific styles */
+
+.about-header {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    color: #f8fafc;
+}
+
+.about-lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: #94a3b8;
+}
+
+.mission-section {
+    margin-top: 2rem;
+}
+
+.offerings-list {
+    padding-left: 1.5rem;
+}
+
+.offerings-list li {
+    margin-bottom: 0.5rem;
+    color: #f8fafc;
+}
+
+.text-center {
+    text-align: center;
+}

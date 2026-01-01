@@ -1,0 +1,276 @@
+{% extends "base/admin_base.html" %}
+
+{% block title %}{{ title }} - Admin Panel{% endblock %}
+
+{% block header_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-3xl">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-8">
+        <a class="hover:text-primary transition-colors" href="{{ url_for('admin_bp.admin_dashboard') }}">Dashboard</a>
+        <span class="material-symbols-outlined text-base">chevron_right</span>
+        <a class="hover:text-primary transition-colors" href="{{ url_for('admin_bp.admin_blogs') }}">Blogs</a>
+        <span class="material-symbols-outlined text-base">chevron_right</span>
+        <span class="font-medium text-slate-900 dark:text-white">{{ title }}</span>
+    </div>
+
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{{ title }}</h1>
+        <p class="mt-2 text-slate-500 dark:text-slate-400 text-base">Create and manage your blog posts and articles.</p>
+    </div>
+
+    <div
+        class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-surface-dark shadow-sm overflow-hidden">
+        <form method="POST" enctype="multipart/form-data" class="flex flex-col gap-6 p-6 sm:p-8">
+            {{ form.hidden_tag() }}
+
+            <!-- Title Field -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.title.label.text }}</label>
+                <div class="relative">
+                    {% if form.title.errors %}
+                    {{ form.title(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10 px-4 py-3
+                    text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1 focus:ring-red-500
+                    focus:outline-none transition-all") }}
+                    <div class="mt-1 text-xs text-red-500">{{ form.title.errors[0] }}</div>
+                    {% else %}
+                    {{ form.title(class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50
+                    dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-primary
+                    focus:ring-1 focus:ring-primary focus:outline-none transition-all", placeholder="e.g. Future of Web
+                    Dev") }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Content Field -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.content.label.text }}</label>
+                <div class="relative">
+                    {% if form.content.errors %}
+                    {{ form.content(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10 px-4
+                    py-3 text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1 focus:ring-red-500
+                    focus:outline-none transition-all", rows="15") }}
+                    <div class="mt-1 text-xs text-red-500">{{ form.content.errors[0] }}</div>
+                    {% else %}
+                    {{ form.content(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                    bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                    focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all font-mono",
+                    rows="15",
+                    placeholder="Write your blog content here (Markdown or HTML supported)...") }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+                <!-- Category Field -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.category.label.text
+                        }}</label>
+                    <div class="relative">
+                        {% if form.category.errors %}
+                        {{ form.category(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10
+                        px-4
+                        py-3 text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1 focus:ring-red-500
+                        focus:outline-none appearance-none") }}
+                        {% else %}
+                        {{ form.category(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                        bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                        focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none appearance-none
+                        cursor-pointer") }}
+                        {% endif %}
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Read Time Field -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.read_time.label.text
+                        }}</label>
+                    <div class="relative">
+                        {% if form.read_time.errors %}
+                        {{ form.read_time(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10
+                        px-4 py-3
+                        text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1 focus:ring-red-500
+                        focus:outline-none transition-all") }}
+                        <div class="mt-1 text-xs text-red-500">{{ form.read_time.errors[0] }}</div>
+                        {% else %}
+                        {{ form.read_time(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                        bg-slate-50
+                        dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-primary
+                        focus:ring-1 focus:ring-primary focus:outline-none transition-all", placeholder="e.g. 5 min
+                        read") }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+                <!-- Thumbnail Upload -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.thumbnail.label.text
+                        }}</label>
+                    <div class="relative">
+                        {{ form.thumbnail(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                        bg-slate-50
+                        dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-primary
+                        focus:ring-1 focus:ring-primary focus:outline-none transition-all file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10
+                        file:text-primary hover:file:bg-primary/20") }}
+                        {% if form.thumbnail.errors %}
+                        <div class="mt-1 text-xs text-red-500">{{ form.thumbnail.errors[0] }}</div>
+                        {% endif %}
+                        {% if blog and blog.thumbnail %}
+                        <div class="mt-2">
+                            <img src="{{ url_for('static', filename=blog.thumbnail) }}" alt="Thumbnail"
+                                class="h-16 w-16 object-cover rounded-lg border border-slate-200 dark:border-slate-700">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Status Field -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-medium text-slate-700 dark:text-white">{{ form.is_active.label.text
+                        }}</label>
+                    <div class="relative">
+                        {% if form.is_active.errors %}
+                        {{ form.is_active(class="w-full rounded-lg border border-red-500 bg-red-50 dark:bg-red-900/10
+                        px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-red-500 focus:ring-1
+                        focus:ring-red-500 focus:outline-none appearance-none") }}
+                        {% else %}
+                        {{ form.is_active(class="w-full rounded-lg border border-slate-300 dark:border-slate-700
+                        bg-slate-50 dark:bg-background-dark px-4 py-3 text-sm text-slate-900 dark:text-white
+                        focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none appearance-none
+                        cursor-pointer") }}
+                        {% endif %}
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-700">
+                <a href="{{ url_for('admin_bp.admin_blogs') }}"
+                    class="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors no-underline">
+                    Cancel
+                </a>
+                <button type="submit"
+                    class="px-6 py-2.5 rounded-lg bg-primary hover:bg-blue-600 text-white text-sm font-bold shadow-sm shadow-blue-500/20 transition-all flex items-center gap-2 border-none cursor-pointer">
+                    <span class="material-symbols-outlined text-[20px]">save</span>
+                    {{ form.submit.label.text }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Summernote Rich Text Editor -->
+<!-- jQuery (Required for Summernote) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Summernote Lite -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#content').summernote({
+            placeholder: 'Write your blog content here...',
+            tabsize: 2,
+            height: 400,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>
+
+<style>
+    /* Dark Mode Overrides for Summernote Lite */
+    .dark .note-editor.note-frame {
+        border-color: #334155 !important;
+        /* slate-700 */
+        background-color: #1c2b3e !important;
+        /* surface-dark */
+    }
+
+    .dark .note-editor .note-toolbar {
+        background-color: #101922 !important;
+        /* background-dark */
+        border-bottom-color: #334155 !important;
+        color: #fff !important;
+    }
+
+    .dark .note-editor .note-editing-area {
+        background-color: #1c2b3e !important;
+    }
+
+    .dark .note-editor .note-editing-area .note-editable {
+        background-color: #1c2b3e !important;
+        color: #e2e8f0 !important;
+        /* slate-200 */
+    }
+
+    .dark .note-btn {
+        background-color: #1c2b3e !important;
+        border-color: #334155 !important;
+        color: #cbd5e1 !important;
+        /* slate-400 */
+    }
+
+    .dark .note-btn:hover {
+        background-color: #334155 !important;
+        color: #fff !important;
+    }
+
+    .dark .note-modal-content {
+        background-color: #1c2b3e !important;
+        color: #fff !important;
+    }
+
+    .dark .note-input {
+        background-color: #101922 !important;
+        border-color: #334155 !important;
+        color: #fff !important;
+    }
+
+    /* Dropdown menu fix */
+    .dark .note-dropdown-menu {
+        background-color: #1c2b3e !important;
+        border-color: #334155 !important;
+    }
+
+    .dark .note-dropdown-item {
+        color: #cbd5e1 !important;
+    }
+
+    .dark .note-dropdown-item:hover {
+        background-color: #334155 !important;
+    }
+
+    /* Placeholder color */
+    .dark .note-placeholder {
+        color: #64748b !important;
+    }
+
+    /* Status bar */
+    .dark .note-statusbar {
+        background-color: #101922 !important;
+        border-top-color: #334155 !important;
+    }
+
+    .dark .note-resizebar .note-icon-bar {
+        border-top-color: #cbd5e1 !important;
+    }
+</style>
+{% endblock %}

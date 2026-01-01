@@ -1,0 +1,81 @@
+{% extends "base/admin_base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto flex flex-col gap-8">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+        <div>
+            <a href="{{ url_for('admin_bp.admin_blogs') }}"
+                class="inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-4 group">
+                <span
+                    class="material-symbols-outlined text-lg transition-transform group-hover:-translate-x-1">west</span>
+                <span class="text-xs font-black uppercase tracking-widest">Back to Blogs</span>
+            </a>
+            <h1 class="text-4xl font-black text-white tracking-tight mb-2">Blog Categories</h1>
+            <p class="text-white/50 font-medium">Manage the classification for blog posts.</p>
+        </div>
+        <a href="{{ url_for('admin_bp.admin_blog_category_form') }}"
+            class="px-5 py-2.5 rounded-lg bg-primary text-white font-bold text-xs uppercase tracking-wider hover:bg-primary-dark transition-all shadow-lg shadow-primary/20">
+            Create New Category
+        </a>
+    </div>
+
+    <div class="glass-card-premium rounded-[3rem] overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-white/5 bg-white/2">
+                        <th class="px-8 py-6 text-[10px] font-black text-white uppercase tracking-[0.2em]">Name</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-white uppercase tracking-[0.2em]">Description
+                        </th>
+                        <th class="px-8 py-6 text-[10px] font-black text-white uppercase tracking-[0.2em] text-right">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                    {% for category in categories %}
+                    <tr class="hover:bg-white/2 transition-colors">
+                        <td class="px-8 py-6">
+                            <span class="text-sm font-bold text-white">{{ category.name }}</span>
+                        </td>
+                        <td class="px-8 py-6">
+                            <span class="text-sm text-white/40">{{ category.description or 'No description' }}</span>
+                        </td>
+                        <td class="px-8 py-6 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ url_for('admin_bp.admin_blog_category_form', category_id=category.id) }}"
+                                    class="h-8 w-8 rounded-md bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-primary transition-all">
+                                    <span class="material-symbols-outlined text-base">edit</span>
+                                </a>
+                                <form action="{{ url_for('admin_bp.delete_blog_category', category_id=category.id) }}"
+                                    method="POST" class="inline"
+                                    onsubmit="return confirm('Are you sure you want to delete this category?')">
+                                    <button type="submit"
+                                        class="h-8 w-8 rounded-md bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-red-500 hover:bg-red-500/10 transition-all">
+                                        <span class="material-symbols-outlined text-base">delete</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="px-8 py-20 text-center">
+                            <span class="material-symbols-outlined text-5xl text-white/10 mb-4">folder_off</span>
+                            <p class="text-white/30 font-bold uppercase tracking-widest text-xs">No categories found</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .glass-card-premium {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+</style>
+{% endblock %}

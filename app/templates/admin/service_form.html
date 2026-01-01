@@ -1,0 +1,144 @@
+{% extends "base/admin_base.html" %}
+
+{% block title %}{{ title }} - Admin Panel{% endblock %}
+
+{% block header_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="mb-6">
+        <a href="{{ url_for('admin_bp.admin_services') }}"
+            class="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition text-sm font-medium mb-4">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            Back to Services
+        </a>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ title }}</h1>
+        <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Fill in the service details below</p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <form method="POST" enctype="multipart/form-data" class="p-6 space-y-6">
+            {{ form.hidden_tag() }}
+
+            <!-- Title and Price Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Title -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        Service Title <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.title(class="w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600
+                    rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400
+                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition", placeholder="Enter
+                    service title") }}
+                    {% if form.title.errors %}
+                    <p class="mt-1 text-xs text-red-600">{{ form.title.errors[0] }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Price -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        Price (Optional)
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-2.5 text-slate-500 dark:text-slate-400 font-semibold">₹</span>
+                        {{ form.price(class="w-full bg-white dark:bg-slate-700 border border-slate-300
+                        dark:border-slate-600 rounded-lg pl-7 pr-3 py-2.5 text-sm text-slate-900 dark:text-white
+                        placeholder:text-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none
+                        transition", placeholder="0.00", type="number", step="0.01", min="0") }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Description <span class="text-red-500">*</span>
+                </label>
+                {{ form.description(class="w-full bg-white dark:bg-slate-700 border border-slate-300
+                dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white
+                placeholder:text-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none
+                transition resize-y", rows="6", placeholder="Describe your service in detail...") }}
+                {% if form.description.errors %}
+                <p class="mt-1 text-xs text-red-600">{{ form.description.errors[0] }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Image Upload -->
+            <div>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Service Image
+                </label>
+
+                {% if service and service.image_url %}
+                <div class="mb-3">
+                    <img src="{{ url_for('static', filename=service.image_url) }}"
+                        class="w-32 h-32 object-cover rounded-lg border border-slate-300 dark:border-slate-600"
+                        alt="Current image">
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Current image</p>
+                </div>
+                {% endif %}
+
+                <div
+                    class="relative border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 hover:border-blue-400 dark:hover:border-blue-500 transition">
+                    {{ form.image(class="absolute inset-0 w-full h-full opacity-0 cursor-pointer", id="image-upload") }}
+                    <div class="text-center">
+                        <span class="material-symbols-outlined text-slate-400 text-4xl mb-2">cloud_upload</span>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 font-medium" id="file-name">
+                            Click to upload or drag and drop
+                        </p>
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">PNG, JPG, WEBP up to 10MB</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category and Status Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Category -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        Category <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.category_id(class="w-full bg-white dark:bg-slate-700 border border-slate-300
+                    dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2
+                    focus:ring-blue-500 focus:border-blue-500 outline-none transition") }}
+                    {% if form.category_id.errors %}
+                    <p class="mt-1 text-xs text-red-600">{{ form.category_id.errors[0] }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        Status
+                    </label>
+                    {{ form.is_active(class="w-full bg-white dark:bg-slate-700 border border-slate-300
+                    dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2
+                    focus:ring-blue-500 focus:border-blue-500 outline-none transition") }}
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-700">
+                <a href="{{ url_for('admin_bp.admin_services') }}"
+                    class="px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 font-medium text-sm transition">
+                    Cancel
+                </a>
+                {{ form.submit(class="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium
+                text-sm transition cursor-pointer") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- File upload preview script -->
+<script>
+    document.getElementById('image-upload').addEventListener('change', function (e) {
+        const fileName = e.target.files[0]?.name || 'Click to upload or drag and drop';
+        document.getElementById('file-name').textContent = fileName;
+    });
+</script>
+{% endblock %}

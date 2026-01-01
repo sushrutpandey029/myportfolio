@@ -1,0 +1,116 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="layout-container flex h-full grow flex-col max-w-[1440px] mx-auto w-full px-4 lg:px-20 py-8 pt-24">
+    <!-- Breadcrumbs -->
+    <div class="flex flex-wrap gap-2 pb-6 px-4">
+        <a class="text-text-secondary hover:text-white transition-colors text-sm font-medium leading-normal"
+            href="{{ url_for('pages.blog') }}">Blog</a>
+        <span class="text-text-secondary text-sm font-medium leading-normal">/</span>
+        <span class="text-text-secondary text-sm font-medium leading-normal">{{ post.category or 'General' }}</span>
+        <span class="text-text-secondary text-sm font-medium leading-normal">/</span>
+        <span class="text-white text-sm font-medium leading-normal line-clamp-1">{{ post.title }}</span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- Main Content Column -->
+        <div class="lg:col-span-8 flex flex-col gap-8">
+            <!-- Heading Area -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-2 mb-2">
+                    {% if post.category %}
+                    <span
+                        class="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                        {{ post.category }}
+                    </span>
+                    {% endif %}
+                </div>
+                <h1 class="text-white text-3xl md:text-5xl font-black leading-tight tracking-tight">
+                    {{ post.title }}
+                </h1>
+
+                <!-- Meta Info -->
+                <div
+                    class="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-text-secondary mt-2 border-b border-white/10 pb-6">
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                        <span>{{ post.created_at.strftime('%b %d, %Y') }}</span>
+                    </div>
+                    {% if post.read_time %}
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px]">schedule</span>
+                        <span>{{ post.read_time }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px]">person</span>
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thumbnail Image -->
+            {% if post.thumbnail %}
+            <div class="rounded-xl overflow-hidden aspect-video border border-white/10">
+                <img src="{{ url_for('static', filename=post.thumbnail) }}" alt="{{ post.title }}"
+                    class="w-full h-full object-cover">
+            </div>
+            {% endif %}
+
+            <!-- Post Content -->
+            <div class="prose prose-invert prose-lg max-w-none text-text-secondary">
+                {{ post.content | safe }}
+            </div>
+
+            <!-- Back Button (Mobile only mostly, or bottom nav) -->
+            <div class="pt-8 mt-8 border-t border-white/10 flex justify-between items-center">
+                <a href="{{ url_for('pages.blog') }}"
+                    class="text-text-secondary hover:text-white flex items-center gap-2 transition-colors font-medium">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Back to Blog
+                </a>
+
+                <!-- Simple Share Links (Mockup) -->
+                <div class="flex gap-3">
+                    <span class="text-text-secondary text-sm font-medium mr-2">Share:</span>
+                    <a href="#" class="text-text-secondary hover:text-white transition-colors"><i
+                            class="fab fa-twitter"></i> Twitter</a>
+                    <a href="#" class="text-text-secondary hover:text-white transition-colors"><i
+                            class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sticky Sidebar Column -->
+        <div class="lg:col-span-4 relative hidden lg:block">
+            <div class="sticky top-24 flex flex-col gap-6">
+                <!-- Author Info -->
+                <div class="rounded-xl border border-white/10 p-6 bg-surface-dark">
+                    <h3 class="font-bold text-white mb-4">About the Author</h3>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div
+                            class="size-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
+                            A
+                        </div>
+                        <div>
+                            <p class="text-white font-bold">Admin</p>
+                            <p class="text-text-secondary text-sm">Content Creator</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-text-secondary">
+                        Sharing insights on technology, freelancing, and development.
+                    </p>
+                </div>
+
+                <!-- Navigation -->
+                <a href="{{ url_for('pages.blog') }}"
+                    class="w-full h-12 bg-transparent border border-white/20 text-text-secondary hover:text-white hover:bg-white/5 font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    <span>Back to Blog</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

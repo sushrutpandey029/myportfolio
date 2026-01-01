@@ -1,0 +1,242 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="layout-container flex h-full grow flex-col max-w-[1440px] mx-auto w-full px-4 lg:px-20 py-8 pt-24">
+    <!-- Breadcrumbs -->
+    <div class="flex flex-wrap gap-2 pb-6 px-4">
+        <a class="text-text-secondary hover:text-white transition-colors text-sm font-medium leading-normal"
+            href="{{ url_for('study_material.materials_list') }}">Resources</a>
+        <span class="text-text-secondary text-sm font-medium leading-normal">/</span>
+        <a class="text-text-secondary hover:text-white transition-colors text-sm font-medium leading-normal" href="#">{{
+            material.category or 'Uncategorized' }}</a>
+        <span class="text-text-secondary text-sm font-medium leading-normal">/</span>
+        <span class="text-white text-sm font-medium leading-normal">{{ material.title }}</span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- Main Content Column -->
+        <div class="lg:col-span-8 flex flex-col gap-8">
+            <!-- Heading Area -->
+            <div class="flex flex-col gap-4">
+                <h1 class="text-white text-3xl md:text-5xl font-black leading-tight tracking-tight">
+                    {{ material.title }}
+                </h1>
+                <p class="text-text-secondary text-lg font-normal leading-relaxed max-w-[720px]">
+                    {{ material.description }}
+                </p>
+
+                <!-- Meta Info -->
+                <div class="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-text-secondary mt-2">
+                    {% if material.material_type == 'free' %}
+                    <div class="flex items-center gap-1.5">
+                        <span
+                            class="bg-green-500/10 text-green-500 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">Free</span>
+                    </div>
+                    {% endif %}
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px]">download</span>
+                        <span>{{ material.download_count or 0 }} downloads</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px]">update</span>
+                        <span>Updated {{ material.created_at.strftime('%b %Y') if material.created_at else 'Recently'
+                            }}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[18px]">description</span>
+                        <span>{{ material.file_type or 'PDF' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About / Feature Section -->
+            <div class="rounded-xl border border-white/10 bg-surface-dark p-6 md:p-8">
+                <h2 class="text-xl md:text-2xl font-bold text-white mb-6">What's Included</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Comprehensive study materials and resources</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Practical examples and real-world
+                            applications</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Step-by-step instructions and guides</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-green-500 shrink-0 mt-0.5">check</span>
+                        <span class="text-white text-sm md:text-base">Downloadable files for offline access</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Material Details -->
+            <div class="flex flex-col gap-6">
+                <h2 class="text-2xl font-bold text-white">Material Details</h2>
+                <div class="rounded-xl border border-white/10 bg-surface-dark p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-sm font-bold text-text-secondary uppercase tracking-wider mb-2">Category
+                            </h3>
+                            <p class="text-white font-medium">{{ material.category or 'Uncategorized' }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-text-secondary uppercase tracking-wider mb-2">File Type
+                            </h3>
+                            <p class="text-white font-medium">{{ material.file_type or 'PDF' }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-text-secondary uppercase tracking-wider mb-2">Total
+                                Downloads</h3>
+                            <p class="text-white font-medium">{{ material.download_count or 0 }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-text-secondary uppercase tracking-wider mb-2">Uploaded By
+                            </h3>
+                            <p class="text-white font-medium">{{ material.user.username if material.user else 'Admin' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticky Sidebar Column -->
+        <div class="lg:col-span-4 relative">
+            <div class="sticky top-24 flex flex-col gap-6">
+                <!-- Download Card -->
+                <div class="bg-surface-dark border border-white/10 rounded-xl overflow-hidden shadow-lg">
+                    {% if material.thumbnail %}
+                    <div class="relative w-full aspect-video bg-gray-800">
+                        <img alt="Material Thumbnail" class="w-full h-full object-cover"
+                            src="{{ url_for('static', filename=material.thumbnail) }}" />
+                    </div>
+                    {% endif %}
+
+                    <div class="p-6 flex flex-col gap-6">
+                        <div>
+                            <div class="flex items-end gap-3 mb-2">
+                                {% if material.price and material.material_type != 'free' %}
+                                <span class="text-3xl font-black text-white">${{ "%.2f"|format(material.price) }}</span>
+                                {% else %}
+                                <span class="text-3xl font-black text-green-500">FREE</span>
+                                {% endif %}
+
+                                {% if material.material_type == 'free' %}
+                                <span
+                                    class="text-xs font-bold text-green-400 bg-green-400/20 px-2 py-1 rounded mb-1.5 ml-auto">Free
+                                    Resource</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-3">
+                            {% if current_user.is_authenticated %}
+                            {% if material.material_type == 'free' %}
+                            <a href="{{ url_for('study_material.download_material', material_id=material.id) }}"
+                                class="w-full h-12 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">download</span>
+                                <span>Download Now</span>
+                            </a>
+                            {% else %}
+                            <button
+                                class="w-full h-12 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+                                <span>Purchase Material</span>
+                            </button>
+                            <button
+                                class="w-full h-12 bg-transparent border border-white/20 text-white hover:bg-surface-highlight font-bold rounded-lg transition-colors">
+                                Add to Cart
+                            </button>
+                            {% endif %}
+                            {% else %}
+                            {% if material.material_type == 'free' %}
+                            <a href="{{ url_for('study_material.download_material', material_id=material.id) }}"
+                                class="w-full h-12 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">download</span>
+                                <span>Download Now</span>
+                            </a>
+                            {% else %}
+                            <button
+                                class="w-full h-12 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+                                <span>Purchase Material</span>
+                            </button>
+                            {% endif %}
+                            {% endif %}
+
+                            <a href="{{ url_for('study_material.materials_list') }}"
+                                class="w-full h-12 bg-transparent border border-white/20 text-white hover:bg-surface-highlight font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                                <span>Back to Materials</span>
+                            </a>
+                        </div>
+
+                        <div class="pt-6 border-t border-white/10">
+                            <h3 class="font-bold text-white mb-4 text-sm">This material includes:</h3>
+                            <ul class="flex flex-col gap-3 text-sm text-white">
+                                <li class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">description</span>
+                                    <span>Downloadable {{ material.file_type or 'PDF' }} file</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">offline_pin</span>
+                                    <span>Offline access</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">all_inclusive</span>
+                                    <span>Lifetime access</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-text-secondary text-[20px]">update</span>
+                                    <span>Regular updates</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="flex justify-center items-center pt-4 border-t border-white/10">
+                            <a href="{{ url_for('pages.contact') }}"
+                                class="w-full h-12 bg-surface-highlight border border-white/10 text-white hover:bg-primary hover:border-primary font-bold rounded-lg transition-all flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[20px]">mail</span>
+                                <span>Contact Us</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Author Info -->
+                <div class="rounded-xl border border-white/10 p-6 bg-surface-dark">
+                    <h3 class="font-bold text-white mb-4">About the Author</h3>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div
+                            class="size-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
+                            {{ material.user.username[0].upper() if material.user else 'A' }}
+                        </div>
+                        <div>
+                            <p class="text-white font-bold">{{ material.user.username if material.user else 'Admin' }}
+                            </p>
+                            <p class="text-text-secondary text-sm">Material Creator</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-text-secondary">
+                        Experienced educator and professional sharing valuable resources with the community.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .material-symbols-outlined.filled {
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+</style>
+{% endblock %}

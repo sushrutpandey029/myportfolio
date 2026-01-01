@@ -1,0 +1,313 @@
+{% extends "base/admin_base.html" %}
+
+{% block title %}Page Content Management - Admin Panel{% endblock %}
+
+{% block header_title %}Page Content Management{% endblock %}
+
+{% block content %}
+<div class="max-w-[1000px] mx-auto pb-32">
+    <!-- Breadcrumbs & Heading -->
+    <div class="mb-8">
+        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm mb-2">
+            <a href="{{ url_for('admin_bp.admin_dashboard') }}" class="hover:text-primary transition-colors">Admin</a>
+            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+            <span class="text-slate-900 dark:text-white">Content</span>
+        </div>
+        <h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-tight mb-2">
+            Page Content Management</h1>
+        <p class="text-slate-500 dark:text-slate-400 text-lg">Manage the content for static pages like Home and About.
+        </p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="border-b border-slate-200 dark:border-slate-800 mb-8">
+        <div class="flex gap-8">
+            <button class="flex items-center gap-2 pb-3 border-b-[3px] border-primary text-slate-900 dark:text-white">
+                <span class="material-symbols-outlined text-lg">home</span>
+                <span class="text-sm font-bold tracking-wide">Home Page</span>
+            </button>
+            <button
+                class="flex items-center gap-2 pb-3 border-b-[3px] border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-lg">info</span>
+                <span class="text-sm font-bold tracking-wide">About Page</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab Content: Home Page -->
+    <form method="POST" class="flex flex-col gap-10">
+        <!-- Hero Section Editor -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-slate-900 dark:text-white text-xl font-bold flex items-center gap-3">
+                    <span class="bg-primary/20 text-primary p-1.5 rounded-lg material-symbols-outlined">slideshow</span>
+                    Hero Section
+                </h2>
+                <span class="text-xs bg-green-500/10 text-green-500 px-2 py-1 rounded border border-green-500/20">Live
+                    on Site</span>
+            </div>
+            <div class="grid grid-cols-1 gap-6">
+                <!-- Headline -->
+                <label class="flex flex-col gap-2">
+                    <span class="text-slate-700 dark:text-white text-sm font-medium">Headline Text</span>
+                    <input
+                        class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400"
+                        type="text" name="hero_headline" value="Hire Top Freelancers for Your Next Project" />
+                </label>
+                <!-- Sub-headline (Rich Text Sim) -->
+                <label class="flex flex-col gap-2">
+                    <span class="text-slate-700 dark:text-white text-sm font-medium">Sub-headline</span>
+                    <div
+                        class="rounded-lg bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-slate-700 overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent">
+                        <div
+                            class="flex items-center gap-2 px-3 py-2 border-b border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-surface-dark">
+                            <button type="button"
+                                class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1 rounded hover:bg-slate-200 dark:hover:bg-white/5"><span
+                                    class="material-symbols-outlined text-lg">format_bold</span></button>
+                            <button type="button"
+                                class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1 rounded hover:bg-slate-200 dark:hover:bg-white/5"><span
+                                    class="material-symbols-outlined text-lg">format_italic</span></button>
+                            <button type="button"
+                                class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1 rounded hover:bg-slate-200 dark:hover:bg-white/5"><span
+                                    class="material-symbols-outlined text-lg">link</span></button>
+                            <div class="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-1"></div>
+                            <button type="button"
+                                class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1 rounded hover:bg-slate-200 dark:hover:bg-white/5"><span
+                                    class="material-symbols-outlined text-lg">format_list_bulleted</span></button>
+                        </div>
+                        <textarea
+                            class="w-full bg-transparent text-slate-900 dark:text-white p-3 focus:outline-none resize-none h-24 border-none"
+                            name="hero_subheadline"
+                            placeholder="Enter sub-headline text...">Connect with experts in development, design, and marketing to bring your ideas to life.</textarea>
+                    </div>
+                </label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- CTA Text -->
+                    <label class="flex flex-col gap-2">
+                        <span class="text-slate-700 dark:text-white text-sm font-medium">Call to Action Label</span>
+                        <input
+                            class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                            type="text" name="cta_label" value="Get Started" />
+                    </label>
+                    <!-- CTA Link -->
+                    <label class="flex flex-col gap-2">
+                        <span class="text-slate-700 dark:text-white text-sm font-medium">Call to Action Link</span>
+                        <div class="relative">
+                            <span
+                                class="absolute left-3 top-3 text-slate-400 material-symbols-outlined text-[20px]">link</span>
+                            <input
+                                class="w-full rounded-lg bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white p-3 pl-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                type="text" name="cta_link" value="/register" />
+                        </div>
+                    </label>
+                </div>
+                <!-- Image Upload -->
+                <div class="flex flex-col gap-2">
+                    <span class="text-slate-700 dark:text-white text-sm font-medium">Hero Background Image</span>
+                    <div
+                        class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-colors cursor-pointer group">
+                        <div
+                            class="size-12 rounded-full bg-slate-100 dark:bg-surface-dark flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-primary text-2xl">cloud_upload</span>
+                        </div>
+                        <p class="text-slate-900 dark:text-white font-medium mb-1">Click to upload or drag and drop</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">SVG, PNG, JPG or GIF (max. 3MB)</p>
+                    </div>
+                    <div
+                        class="flex items-center gap-3 mt-2 p-3 bg-slate-50 dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <div class="h-10 w-16 bg-cover bg-center rounded bg-gray-700"
+                            data-alt="Current hero background preview"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCaAyeYCjgA4UvWpOTXqTetiVwHtDKUy08DCpx36IaqG28bbDrHq2P5ETUQa7-5HT08gMzvEMHvSAZphwlGlpbN9JkT8j7QVIpMcXOBegsP3wtVbDSuqoEmB4GAlBkw-xIULegolGN8qNjwkFeQO28oWE3h-qpan5uHotQ8Lt1VWe9ulx5yiX-uq1SAG9EfmDrrFmXdUhbb8OKZF48qwnt5igsVHMiuqhTIIBbWsf8kZ9EJyQHiOB9q6_rM3lFI8ebFC5eiGemddA')">
+                        </div>
+                        <div class="flex-1 overflow-hidden">
+                            <p class="text-sm text-slate-900 dark:text-white truncate">hero-banner-v2.jpg</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">1.2 MB</p>
+                        </div>
+                        <button type="button" class="text-slate-500 dark:text-slate-400 hover:text-red-500 p-2"><span
+                                class="material-symbols-outlined">delete</span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Highlights -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-slate-900 dark:text-white text-xl font-bold flex items-center gap-3">
+                    <span class="bg-primary/20 text-primary p-1.5 rounded-lg material-symbols-outlined">verified</span>
+                    Service Highlights
+                </h2>
+                <button type="button"
+                    class="text-sm bg-slate-100 dark:bg-surface-dark border border-slate-200 dark:border-slate-700 hover:border-primary text-slate-900 dark:text-white px-3 py-1.5 rounded-lg flex items-center gap-2 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">add</span>
+                    Add Service
+                </button>
+            </div>
+            <div class="flex flex-col gap-4">
+                <!-- Service Item 1 -->
+                <div
+                    class="group bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-slate-700 rounded-lg p-4 relative">
+                    <div class="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                        <button type="button"
+                            class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                            title="Move Up"><span class="material-symbols-outlined">arrow_upward</span></button>
+                        <button type="button"
+                            class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                            title="Move Down"><span class="material-symbols-outlined">arrow_downward</span></button>
+                        <button type="button"
+                            class="p-1.5 rounded hover:bg-red-500/20 text-slate-500 dark:text-slate-400 hover:text-red-500"
+                            title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-4 items-start">
+                        <div class="flex-shrink-0">
+                            <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Icon</label>
+                            <div
+                                class="size-12 rounded bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 flex items-center justify-center cursor-pointer hover:border-primary transition-colors">
+                                <span
+                                    class="material-symbols-outlined text-slate-700 dark:text-white text-2xl">code</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 w-full grid gap-3">
+                            <input
+                                class="w-full bg-transparent border-b border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-primary pb-1"
+                                type="text" value="Web Development" />
+                            <textarea
+                                class="w-full bg-transparent text-slate-500 dark:text-slate-400 text-sm resize-none focus:outline-none h-auto"
+                                rows="2">Modern websites built with the latest technologies.</textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service Item 2 -->
+                <div
+                    class="group bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-slate-700 rounded-lg p-4 relative">
+                    <div class="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                        <button type="button"
+                            class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"><span
+                                class="material-symbols-outlined">arrow_upward</span></button>
+                        <button type="button"
+                            class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"><span
+                                class="material-symbols-outlined">arrow_downward</span></button>
+                        <button type="button"
+                            class="p-1.5 rounded hover:bg-red-500/20 text-slate-500 dark:text-slate-400 hover:text-red-500"><span
+                                class="material-symbols-outlined">delete</span></button>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-4 items-start">
+                        <div class="flex-shrink-0">
+                            <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Icon</label>
+                            <div
+                                class="size-12 rounded bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 flex items-center justify-center cursor-pointer hover:border-primary transition-colors">
+                                <span
+                                    class="material-symbols-outlined text-slate-700 dark:text-white text-2xl">palette</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 w-full grid gap-3">
+                            <input
+                                class="w-full bg-transparent border-b border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-primary pb-1"
+                                type="text" value="Graphic Design" />
+                            <textarea
+                                class="w-full bg-transparent text-slate-500 dark:text-slate-400 text-sm resize-none focus:outline-none h-auto"
+                                rows="2">Stunning visuals that capture your brand's identity.</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Showcase -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-slate-900 dark:text-white text-xl font-bold flex items-center gap-3">
+                    <span class="bg-primary/20 text-primary p-1.5 rounded-lg material-symbols-outlined">star</span>
+                    Project Showcase
+                </h2>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-4">Select the projects to feature on the homepage.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Project Card 1 -->
+                <div
+                    class="bg-slate-50 dark:bg-background-dark border border-primary rounded-lg p-3 flex gap-3 items-center relative">
+                    <div
+                        class="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                        Featured</div>
+                    <div class="size-14 bg-cover bg-center rounded-md flex-shrink-0"
+                        data-alt="Fintech app dashboard screenshot"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCOoZFrX9995RWi-D1n0tFQjqk3F58e71FvZfTaUG3KwcaGgjuert3GCS7kaaRDpY_mquABejvJqPMEnRhZRP_xh48MwAOjTjuiv4wfkBEa4ql-sC8F6MUjuF5uVtbibw5FY08bFsfm6dbkXEYCo5xTxVv4O8AktGzGAfrq0bSftpw3gNymXbhkDu6EHOToI05QXxNJf8_lOiBZKHrpM_YKplm8LTRZSGleYwkaWdYf6CVn9jSTjdyzZ8blHe-fcBB1MWJZyQ2cKQ')">
+                    </div>
+                    <div class="overflow-hidden">
+                        <p class="text-slate-900 dark:text-white font-medium text-sm truncate">Fintech Dashboard</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs truncate">Client: FinCorp</p>
+                    </div>
+                    <button type="button"
+                        class="ml-auto text-slate-400 hover:text-slate-900 dark:hover:text-white"><span
+                            class="material-symbols-outlined">close</span></button>
+                </div>
+                <!-- Project Card 2 -->
+                <div
+                    class="bg-slate-50 dark:bg-background-dark border border-primary rounded-lg p-3 flex gap-3 items-center relative">
+                    <div
+                        class="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                        Featured</div>
+                    <div class="size-14 bg-cover bg-center rounded-md flex-shrink-0"
+                        data-alt="Ecommerce website preview"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCTszu9jBzVh3TAxfsibDubVYes1USWW9Vek292CZy9-2Gdduw2QN9Gq4k2R6ZgYlyKq07X0W9zOWWXZS5qcSbeDgZ2FqTvL2tcrXKVoBE_pgysAHFCX1h10bGhl8yfpW4xKA14x1gHPZZvI9XFaUA4QzvHvHlkRRQBW3kD_YYQgSdUOrcdHCWyJ_f91AvBb8Iy06h2pGzEnNQwrPDZ2nKi97r_G6AGEDgA2YZEZ_tnDsZ-_PkcFGaGcoGTeBMUmD9Vb8vOm4mfYw')">
+                    </div>
+                    <div class="overflow-hidden">
+                        <p class="text-slate-900 dark:text-white font-medium text-sm truncate">Eco Store</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs truncate">Client: GreenLife</p>
+                    </div>
+                    <button type="button"
+                        class="ml-auto text-slate-400 hover:text-slate-900 dark:hover:text-white"><span
+                            class="material-symbols-outlined">close</span></button>
+                </div>
+                <!-- Add Placeholder -->
+                <button type="button"
+                    class="bg-slate-50 dark:bg-background-dark border border-slate-300 dark:border-slate-700 border-dashed rounded-lg p-3 flex gap-3 items-center justify-center text-slate-500 dark:text-slate-400 hover:text-primary hover:border-primary transition-all h-[82px]">
+                    <span class="material-symbols-outlined">add</span>
+                    <span class="text-sm font-medium">Add Project</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Sticky Action Bar -->
+        <div class="fixed bottom-0 left-0 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-4 z-40 transition-all duration-300"
+            style="padding-left: calc(var(--sidebar-width, 0px) + 1rem);">
+            <div class="max-w-[1000px] mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+                    <span class="material-symbols-outlined text-[18px]">history</span>
+                    <span>Last saved 10 minutes ago</span>
+                </div>
+                <div class="flex gap-4">
+                    <button type="reset"
+                        class="px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-white font-medium hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors">Discard</button>
+                    <button type="submit"
+                        class="px-6 py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">save</span>
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Logic to handle sidebar width for sticky footer adjustment
+    function adjustFooterWidth() {
+        const sidebar = document.querySelector('aside');
+        const footer = document.querySelector('.fixed.bottom-0');
+        if (sidebar && footer && window.innerWidth >= 768) { // md breakpoint
+            // Assuming sidebar width is 256px (w-64)
+            footer.style.paddingLeft = 'calc(256px + 1rem)';
+        } else if (footer) {
+            footer.style.paddingLeft = '1rem';
+        }
+    }
+
+    window.addEventListener('resize', adjustFooterWidth);
+    window.addEventListener('load', adjustFooterWidth);
+</script>
+{% endblock %}

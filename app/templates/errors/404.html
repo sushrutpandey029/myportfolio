@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto text-center">
+        <h1 class="display-1">404</h1>
+        <h2>Page Not Found</h2>
+        <p class="lead">Sorry, the page you're looking for doesn't exist or has been moved.</p>
+        
+        <div class="mt-4">
+            <a href="{{ url_for('pages.home') }}" class="btn btn-primary btn-lg">Go Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

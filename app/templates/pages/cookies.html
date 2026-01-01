@@ -1,0 +1,333 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-background-dark py-20">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-16 text-center">
+            <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 backdrop-blur-xl mb-6">
+                <span class="material-symbols-outlined text-primary text-lg">cookie</span>
+                <span class="text-xs font-bold text-primary uppercase tracking-wider">Legal</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight">
+                Cookie <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Policy</span>
+            </h1>
+            <p class="text-text-secondary text-lg">Last updated: December 31, 2025</p>
+        </div>
+
+        <!-- Content -->
+        <div class="prose prose-invert prose-lg max-w-none">
+            <div class="bg-surface-dark/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 space-y-8">
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">info</span>
+                        What Are Cookies
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed">
+                        Cookies are small pieces of text sent to your web browser by a website you visit. A cookie file
+                        is stored
+                        in your web browser and allows the Service or a third-party to recognize you and make your next
+                        visit easier
+                        and the Service more useful to you. Cookies can be "persistent" or "session" cookies.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">settings</span>
+                        How We Use Cookies
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed mb-4">
+                        When you use and access the Service, we may place a number of cookie files in your web browser.
+                        We use
+                        cookies for the following purposes:
+                    </p>
+                    <ul class="space-y-3 text-text-secondary">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span>To enable certain functions of the Service</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span>To provide analytics and track usage patterns</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span>To store your preferences and settings</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span>To enhance security and prevent fraud</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">category</span>
+                        Types of Cookies We Use
+                    </h2>
+
+                    <div class="space-y-6">
+                        <!-- Essential Cookies -->
+                        <div class="bg-white/5 rounded-2xl p-6 border border-primary/20">
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">verified_user</span>
+                                Essential Cookies
+                            </h3>
+                            <p class="text-text-secondary leading-relaxed mb-3">
+                                These cookies are necessary for the website to function and cannot be switched off in
+                                our systems.
+                            </p>
+                            <ul class="space-y-2 text-sm text-text-secondary">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Session management and authentication</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Security features and fraud prevention</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Load balancing and performance optimization</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Performance Cookies -->
+                        <div class="bg-white/5 rounded-2xl p-6 border border-secondary/20">
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary">speed</span>
+                                Performance Cookies
+                            </h3>
+                            <p class="text-text-secondary leading-relaxed mb-3">
+                                These cookies allow us to count visits and traffic sources to measure and improve site
+                                performance.
+                            </p>
+                            <ul class="space-y-2 text-sm text-text-secondary">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-secondary">•</span>
+                                    <span>Google Analytics for usage statistics</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-secondary">•</span>
+                                    <span>Page load time and performance metrics</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-secondary">•</span>
+                                    <span>User journey and interaction tracking</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Functional Cookies -->
+                        <div class="bg-white/5 rounded-2xl p-6 border border-accent/20">
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-accent">tune</span>
+                                Functional Cookies
+                            </h3>
+                            <p class="text-text-secondary leading-relaxed mb-3">
+                                These cookies enable enhanced functionality and personalization, such as videos and live
+                                chats.
+                            </p>
+                            <ul class="space-y-2 text-sm text-text-secondary">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-accent">•</span>
+                                    <span>Remember your preferences and settings</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-accent">•</span>
+                                    <span>Language and region preferences</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-accent">•</span>
+                                    <span>Chat widget and support features</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Targeting Cookies -->
+                        <div class="bg-white/5 rounded-2xl p-6 border border-purple-500/20">
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-purple-400">ads_click</span>
+                                Targeting Cookies
+                            </h3>
+                            <p class="text-text-secondary leading-relaxed mb-3">
+                                These cookies may be set through our site by our advertising partners to build a profile
+                                of your interests.
+                            </p>
+                            <ul class="space-y-2 text-sm text-text-secondary">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400">•</span>
+                                    <span>Deliver relevant advertisements</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400">•</span>
+                                    <span>Measure advertising campaign effectiveness</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400">•</span>
+                                    <span>Social media integration and sharing</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">group</span>
+                        Third-Party Cookies
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed mb-4">
+                        In addition to our own cookies, we may also use various third-party cookies to report usage
+                        statistics,
+                        deliver advertisements, and more. These include:
+                    </p>
+                    <ul class="space-y-3 text-text-secondary">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span><strong class="text-white">Google Analytics:</strong> To understand how visitors use
+                                our site</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span><strong class="text-white">Social Media Platforms:</strong> For sharing and social
+                                features</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+                            <span><strong class="text-white">Payment Processors:</strong> To handle secure
+                                transactions</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">toggle_on</span>
+                        Your Cookie Choices
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed mb-4">
+                        You have several options to manage or limit how we and our partners use cookies:
+                    </p>
+                    <ul class="space-y-3 text-text-secondary">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span><strong class="text-white">Browser Settings:</strong> Most web browsers allow you to
+                                control cookies through settings</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span><strong class="text-white">Third-Party Tools:</strong> Use browser extensions to
+                                manage cookies</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span><strong class="text-white">Opt-Out Links:</strong> Visit third-party websites to
+                                opt-out of tracking</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary mt-1">arrow_right</span>
+                            <span><strong class="text-white">Do Not Track:</strong> Enable "Do Not Track" in your
+                                browser settings</span>
+                        </li>
+                    </ul>
+                    <div class="bg-yellow-500/10 border border-yellow-500/20 rounded-2xl p-6 mt-6">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-yellow-400 mt-1">warning</span>
+                            <div>
+                                <p class="text-white font-semibold mb-2">Important Note</p>
+                                <p class="text-text-secondary text-sm">
+                                    If you choose to disable cookies, some features of our Service may not function
+                                    properly.
+                                    Essential cookies cannot be disabled as they are necessary for the site to operate.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">laptop</span>
+                        How to Manage Cookies in Your Browser
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed mb-4">
+                        Here's how to manage cookies in popular browsers:
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="text-white font-semibold mb-2">Google Chrome</h4>
+                            <p class="text-sm text-text-secondary">Settings → Privacy and Security → Cookies and site
+                                data</p>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="text-white font-semibold mb-2">Mozilla Firefox</h4>
+                            <p class="text-sm text-text-secondary">Options → Privacy & Security → Cookies and Site Data
+                            </p>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="text-white font-semibold mb-2">Safari</h4>
+                            <p class="text-sm text-text-secondary">Preferences → Privacy → Manage Website Data</p>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="text-white font-semibold mb-2">Microsoft Edge</h4>
+                            <p class="text-sm text-text-secondary">Settings → Privacy → Cookies and site permissions</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">sync</span>
+                        Updates to This Policy
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed">
+                        We may update our Cookie Policy from time to time. We will notify you of any changes by posting
+                        the new
+                        Cookie Policy on this page and updating the "Last updated" date at the top of this policy.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">mail</span>
+                        Contact Us
+                    </h2>
+                    <p class="text-text-secondary leading-relaxed mb-4">
+                        If you have any questions about our use of cookies, please contact us:
+                    </p>
+                    <div class="bg-white/5 rounded-2xl p-6 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">email</span>
+                            <a href="mailto:{{ env.CONTACT_EMAIL }}"
+                                class="text-white hover:text-primary transition-colors">
+                                {{ env.CONTACT_EMAIL }}
+                            </a>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">call</span>
+                            <a href="tel:{{ env.CONTACT_PHONE }}"
+                                class="text-white hover:text-primary transition-colors">
+                                {{ env.CONTACT_PHONE }}
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="border-t border-white/10 pt-8">
+                    <p class="text-sm text-text-secondary italic">
+                        By continuing to use our website, you consent to our use of cookies as described in this Cookie
+                        Policy.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends "base/admin_base.html" %}
+
+{% block title %}Manage Skills - Admin Panel{% endblock %}
+
+{% block header_title %}Manage Skills{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto flex flex-col gap-6">
+    <!-- Simple Clean Header -->
+    <div class="bg-white dark:bg-surface-dark rounded-xl p-6 shadow border border-slate-200 dark:border-slate-800">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-1">Technical Skills</h1>
+                <p class="text-sm text-slate-600 dark:text-slate-400">Manage skills and categories displayed on the Home
+                    page</p>
+            </div>
+            <a href="{{ url_for('admin_bp.admin_skill_create') }}"
+                class="px-4 py-2.5 rounded-lg bg-primary hover:bg-blue-600 text-white font-medium text-sm transition flex items-center gap-2 no-underline">
+                <span class="material-symbols-outlined text-base">add</span>
+                Add New Skill
+            </a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Categories Sidebar -->
+        <div class="lg:col-span-4">
+            <div
+                class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                <div class="bg-slate-100 dark:bg-slate-700 p-4 border-b border-slate-200 dark:border-slate-600">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-slate-700 dark:text-slate-300">category</span>
+                        <h3 class="font-semibold text-slate-900 dark:text-white">Skill Categories</h3>
+                    </div>
+                </div>
+
+                <div class="p-4 space-y-4">
+                    <!-- Add Form -->
+                    <form method="POST" class="space-y-3">
+                        {{ cat_form.hidden_tag() }}
+                        {{ cat_form.name(class="w-full bg-white dark:bg-slate-700 border border-slate-300
+                        dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:ring-2
+                        focus:ring-primary outline-none", placeholder="Category name (e.g., Frontend)") }}
+                        {{ cat_form.description(class="w-full bg-white dark:bg-slate-700 border border-slate-300
+                        dark:border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:ring-2
+                        focus:ring-primary outline-none", rows="2", placeholder="Description") }}
+                        <button type="submit"
+                            class="w-full py-2 rounded-lg bg-primary hover:bg-blue-600 text-white font-medium text-sm transition">
+                            Add Category
+                        </button>
+                    </form>
+
+                    <!-- List -->
+                    <div class="space-y-2 max-h-96 overflow-y-auto">
+                        {% for cat in categories %}
+                        <div
+                            class="group flex items-center justify-between p-2.5 rounded-lg bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 hover:border-primary transition">
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-slate-900 dark:text-white">{{ cat.name }}</div>
+                                {% if cat.description %}
+                                <div class="text-xs text-slate-500 dark:text-slate-400">{{ cat.description }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition">
+                                <a href="{{ url_for('admin_bp.admin_skill_category_edit', category_id=cat.id) }}"
+                                    class="p-1 text-slate-400 hover:text-primary transition" title="Edit">
+                                    <span class="material-symbols-outlined text-lg">edit</span>
+                                </a>
+                                <form action="{{ url_for('admin_bp.admin_skill_category_delete', category_id=cat.id) }}"
+                                    method="POST" class="inline">
+                                    <button type="submit" class="p-1 text-slate-400 hover:text-red-600 transition"
+                                        onclick="return confirm('Delete this category?')" title="Delete">
+                                        <span class="material-symbols-outlined text-lg">delete</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        {% else %}
+                        <p class="text-sm text-slate-500 dark:text-slate-400 text-center py-4">No categories yet</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills List -->
+        <div class="lg:col-span-8">
+            <div class="grid gap-4" <div class="grid gap-4">
+                {% for skill in skills %}
+                <div
+                    class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-6 flex-1">
+                            <!-- Icon -->
+                            {% set color_map = {
+                            'blue': {'bg': 'rgba(59, 130, 246, 0.2)', 'text': 'rgb(59, 130, 246)'},
+                            'green': {'bg': 'rgba(34, 197, 94, 0.2)', 'text': 'rgb(34, 197, 94)'},
+                            'purple': {'bg': 'rgba(168, 85, 247, 0.2)', 'text': 'rgb(168, 85, 247)'},
+                            'pink': {'bg': 'rgba(236, 72, 153, 0.2)', 'text': 'rgb(236, 72, 153)'},
+                            'orange': {'bg': 'rgba(249, 115, 22, 0.2)', 'text': 'rgb(249, 115, 22)'},
+                            'red': {'bg': 'rgba(239, 68, 68, 0.2)', 'text': 'rgb(239, 68, 68)'},
+                            'yellow': {'bg': 'rgba(234, 179, 8, 0.2)', 'text': 'rgb(234, 179, 8)'},
+                            'cyan': {'bg': 'rgba(6, 182, 212, 0.2)', 'text': 'rgb(6, 182, 212)'},
+                            'indigo': {'bg': 'rgba(99, 102, 241, 0.2)', 'text': 'rgb(99, 102, 241)'}
+                            } %}
+                            {% set current_color = color_map[skill.color] if skill.color in color_map else
+                            color_map['blue'] %}
+                            <div class="w-14 h-14 rounded-xl flex items-center justify-center"
+                                style="background-color: {{ current_color['bg'] }};">
+                                <span class="font-bold text-lg" style="color: {{ current_color['text'] }};">{{
+                                    skill.icon_text }}</span>
+                            </div>
+
+                            <!-- Info -->
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <h3 class="text-slate-900 dark:text-white text-lg font-bold">{{ skill.name }}</h3>
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-semibold
+                                {% if skill.category == 'Frontend' %}bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400
+                                {% elif skill.category == 'Backend' %}bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400
+                                {% elif skill.category == 'Tools' %}bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400
+                                {% else %}bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400{% endif %}">
+                                        {{ skill.category }}
+                                    </span>
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-semibold
+                                {% if skill.is_active %}bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400
+                                {% else %}bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400{% endif %}">
+                                        {% if skill.is_active %}Active{% else %}Inactive{% endif %}
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+                                    <span class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[18px]">trending_up</span>
+                                        <span>{{ skill.percentage }}%</span>
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[18px]">format_list_numbered</span>
+                                        <span>Order: {{ skill.order }}</span>
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[18px]">palette</span>
+                                        <span class="capitalize">{{ skill.color }}</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="flex items-center gap-2">
+                                <a href="{{ url_for('admin_bp.admin_skill_edit', id=skill.id) }}"
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-background-dark hover:bg-slate-200 dark:hover:bg-surface-dark text-slate-700 dark:text-white font-medium rounded-lg transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">edit</span>
+                                    <span>Edit</span>
+                                </a>
+                                <form method="POST" action="{{ url_for('admin_bp.admin_skill_delete', id=skill.id) }}"
+                                    onsubmit="return confirm('Are you sure you want to delete this skill?');"
+                                    class="inline">
+                                    <button type="submit"
+                                        class="inline-flex items-center gap-2 px-4 py-2 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-700 dark:text-red-400 font-medium rounded-lg transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                        <span>Delete</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div
+                    class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 p-12 text-center">
+                    <span class="material-symbols-outlined text-6xl text-slate-400 mb-4">psychology</span>
+                    <p class="text-slate-600 dark:text-slate-400 text-lg mb-4">No skills added yet</p>
+                    <a href="{{ url_for('admin_bp.admin_skill_create') }}"
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-blue-600 text-white font-semibold rounded-xl transition-all">
+                        <span class="material-symbols-outlined">add</span>
+                        <span>Add Your First Skill</span>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

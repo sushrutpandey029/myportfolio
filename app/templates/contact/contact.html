@@ -1,0 +1,226 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="w-full max-w-[1280px] mx-auto px-4 sm:px-10 py-12 flex flex-col gap-10">
+    <!-- Page Heading -->
+    <div class="flex flex-col gap-4 max-w-[720px]">
+        <h1 class="text-slate-900 dark:text-white text-4xl sm:text-5xl font-black leading-tight tracking-tight">
+            We're here to help
+        </h1>
+        <p class="text-slate-500 dark:text-slate-400 text-lg font-normal leading-relaxed">
+            Have a question about a project, billing, or your account? Fill out the form below and our support team
+            will get back to you within 24 hours.
+        </p>
+    </div>
+
+    <!-- Layout Grid: Form (Left) & Sidebar (Right) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <!-- Left Column: Contact Form -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+            <!-- Using Flask-WTF Form -->
+            <form class="flex flex-col gap-6" method="POST" action="">
+                {{ form.hidden_tag() }}
+
+                <!-- Row 1: Name & Email -->
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <label class="flex flex-col flex-1 gap-2">
+                        <span class="text-slate-900 dark:text-white text-sm font-medium">Name</span>
+                        {{ form.name(class="form-input w-full rounded-lg border border-gray-300
+                        dark:border-[#3b4754] bg-white dark:bg-[#1c2127] text-slate-900 dark:text-white
+                        placeholder:text-slate-400 dark:placeholder:text-[#9dabb9] focus:border-primary
+                        focus:ring-primary h-12 px-4 text-base", placeholder="Enter your full name") }}
+                        {% if form.name.errors %}
+                        {% for error in form.name.errors %}
+                        <span class="text-red-500 text-xs">{{ error }}</span>
+                        {% endfor %}
+                        {% endif %}
+                    </label>
+                    <label class="flex flex-col flex-1 gap-2">
+                        <span class="text-slate-900 dark:text-white text-sm font-medium">Email Address</span>
+                        {{ form.email(class="form-input w-full rounded-lg border border-gray-300
+                        dark:border-[#3b4754] bg-white dark:bg-[#1c2127] text-slate-900 dark:text-white
+                        placeholder:text-slate-400 dark:placeholder:text-[#9dabb9] focus:border-primary
+                        focus:ring-primary h-12 px-4 text-base", placeholder="you@example.com") }}
+                        {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                        <span class="text-red-500 text-xs">{{ error }}</span>
+                        {% endfor %}
+                        {% endif %}
+                    </label>
+                </div>
+
+                <!-- Row 2: Subject -->
+                <label class="flex flex-col gap-2">
+                    <span class="text-slate-900 dark:text-white text-sm font-medium">Subject</span>
+                    <div class="relative">
+                        {{ form.subject(class="form-input w-full rounded-lg border border-gray-300
+                        dark:border-[#3b4754] bg-white dark:bg-[#1c2127] text-slate-900 dark:text-white
+                        placeholder:text-slate-400 dark:placeholder:text-[#9dabb9] focus:border-primary
+                        focus:ring-primary h-12 px-4 text-base", placeholder="General Inquiry") }}
+                    </div>
+                    {% if form.subject.errors %}
+                    {% for error in form.subject.errors %}
+                    <span class="text-red-500 text-xs">{{ error }}</span>
+                    {% endfor %}
+                    {% endif %}
+                </label>
+
+                <!-- Row 3: Message -->
+                <label class="flex flex-col gap-2">
+                    <span class="text-slate-900 dark:text-white text-sm font-medium">Message</span>
+                    {{ form.message(class="form-textarea w-full rounded-lg border border-gray-300
+                    dark:border-[#3b4754] bg-white dark:bg-[#1c2127] text-slate-900 dark:text-white
+                    placeholder:text-slate-400 dark:placeholder:text-[#9dabb9] focus:border-primary
+                    focus:ring-primary min-h-[160px] p-4 text-base resize-y", placeholder="Describe your issue or
+                    question in detail...") }}
+                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                        {% if form.message.errors %}
+                        {% for error in form.message.errors %}
+                        <span class="text-red-500 text-xs">{{ error }}</span>
+                        {% endfor %}
+                        {% else %}
+                        <span>Please include relevant project IDs if applicable.</span>
+                        {% endif %}
+                        <span>0 / 500</span>
+                    </div>
+                </label>
+
+                <!-- Submit Button -->
+                <div class="pt-2">
+                    <button
+                        class="w-full sm:w-auto min-w-[160px] bg-primary hover:bg-blue-600 text-white font-bold py-3.5 px-6 rounded-lg transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                        type="submit">
+                        <span>Send Message</span>
+                        <span
+                            class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">send</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right Column: Info & FAQ -->
+        <div class="lg:col-span-5 flex flex-col gap-8">
+            <!-- Contact Card -->
+            <div
+                class="rounded-xl border border-gray-200 dark:border-surface-border bg-white dark:bg-surface-dark p-6 sm:p-8 flex flex-col gap-6 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Contact Information</h3>
+
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                            <span class="material-symbols-outlined">mail</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Email us directly
+                            </p>
+                            <a class="text-base font-semibold text-slate-900 dark:text-white hover:text-primary transition-colors"
+                                href="mailto:{{ env.SUPPORT_EMAIL }}">{{ env.SUPPORT_EMAIL }}</a>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                            <span class="material-symbols-outlined">location_on</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Headquarters</p>
+                            <p class="text-base font-semibold text-slate-900 dark:text-white">{{
+                                env.BUSINESS_ADDRESS_LINE1 }}<br />{{ env.BUSINESS_ADDRESS_LINE2 }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-100 dark:border-surface-border" />
+
+                <div class="flex flex-col gap-3">
+                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Follow us for updates</p>
+                    <div class="flex gap-3">
+                        <a class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-[#283039] text-slate-600 dark:text-slate-400 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white transition-all shadow-sm"
+                            href="{{ env.TWITTER_URL }}" target="_blank">
+                            <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24">
+                                <path
+                                    d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                            </svg>
+                        </a>
+                        <a class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-[#283039] text-slate-600 dark:text-slate-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all shadow-sm"
+                            href="{{ env.FACEBOOK_URL }}" target="_blank">
+                            <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                        </a>
+                        <a class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-[#283039] text-slate-600 dark:text-slate-400 hover:bg-blue-700 hover:text-white dark:hover:bg-blue-700 dark:hover:text-white transition-all shadow-sm"
+                            href="{{ env.LINKEDIN_URL }}" target="_blank">
+                            <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                                <path
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="flex flex-col gap-4">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Frequently Asked Questions</h3>
+                <div class="flex flex-col gap-3">
+                    <!-- FAQ Item 1 -->
+                    <details
+                        class="group bg-white dark:bg-transparent dark:border dark:border-surface-border rounded-lg overflow-hidden transition-all duration-300">
+                        <summary
+                            class="flex justify-between items-center p-4 cursor-pointer list-none bg-gray-50 dark:bg-[#1c2127] hover:bg-gray-100 dark:hover:bg-[#283039]">
+                            <span class="font-medium text-slate-900 dark:text-white text-sm sm:text-base">How do I
+                                withdraw my earnings?</span>
+                            <span class="transition group-open:rotate-180">
+                                <span class="material-symbols-outlined text-slate-500">expand_more</span>
+                            </span>
+                        </summary>
+                        <div
+                            class="p-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed border-t border-gray-100 dark:border-surface-border bg-white dark:bg-background-dark">
+                            You can withdraw your earnings via PayPal, Stripe, or direct bank transfer. Go to your
+                            Wallet settings to add a payment method.
+                        </div>
+                    </details>
+
+                    <!-- FAQ Item 2 -->
+                    <details
+                        class="group bg-white dark:bg-transparent dark:border dark:border-surface-border rounded-lg overflow-hidden transition-all duration-300">
+                        <summary
+                            class="flex justify-between items-center p-4 cursor-pointer list-none bg-gray-50 dark:bg-[#1c2127] hover:bg-gray-100 dark:hover:bg-[#283039]">
+                            <span class="font-medium text-slate-900 dark:text-white text-sm sm:text-base">Can I
+                                dispute a project?</span>
+                            <span class="transition group-open:rotate-180">
+                                <span class="material-symbols-outlined text-slate-500">expand_more</span>
+                            </span>
+                        </summary>
+                        <div
+                            class="p-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed border-t border-gray-100 dark:border-surface-border bg-white dark:bg-background-dark">
+                            Yes, if you encounter issues with a client or freelancer, you can open a dispute from
+                            the project page. Our team will review the case within 48 hours.
+                        </div>
+                    </details>
+
+                    <!-- FAQ Item 3 -->
+                    <details
+                        class="group bg-white dark:bg-transparent dark:border dark:border-surface-border rounded-lg overflow-hidden transition-all duration-300">
+                        <summary
+                            class="flex justify-between items-center p-4 cursor-pointer list-none bg-gray-50 dark:bg-[#1c2127] hover:bg-gray-100 dark:hover:bg-[#283039]">
+                            <span class="font-medium text-slate-900 dark:text-white text-sm sm:text-base">How do I
+                                reset my password?</span>
+                            <span class="transition group-open:rotate-180">
+                                <span class="material-symbols-outlined text-slate-500">expand_more</span>
+                            </span>
+                        </summary>
+                        <div
+                            class="p-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed border-t border-gray-100 dark:border-surface-border bg-white dark:bg-background-dark">
+                            Click on "Log In" and select "Forgot Password". Enter your email address, and we will
+                            send you a secure link to reset your credentials.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

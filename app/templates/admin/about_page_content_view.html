@@ -1,0 +1,479 @@
+{% extends "base/admin_base.html" %}
+
+{% block title %}About Page Content - Admin Panel{% endblock %}
+
+{% block header_title %}About Page Content{% endblock %}
+
+{% block content %}
+<div class="max-w-[1200px] mx-auto pb-32">
+    <!-- Breadcrumbs & Heading -->
+    <div class="mb-8">
+        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm mb-2">
+            <a href="{{ url_for('admin_bp.admin_dashboard') }}" class="hover:text-primary transition-colors">Admin</a>
+            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+            <span class="text-slate-900 dark:text-white">Content Management</span>
+        </div>
+        <div class="flex items-center justify-between">
+            <div>
+                <h1
+                    class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-tight mb-2">
+                    About Page Content</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-lg">Preview and manage content displayed on the About
+                    page.</p>
+            </div>
+            <a href="{{ url_for('admin_bp.admin_content_about_edit') }}"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-blue-600 text-white font-semibold rounded-xl shadow-lg shadow-primary/20 transition-all hover:scale-105">
+                <span class="material-symbols-outlined text-xl">edit</span>
+                <span>Edit All Content</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Content Sections Grid -->
+    <div class="grid gap-6">
+        <!-- Hero Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-xl">
+                        <span class="material-symbols-outlined text-2xl text-primary">star</span>
+                    </div>
+                    <div>
+                        <h2 class="text-slate-900 dark:text-white text-xl font-bold">Hero Section</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Main header and introduction</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('admin_bp.admin_content_about_edit') }}#hero"
+                    class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+            </div>
+            <div class="space-y-6">
+                <!-- Hero Image Preview -->
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Hero Image</label>
+                    <div
+                        class="relative w-full h-48 bg-slate-100 dark:bg-background-dark rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 flex items-center justify-center group">
+                        {% if content.hero_image_url %}
+                        <img src="{% if content.hero_image_url.startswith('http') %}{{ content.hero_image_url }}{% else %}{{ url_for('static', filename='uploads/about/' + content.hero_image_url) }}{% endif %}"
+                            class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="text-center text-slate-400">
+                            <span class="material-symbols-outlined text-4xl mb-2">image</span>
+                            <p class="text-xs">No image set</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Title & Subtitle -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Title</label>
+                        <div
+                            class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                            <p class="text-slate-900 dark:text-white">{{ content.hero_title }}</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Subtitle</label>
+                        <div
+                            class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                            <p class="text-slate-900 dark:text-white">{{ content.hero_subtitle }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Stats -->
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Hero Statistics</label>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div
+                            class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+                            <span class="block text-xl font-bold text-primary">{{ content.hero_stat_1_count }}</span>
+                            <span class="text-xs text-slate-500 font-medium">{{ content.hero_stat_1_label }}</span>
+                        </div>
+                        <div
+                            class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+                            <span class="block text-xl font-bold text-primary">{{ content.hero_stat_2_count }}</span>
+                            <span class="text-xs text-slate-500 font-medium">{{ content.hero_stat_2_label }}</span>
+                        </div>
+                        <div
+                            class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+                            <span class="block text-xl font-bold text-primary">{{ content.hero_stat_3_count }}</span>
+                            <span class="text-xs text-slate-500 font-medium">{{ content.hero_stat_3_label }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
+                        <span class="material-symbols-outlined text-2xl text-blue-500">flag</span>
+                    </div>
+                    <div>
+                        <h2 class="text-slate-900 dark:text-white text-xl font-bold">Mission Section</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Company mission statement</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('admin_bp.admin_content_about_edit') }}#mission"
+                    class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+            </div>
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Title</label>
+                    <div
+                        class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-900 dark:text-white">{{ content.mission_title }}</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Content</label>
+                    <div
+                        class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed">{{ content.mission_content }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl">
+                        <span class="material-symbols-outlined text-2xl text-green-500">visibility</span>
+                    </div>
+                    <div>
+                        <h2 class="text-slate-900 dark:text-white text-xl font-bold">Vision Section</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Future goals and aspirations</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('admin_bp.admin_content_about_edit') }}#vision"
+                    class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+            </div>
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Title</label>
+                    <div
+                        class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-900 dark:text-white">{{ content.vision_title }}</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Content</label>
+                    <div
+                        class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed">{{ content.vision_content }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Values Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-gradient-to-br from-pink-500/20 to-rose-500/20 rounded-xl">
+                        <span class="material-symbols-outlined text-2xl text-pink-500">favorite</span>
+                    </div>
+                    <div>
+                        <h2 class="text-slate-900 dark:text-white text-xl font-bold">Core Values</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Company values and principles</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('admin_bp.admin_content_about_edit') }}#values"
+                    class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+            </div>
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Section Title</label>
+                    <div
+                        class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-900 dark:text-white">{{ content.values_title }}</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 mt-4">
+                    <!-- Value 1 -->
+                    <div
+                        class="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-500/10 dark:to-cyan-500/10 rounded-xl border-l-4 border-blue-500">
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-2">{{ content.value1_title }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.value1_description }}</p>
+                    </div>
+                    <!-- Value 2 -->
+                    <div
+                        class="p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-500/10 dark:to-emerald-500/10 rounded-xl border-l-4 border-green-500">
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-2">{{ content.value2_title }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.value2_description }}</p>
+                    </div>
+                    <!-- Value 3 -->
+                    <div
+                        class="p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-500/10 dark:to-pink-500/10 rounded-xl border-l-4 border-purple-500">
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-2">{{ content.value3_title }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.value3_description }}</p>
+                    </div>
+                    <!-- Value 4 -->
+                    <div
+                        class="p-4 bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-500/10 dark:to-rose-500/10 rounded-xl border-l-4 border-pink-500">
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-2">{{ content.value4_title or '' }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.value4_description or '' }}</p>
+                    </div>
+                    <!-- Value 5 -->
+                    <div
+                        class="p-4 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-500/10 dark:to-amber-500/10 rounded-xl border-l-4 border-orange-500">
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-2">{{ content.value5_title or '' }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.value5_description or '' }}</p>
+                    </div>
+                    <!-- Value 6 -->
+                    <div
+                        class="p-4 bg-gradient-to-br from-cyan-50 to-sky-50 dark:from-cyan-500/10 dark:to-sky-500/10 rounded-xl border-l-4 border-cyan-500">
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-2">{{ content.value6_title or '' }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.value6_description or '' }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-gradient-to-br from-orange-500/20 to-amber-500/20 rounded-xl">
+                        <span class="material-symbols-outlined text-2xl text-orange-500">auto_stories</span>
+                    </div>
+                    <div>
+                        <h2 class="text-slate-900 dark:text-white text-xl font-bold">Our Story</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Company history and journey</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('admin_bp.admin_content_about_edit') }}#story"
+                    class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+            </div>
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Title</label>
+                    <div
+                        class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-900 dark:text-white">{{ content.story_title }}</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Content</label>
+                    <div
+                        class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed">{{ content.story_content }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-gradient-to-br from-indigo-500/20 to-blue-500/20 rounded-xl">
+                        <span class="material-symbols-outlined text-2xl text-indigo-500">history</span>
+                    </div>
+                    <div>
+                        <h2 class="text-slate-900 dark:text-white text-xl font-bold">Timeline Journey</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Key milestones and history</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('admin_bp.admin_content_about_edit') }}#timeline"
+                    class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+            </div>
+            <div class="grid gap-4">
+                <!-- Year 1 -->
+                <div
+                    class="flex gap-4 p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div class="w-24 font-bold text-primary">{{ content.timeline_year_1 or '' }}</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-900 dark:text-white">{{ content.timeline_title_1 or '' }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.timeline_content_1 or '' }}</p>
+                    </div>
+                </div>
+                <!-- Year 2 -->
+                <div
+                    class="flex gap-4 p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div class="w-24 font-bold text-primary">{{ content.timeline_year_2 or '' }}</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-900 dark:text-white">{{ content.timeline_title_2 or '' }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.timeline_content_2 or '' }}</p>
+                    </div>
+                </div>
+                <!-- Year 3 -->
+                <div
+                    class="flex gap-4 p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div class="w-24 font-bold text-primary">{{ content.timeline_year_3 or '' }}</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-900 dark:text-white">{{ content.timeline_title_3 or '' }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.timeline_content_3 or '' }}</p>
+                    </div>
+                </div>
+                <!-- Year 4 -->
+                <div
+                    class="flex gap-4 p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div class="w-24 font-bold text-primary">{{ content.timeline_year_4 or '' }}</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-900 dark:text-white">{{ content.timeline_title_4 or '' }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">{{ content.timeline_content_4 or '' }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl">
+                        <span class="material-symbols-outlined text-2xl text-indigo-500">groups</span>
+                    </div>
+                    <div>
+                        <h2 class="text-slate-900 dark:text-white text-xl font-bold">Team Section</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Team introduction headers</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('admin_bp.admin_content_about_edit') }}#team"
+                    class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Title</label>
+                    <div
+                        class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-900 dark:text-white">{{ content.team_title }}</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Subtitle</label>
+                    <div
+                        class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                        <p class="text-slate-900 dark:text-white">{{ content.team_subtitle }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call-to-Action Section -->
+        <section
+            class="bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-xl">
+                        <span class="material-symbols-outlined text-2xl text-red-500">campaign</span>
+                    </div>
+                    <div>
+                        <h2 class="text-slate-900 dark:text-white text-xl font-bold">Call-to-Action</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Final engagement section</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('admin_bp.admin_content_about_edit') }}#cta"
+                    class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Title & Subtitle -->
+                <div class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Title</label>
+                        <div
+                            class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                            <p class="text-slate-900 dark:text-white">{{ content.cta_title }}</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Subtitle</label>
+                        <div
+                            class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                            <p class="text-slate-900 dark:text-white">{{ content.cta_subtitle }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Button 1
+                                Text</label>
+                            <div
+                                class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                                <p class="text-slate-900 dark:text-white font-semibold">{{ content.cta_button_text or ''
+                                    }}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Button 1
+                                Link</label>
+                            <div
+                                class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                                <p class="text-slate-600 dark:text-slate-300 text-sm font-mono truncate">{{
+                                    content.cta_button_link or '' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Button 2
+                                Text</label>
+                            <div
+                                class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                                <p class="text-slate-900 dark:text-white font-semibold">{{ content.cta_button_2_text or
+                                    '' }}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Button 2
+                                Link</label>
+                            <div
+                                class="p-4 bg-slate-50 dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700">
+                                <p class="text-slate-600 dark:text-slate-300 text-sm font-mono truncate">{{
+                                    content.cta_button_2_link or '' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="flex items-center justify-between mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
+        <a href="{{ url_for('admin_bp.admin_dashboard') }}"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-slate-100 dark:bg-surface-dark hover:bg-slate-200 dark:hover:bg-white/5 text-slate-700 dark:text-white font-semibold rounded-xl transition-all">
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span>Back to Dashboard</span>
+        </a>
+        <a href="{{ url_for('admin_bp.admin_content_about_edit') }}"
+            class="inline-flex items-center gap-2 px-8 py-3 bg-primary hover:bg-blue-600 text-white font-semibold rounded-xl shadow-lg shadow-primary/20 transition-all hover:scale-105">
+            <span class="material-symbols-outlined">edit_square</span>
+            <span>Edit All Content</span>
+        </a>
+    </div>
+</div>
+{% endblock %}

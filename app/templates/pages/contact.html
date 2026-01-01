@@ -1,5 +1,10 @@
 {% extends "base/base.html" %}
 
+{% block extra_css %}
+<!-- External CSS for Contact Page -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
 <section
@@ -82,35 +87,35 @@
 
                 <!-- Socials -->
                 <div class="flex gap-4 pt-4">
-                    <a href="#"
+                    <a href="{{ env.TWITTER_URL }}" target="_blank"
                         class="group relative h-12 w-12 rounded-xl bg-surface-dark border border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-all overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-tr from-[#1DA1F2] to-[#1DA1F2]/0 opacity-0 group-hover:opacity-20 transition-opacity">
                         </div>
                         <i class="fa-brands fa-twitter text-xl group-hover:scale-110 transition-transform"></i>
                     </a>
-                    <a href="#"
+                    <a href="{{ env.LINKEDIN_URL }}" target="_blank"
                         class="group relative h-12 w-12 rounded-xl bg-surface-dark border border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-all overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-tr from-[#0077b5] to-[#0077b5]/0 opacity-0 group-hover:opacity-20 transition-opacity">
                         </div>
                         <i class="fa-brands fa-linkedin-in text-xl group-hover:scale-110 transition-transform"></i>
                     </a>
-                    <a href="#"
+                    <a href="{{ env.GITHUB_URL }}" target="_blank"
                         class="group relative h-12 w-12 rounded-xl bg-surface-dark border border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-all overflow-hidden">
                         <div
-                            class="absolute inset-0 bg-gradient-to-tr from-white to-white/0 opacity-0 group-hover:opacity-10 transition-opacity">
+                            class="absolute inset-0 bg-gradient-to-tr from-white to-white/0 opacity-0 group-hover:opacity-1 transition-opacity">
                         </div>
                         <i class="fa-brands fa-github text-xl group-hover:scale-110 transition-transform"></i>
                     </a>
-                    <a href="#"
+                    <a href="{{ env.INSTAGRAM_URL }}" target="_blank"
                         class="group relative h-12 w-12 rounded-xl bg-surface-dark border border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-all overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-tr from-[#E1306C] to-[#E1306C]/0 opacity-0 group-hover:opacity-20 transition-opacity">
                         </div>
                         <i class="fa-brands fa-instagram text-xl group-hover:scale-110 transition-transform"></i>
                     </a>
-                    <a href="https://wa.me/1234567890" target="_blank"
+                    <a href="https://wa.me/{{ env.WHATSAPP_NUMBER }}" target="_blank"
                         class="group relative h-12 w-12 rounded-xl bg-surface-dark border border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-all overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-tr from-[#25D366] to-[#25D366]/0 opacity-0 group-hover:opacity-20 transition-opacity">
@@ -199,105 +204,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<style>
-    @keyframes float {
-
-        0%,
-        100% {
-            transform: translateY(0px);
-        }
-
-        50% {
-            transform: translateY(-20px);
-        }
-    }
-
-    .animate-float {
-        animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes pulse-slow {
-
-        0%,
-        100% {
-            opacity: 0.3;
-        }
-
-        50% {
-            opacity: 0.6;
-        }
-    }
-
-    .animate-pulse-slow {
-        animation: pulse-slow 4s ease-in-out infinite;
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .animate-fade-in-up {
-        animation: fadeInUp 0.8s ease-out forwards;
-    }
-
-    @keyframes fadeInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-40px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    .animate-fade-in-left {
-        animation: fadeInLeft 0.8s ease-out forwards;
-        opacity: 0;
-    }
-
-    @keyframes fadeInRight {
-        from {
-            opacity: 0;
-            transform: translateX(40px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    .animate-fade-in-right {
-        animation: fadeInRight 0.8s ease-out forwards;
-        opacity: 0;
-    }
-
-    @keyframes gradient-xy {
-
-        0%,
-        100% {
-            background-size: 400% 400%;
-            background-position: left center;
-        }
-
-        50% {
-            background-size: 200% 200%;
-            background-position: right center;
-        }
-    }
-
-    .animate-gradient-xy {
-        animation: gradient-xy 6s ease infinite;
-    }
-</style>
+<!-- External JS for Contact Page -->
+<script src="{{ url_for('static', filename='js/contact.js') }}"></script>
 {% endblock %}

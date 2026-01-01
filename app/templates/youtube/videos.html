@@ -1,5 +1,10 @@
 {% extends "base/base.html" %}
 
+{% block extra_css %}
+<!-- External CSS for Videos Page -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/videos.css') }}">
+{% endblock %}
+
 {% block content %}
 <main class="flex flex-1 justify-center pt-24 pb-8 px-4 md:px-8 xl:px-40">
     <div class="flex w-full max-w-[1200px] flex-col gap-8">
@@ -84,7 +89,7 @@
             <!-- Carousel Indicators -->
             <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
                 {% for video in featured_videos %}
-                <button onclick="goToSlide({{ loop.index0 }})"
+                <button onclick="goToSlide(Number(this.dataset.indicator))"
                     class="carousel-indicator size-2 rounded-full bg-white/40 hover:bg-white/60 transition-all {% if loop.index == 1 %}active bg-white{% endif %}"
                     data-indicator="{{ loop.index0 }}"></button>
                 {% endfor %}
@@ -94,7 +99,7 @@
 
         <!-- Filters & Search Toolbar -->
         <div
-            class="sticky top-[73px] z-30 -mx-4 md:-mx-8 xl:-mx-0 rounded-none xl:rounded-xl bg-background-dark/95 backdrop-blur-md px-4 py-4 md:px-8 xl:px-0 border-y border-white/10 xl:border-none">
+            class="sticky top-20 z-30 -mx-4 md:-mx-8 xl:-mx-0 rounded-none xl:rounded-xl bg-background-dark/95 backdrop-blur-md px-4 py-4 md:px-8 xl:px-0 border-y border-white/10 xl:border-none">
             <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <!-- Category Pills -->
                 <div class="hide-scrollbar flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
@@ -112,19 +117,7 @@
                     {% endfor %}
                 </div>
 
-                <!-- Sort Dropdown -->
-                <div class="flex items-center gap-3">
-                    <div class="relative hidden md:block">
-                        <span
-                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-text-secondary">filter_list</span>
-                        <select
-                            class="h-10 w-full appearance-none rounded-lg border-0 bg-surface-dark py-0 pl-10 pr-8 text-sm text-white focus:ring-1 focus:ring-primary cursor-pointer">
-                            <option>Newest First</option>
-                            <option>Most Popular</option>
-                            <option>Oldest</option>
-                        </select>
-                    </div>
-                </div>
+
             </div>
         </div>
 
@@ -133,7 +126,7 @@
             {% for video in videos.items %}
             <!-- Video Card -->
             <div class="video-card group flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-white/10 shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-500 hover:translate-y-[-4px] hover:border-primary/30 animate-scale-in"
-                style="animation-delay: {{ loop.index0 * 0.1 }}s" data-category="{{ video.category or 'General' }}">
+                style="--delay: {{ loop.index0 * 0.1 }}s;" data-category="{{ video.category or 'General' }}">
                 <div class="relative aspect-video w-full overflow-hidden bg-slate-800">
                     <!-- YouTube Thumbnail -->
                     <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
@@ -233,221 +226,9 @@
     </div>
 </main>
 
-<style>
-    .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
+{% endblock %}
 
-    .hide-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    .material-symbols-outlined.filled {
-        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    }
-
-    /* Entrance Animations */
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    @keyframes slideInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes slideInRight {
-        from {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes scaleIn {
-        from {
-            opacity: 0;
-            transform: scale(0.9);
-        }
-
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-
-    .animate-fade-in-down {
-        animation: fadeInDown 0.8s ease-out;
-    }
-
-    .animate-fade-in {
-        animation: fadeIn 0.6s ease-out backwards;
-    }
-
-    .animate-slide-in-left {
-        animation: slideInLeft 0.8s ease-out;
-    }
-
-    .animate-slide-in-right {
-        animation: slideInRight 0.8s ease-out 0.2s backwards;
-    }
-
-    .animate-scale-in {
-        animation: scaleIn 0.6s ease-out backwards;
-    }
-
-    /* Carousel Styles */
-    .carousel-slide {
-        display: none;
-        opacity: 0;
-        transition: opacity 0.6s ease-in-out;
-    }
-
-    .carousel-slide.active {
-        display: block;
-        opacity: 1;
-    }
-
-    .carousel-indicator.active {
-        width: 1.5rem;
-        background-color: white;
-    }
-</style>
-
-<script>
-    let currentSlide = 0;
-    let autoSlideInterval;
-    const slideDelay = 5000; // 5 seconds per slide
-
-    function showSlide(index) {
-        const slides = document.querySelectorAll('.carousel-slide');
-        const indicators = document.querySelectorAll('.carousel-indicator');
-
-        if (!slides.length) return;
-
-        // Wrap around
-        if (index >= slides.length) currentSlide = 0;
-        if (index < 0) currentSlide = slides.length - 1;
-        if (index >= 0 && index < slides.length) currentSlide = index;
-
-        // Hide all slides
-        slides.forEach(slide => slide.classList.remove('active'));
-        indicators.forEach(ind => ind.classList.remove('active', 'bg-white'));
-
-        // Show current slide
-        slides[currentSlide].classList.add('active');
-        indicators[currentSlide].classList.add('active', 'bg-white');
-    }
-
-    function nextSlide() {
-        showSlide(currentSlide + 1);
-        resetAutoSlide();
-    }
-
-    function prevSlide() {
-        showSlide(currentSlide - 1);
-        resetAutoSlide();
-    }
-
-    function goToSlide(index) {
-        showSlide(index);
-        resetAutoSlide();
-    }
-
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(() => {
-            showSlide(currentSlide + 1);
-        }, slideDelay);
-    }
-
-    function resetAutoSlide() {
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
-    }
-
-    // Initialize carousel on page load
-    document.addEventListener('DOMContentLoaded', function () {
-        const slides = document.querySelectorAll('.carousel-slide');
-        if (slides.length > 1) {
-            startAutoSlide();
-        }
-    });
-
-    // Client-side filtering function
-    function filterVideos(category) {
-        const videoCards = document.querySelectorAll('.video-card');
-        const filterButtons = document.querySelectorAll('.category-filter');
-
-        // Update active state on filter buttons
-        filterButtons.forEach(btn => {
-            if (btn.dataset.category === category) {
-                btn.dataset.active = 'true';
-                btn.classList.remove('bg-surface-dark', 'ring-white/10');
-                btn.classList.add('bg-primary', 'ring-primary', 'text-white');
-            } else {
-                btn.dataset.active = 'false';
-                btn.classList.remove('bg-primary', 'ring-primary');
-                btn.classList.add('bg-surface-dark', 'ring-white/10');
-            }
-        });
-
-        // Filter video cards with smooth animation
-        videoCards.forEach((card, index) => {
-            const cardCategory = card.dataset.category;
-
-            if (category === 'all' || cardCategory === category) {
-                // Show card with staggered animation
-                setTimeout(() => {
-                    card.style.display = 'flex';
-                    card.style.opacity = '0';
-                    card.style.transform = 'scale(0.9)';
-
-                    setTimeout(() => {
-                        card.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
-                        card.style.opacity = '1';
-                        card.style.transform = 'scale(1)';
-                    }, 10);
-                }, index * 50);
-            } else {
-                // Hide card
-                card.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
-                card.style.opacity = '0';
-                card.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    card.style.display = 'none';
-                }, 300);
-            }
-        });
-    }
-</script>
+{% block extra_js %}
+<!-- External JS for Videos Page -->
+<script src="{{ url_for('static', filename='js/videos.js') }}"></script>
 {% endblock %}

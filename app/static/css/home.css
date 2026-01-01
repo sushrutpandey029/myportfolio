@@ -1,0 +1,241 @@
+/* 
+   Home Page Styles
+   - Hero Section Animations
+   - Orbital Tech Icons System
+   - Skill Progress Animations
+*/
+
+/* =========================================
+   Hero Section Animations
+   ========================================= */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes float-delayed {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse-slow {
+
+    0%,
+    100% {
+        opacity: 0.75;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes gradient-shift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+    animation: float-delayed 6s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% auto;
+    animation: shine 3s linear infinite;
+}
+
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+/* =========================================
+   Orbital Tech Icons System
+   ========================================= */
+@keyframes orbit-float {
+    0% {
+        transform: rotate(0deg) translateX(250px) rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg) translateX(250px) rotate(-360deg);
+    }
+}
+
+.orbital-track {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.tech-icon-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+    animation: orbit-float 50s linear infinite;
+}
+
+.tech-icon-glass {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.25rem;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 0 15px rgba(59, 130, 246, 0.05);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tech-icon-glass:hover {
+    transform: scale(1.2);
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3), 0 0 25px rgba(59, 130, 246, 0.4);
+    z-index: 50;
+}
+
+.delay-1 {
+    animation-delay: 0s;
+}
+
+.delay-2 {
+    animation-delay: -6.25s;
+}
+
+.delay-3 {
+    animation-delay: -12.5s;
+}
+
+.delay-4 {
+    animation-delay: -18.75s;
+}
+
+.delay-5 {
+    animation-delay: -25s;
+}
+
+.delay-6 {
+    animation-delay: -31.25s;
+}
+
+.delay-7 {
+    animation-delay: -37.5s;
+}
+
+.delay-8 {
+    animation-delay: -43.75s;
+}
+
+@keyframes spin-slow-reverse {
+    from {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+}
+
+/* =========================================
+   Skill Progress Animation
+   ========================================= */
+@keyframes skillLoad {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.skill-progress {
+    box-shadow: 0 0 20px currentColor;
+    animation: skillLoad 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-fill-mode: backwards;
+    /* Use CSS variables for dynamic values */
+    width: var(--skill-width);
+    animation-delay: var(--skill-delay);
+}
+
+.skill-item {
+    transition: transform 0.3s ease;
+}
+
+.skill-item:hover {
+    transform: translateX(4px);
+}

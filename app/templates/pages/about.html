@@ -1,5 +1,10 @@
 {% extends "base/base.html" %}
 
+{% block extra_css %}
+<!-- External CSS for About Page -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
 {% block content %}
 <!-- Hero Section with Modern Profile Display -->
 <section class="relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-[#050914] to-background-dark">
@@ -19,16 +24,16 @@
             <div class="space-y-8">
 
 
-                <h1 class="text-4xl md:text-6xl font-black text-white leading-[1.1] tracking-tight">
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
                     {{ content.hero_title|safe }}
                 </h1>
 
-                <p class="text-xl text-text-secondary leading-relaxed max-w-xl">
+                <p class="text-lg md:text-xl text-text-secondary leading-relaxed max-w-xl">
                     {{ content.hero_subtitle }}
                 </p>
 
                 <!-- Stats Mini Cards -->
-                <div class="grid grid-cols-3 gap-4 pt-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
                     <div class="bg-surface-dark/50 backdrop-blur-sm border border-white/5 rounded-2xl p-4 text-center">
                         <p class="text-2xl font-black text-white mb-1">{{ content.hero_stat_1_count }}</p>
                         <p class="text-xs text-text-secondary font-semibold">{{ content.hero_stat_1_label }}</p>
@@ -45,8 +50,8 @@
 
             </div>
 
-            <!-- Right Visual - Team Showcase -->
-            <div class="relative hidden lg:block">
+            <!-- Right Visual - Team Showcase (Visible on all screens with stacking) -->
+            <div class="relative mt-8 lg:mt-0">
                 <!-- Main Featured Profile -->
                 <div class="relative">
                     <div
@@ -54,11 +59,11 @@
                     </div>
 
                     <div
-                        class="relative bg-surface-dark/80 backdrop-blur-xl border border-white/10 rounded-[3rem] p-6 overflow-hidden">
+                        class="relative bg-surface-dark/80 backdrop-blur-xl border border-white/10 rounded-[2rem] md:rounded-[3rem] p-4 md:p-6 overflow-hidden">
                         <!-- Featured Profile Image -->
                         <img src="{% if content.hero_image_url %}{% if content.hero_image_url.startswith('http') %}{{ content.hero_image_url }}{% else %}{{ url_for('static', filename='uploads/about/' + content.hero_image_url) }}{% endif %}{% else %}https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80{% endif %}"
                             alt="Our Team"
-                            class="w-full h-[320px] object-cover rounded-[2rem] transition-transform duration-700 group-hover:scale-105">
+                            class="w-full h-[250px] md:h-[320px] object-cover rounded-[1.5rem] md:rounded-[2rem] transition-transform duration-700 group-hover:scale-105">
                         <div
                             class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60">
                         </div>
@@ -721,54 +726,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<style>
-    @keyframes float {
-
-        0%,
-        100% {
-            transform: translateY(0px);
-        }
-
-        50% {
-            transform: translateY(-20px);
-        }
-    }
-
-    @keyframes float-delayed {
-
-        0%,
-        100% {
-            transform: translateY(0px);
-        }
-
-        50% {
-            transform: translateY(-15px);
-        }
-    }
-
-    @keyframes pulse-slow {
-
-        0%,
-        100% {
-            opacity: 0.3;
-        }
-
-        50% {
-            opacity: 0.6;
-        }
-    }
-
-    .animate-float {
-        animation: float 6s ease-in-out infinite;
-    }
-
-    .animate-float-delayed {
-        animation: float-delayed 6s ease-in-out infinite;
-        animation-delay: 1s;
-    }
-
-    .animate-pulse-slow {
-        animation: pulse-slow 4s ease-in-out infinite;
-    }
-</style>
+<!-- External JS for About Page -->
+<script src="{{ url_for('static', filename='js/about.js') }}"></script>
 {% endblock %}

@@ -1,5 +1,10 @@
 {% extends "base/base.html" %}
 
+{% block extra_css %}
+<!-- External CSS for Materials Page -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/materials.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="flex flex-1 w-full max-w-[1440px] mx-auto pt-24">
     <!-- Sidebar Filters -->
@@ -201,105 +206,9 @@
 </main>
 </div>
 
-<style>
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
+{% endblock %}
 
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .animate-fade-in-up {
-        animation: fadeInUp 0.8s ease-out forwards;
-    }
-
-    @keyframes fadeInRight {
-        from {
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    .animate-fade-in-right {
-        animation: fadeInRight 0.6s ease-out forwards;
-        opacity: 0;
-        /* Important since we use delay */
-    }
-</style>
-
-<script>
-    function filterMaterials(category) {
-        const items = document.querySelectorAll('.material-item');
-        const buttons = document.querySelectorAll('.category-filter');
-
-        // Update functionality
-        buttons.forEach(btn => {
-            const checkIcon = btn.querySelector('.check-icon');
-            const checkSpan = checkIcon.querySelector('span');
-
-            if (btn.dataset.category === category) {
-                checkIcon.classList.add('bg-primary', 'border-primary');
-                checkSpan.classList.remove('hidden');
-            } else {
-                checkIcon.classList.remove('bg-primary', 'border-primary');
-                checkSpan.classList.add('hidden');
-            }
-        });
-
-        // Filter items
-        let visibleCount = 0;
-        items.forEach((item, index) => {
-            const itemCategory = item.dataset.category;
-
-            if (category === 'All' || itemCategory === category) {
-                item.style.display = 'flex';
-                // Reset animation
-                item.style.animation = 'none';
-                item.offsetHeight; /* trigger reflow */
-                item.style.animation = `fadeInUp 0.5s ease-out forwards ${visibleCount * 0.05}s`;
-                visibleCount++;
-            } else {
-                item.style.display = 'none';
-            }
-        });
-
-        // Show/Hide No Results Message
-        const noResultsMsg = document.getElementById('no-results-message');
-        if (noResultsMsg) {
-            if (visibleCount === 0) {
-                noResultsMsg.classList.remove('hidden');
-                noResultsMsg.classList.add('flex');
-            } else {
-                noResultsMsg.classList.add('hidden');
-                noResultsMsg.classList.remove('flex');
-            }
-        }
-
-        // Scroll to top of grid
-        // Scroll to top of grid - REMOVED based on user feedback
-        // const grid = document.querySelector('.grid');
-        // if (grid) {
-        //     grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // }
-    }
-</script>
+{% block extra_js %}
+<!-- External JS for Materials Page -->
+<script src="{{ url_for('static', filename='js/materials.js') }}"></script>
 {% endblock %}

@@ -56,7 +56,7 @@ def services_data():
     }
 
 
-@services.route("/service/<int:service_id>")
+@services.route("/services/service/<int:service_id>")
 def service_detail(service_id):
     service = Service.query.get_or_404(service_id)
     if not service.is_active:

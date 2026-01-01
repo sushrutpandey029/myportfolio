@@ -1,30 +1,62 @@
-/* About page specific styles */
+/* 
+   About Page Styles
+   - Animation Keyframes
+   - Utility Classes
+*/
 
-.about-header {
-    margin-top: 2rem;
-    margin-bottom: 1.5rem;
-    color: #f8fafc;
+/* =========================================
+   Animations
+   ========================================= */
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
 }
 
-.about-lead {
-    font-size: 1.25rem;
-    font-weight: 300;
-    color: #94a3b8;
+@keyframes float-delayed {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
-.mission-section {
-    margin-top: 2rem;
+@keyframes pulse-slow {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
 }
 
-.offerings-list {
-    padding-left: 1.5rem;
+/* =========================================
+   Animation Classes
+   ========================================= */
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
 }
 
-.offerings-list li {
-    margin-bottom: 0.5rem;
-    color: #f8fafc;
+.animate-float-delayed {
+    animation: float-delayed 6s ease-in-out infinite;
+    animation-delay: 1s;
 }
 
-.text-center {
-    text-align: center;
+.animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
 }

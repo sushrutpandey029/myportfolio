@@ -1,112 +1,11 @@
 ﻿{% extends "base/base.html" %}
 
 {% block extra_css %}
+<!-- External CSS for Home Page -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 <style>
-    @keyframes float {
-
-        0%,
-        100% {
-            transform: translateY(0px);
-        }
-
-        50% {
-            transform: translateY(-20px);
-        }
-    }
-
-    @keyframes float-delayed {
-
-        0%,
-        100% {
-            transform: translateY(0px);
-        }
-
-        50% {
-            transform: translateY(-15px);
-        }
-    }
-
-    @keyframes spin-slow {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes pulse-slow {
-
-        0%,
-        100% {
-            opacity: 0.75;
-        }
-
-        50% {
-            opacity: 1;
-        }
-    }
-
-    @keyframes gradient-shift {
-
-        0%,
-        100% {
-            background-position: 0% 50%;
-        }
-
-        50% {
-            background-position: 100% 50%;
-        }
-    }
-
-    @keyframes shine {
-        to {
-            background-position: 200% center;
-        }
-    }
-
-    .animate-float {
-        animation: float 6s ease-in-out infinite;
-    }
-
-    .animate-float-delayed {
-        animation: float-delayed 6s ease-in-out infinite;
-    }
-
-    .animate-spin-slow {
-        animation: spin-slow 8s linear infinite;
-    }
-
-    .animate-pulse-slow {
-        animation: pulse-slow 3s ease-in-out infinite;
-    }
-
-    .animate-gradient {
-        background-size: 200% 200%;
-        animation: gradient-shift 8s ease infinite;
-    }
-
-    .text-gradient {
-        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        background-size: 200% auto;
-        animation: shine 3s linear infinite;
-    }
-
-    .delay-100 {
-        animation-delay: 0.1s;
-    }
-
-    .delay-200 {
-        animation-delay: 0.2s;
-    }
-
-    .delay-300 {
-        animation-delay: 0.3s;
-    }
+    /* Critical inline styles or specific overrides can go here if absolutely necessary, 
+           but we are moving everything to home.css for cleaner separation. */
 </style>
 {% endblock %}
 
@@ -126,12 +25,12 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div class="flex flex-col gap-8">
-                <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]">
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]">
                     {{ content.hero_title_line1 }} <br />
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary">{{
                         content.hero_title_line2 }}</span>
                 </h1>
-                <p class="text-lg text-text-secondary max-w-xl leading-relaxed">
+                <p class="text-base md:text-lg text-text-secondary max-w-xl leading-relaxed">
                     {{ content.hero_subtitle }}
                 </p>
 
@@ -168,7 +67,19 @@
                 </div>
             </div>
 
-            <!-- Profile Image with Orbital Tech Icons -->
+            <!-- Mobile Profile Image (Visible on sm/md, hidden on lg) -->
+            <div class="lg:hidden flex justify-center py-8">
+                <div
+                    class="relative w-64 h-64 rounded-full overflow-hidden border-4 border-surface-dark shadow-2xl shadow-primary/20">
+                    <img src="{% if content.profile_image %}{{ url_for('static', filename=content.profile_image) }}{% else %}https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop{% endif %}"
+                        alt="Profile Image" class="w-full h-full object-cover">
+                    <!-- Glow -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent pointer-events-none">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Image with Orbital Tech Icons (Desktop) -->
             <div class="relative hidden lg:block h-[600px] overflow-visible">
                 <div class="relative h-full flex items-center justify-center">
                     <!-- Ambient Glow Effects -->
@@ -198,100 +109,7 @@
                         </div>
                     </div>
 
-                    <!-- Orbiting Tech Icons System -->
-                    <style>
-                        @keyframes orbit-float {
-                            0% {
-                                transform: rotate(0deg) translateX(250px) rotate(0deg);
-                            }
-
-                            100% {
-                                transform: rotate(360deg) translateX(250px) rotate(-360deg);
-                            }
-                        }
-
-                        .orbital-track {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            border-radius: 50%;
-                        }
-
-                        .tech-icon-wrapper {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            width: 60px;
-                            height: 60px;
-                            margin: -30px 0 0 -30px;
-                            animation: orbit-float 50s linear infinite;
-                        }
-
-                        .tech-icon-glass {
-                            width: 100%;
-                            height: 100%;
-                            border-radius: 1.25rem;
-                            background: rgba(15, 23, 42, 0.6);
-                            backdrop-filter: blur(12px);
-                            border: 1px solid rgba(255, 255, 255, 0.08);
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 0 15px rgba(59, 130, 246, 0.05);
-                            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                        }
-
-                        .tech-icon-glass:hover {
-                            transform: scale(1.2);
-                            background: rgba(30, 41, 59, 0.9);
-                            border-color: rgba(255, 255, 255, 0.2);
-                            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3), 0 0 25px rgba(59, 130, 246, 0.4);
-                            z-index: 50;
-                        }
-
-                        .delay-1 {
-                            animation-delay: 0s;
-                        }
-
-                        .delay-2 {
-                            animation-delay: -6.25s;
-                        }
-
-                        .delay-3 {
-                            animation-delay: -12.5s;
-                        }
-
-                        .delay-4 {
-                            animation-delay: -18.75s;
-                        }
-
-                        .delay-5 {
-                            animation-delay: -25s;
-                        }
-
-                        .delay-6 {
-                            animation-delay: -31.25s;
-                        }
-
-                        .delay-7 {
-                            animation-delay: -37.5s;
-                        }
-
-                        .delay-8 {
-                            animation-delay: -43.75s;
-                        }
-
-                        @keyframes spin-slow-reverse {
-                            from {
-                                transform: translate(-50%, -50%) rotate(360deg);
-                            }
-
-                            to {
-                                transform: translate(-50%, -50%) rotate(0deg);
-                            }
-                        }
-                    </style>
+                    <!-- Orbital Tech Icons System Styles Moved to home.css -->
 
                     <!-- Orbit Tracks -->
                     <div
@@ -621,7 +439,7 @@
                             </div>
                             <div class="h-2 bg-white/5 rounded-full overflow-hidden">
                                 <div class="h-full bg-gradient-to-r {{ styles.bar }} rounded-full skill-progress transform origin-left transition-all duration-1000 group-hover/skill:brightness-125"
-                                    style="width: {{ skill.percentage }}%; animation-delay: {{ loop.index0 * 0.1 }}s;">
+                                    style="--skill-width: {{ skill.percentage }}%; --skill-delay: {{ loop.index0 * 0.1 }}s;">
                                 </div>
                             </div>
                         </div>
@@ -635,31 +453,7 @@
     </div>
 
     <!-- Skill Progress Animation -->
-    <style>
-        @keyframes skillLoad {
-            from {
-                width: 0;
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .skill-progress {
-            box-shadow: 0 0 20px currentColor;
-            animation-fill-mode: backwards;
-        }
-
-        .skill-item {
-            transition: transform 0.3s ease;
-        }
-
-        .skill-item:hover {
-            transform: translateX(4px);
-        }
-    </style>
+    <!-- Skill Progress Animation moved to home.css -->
 </section>
 
 

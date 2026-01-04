@@ -43,7 +43,7 @@ A modern, fully dynamic, and feature-rich web platform designed for freelancers,
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.13.9
 - Virtual Environment (Recommended)
 
 ### Installation

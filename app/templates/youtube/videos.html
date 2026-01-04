@@ -20,7 +20,7 @@
                 </p>
             </div>
             {% if current_user.is_authenticated and current_user.role == 'admin' %}
-            <a href="{{ url_for('admin.video_form') }}"
+            <a href="{{ url_for('admin_bp.admin_video_form') }}"
                 class="upload-btn group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-primary hover:text-white transition-all">
                 <span class="material-symbols-outlined text-[20px]">add_circle</span>
                 <span>Upload Video</span>

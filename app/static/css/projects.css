@@ -1,58 +1,170 @@
 /* 
    Projects Page Styles
-   - Custom Variables
-   - Animations
-   - Component Styles
+   Comprehensive styling for project listing and display
+   - CSS Variables
+   - Base Styles & Animations
+   - Background Effects
+   - Hero Section
+   - Category Filters
+   - Project Cards
+   - Pagination
+   - Responsive Design
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+/* =========================================
+   IMPORTS
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
+/* =========================================
+   CSS VARIABLES
+   ========================================= */
 :root {
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --glass-bg: rgba(15, 23, 42, 0.5);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --shimmer: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    --primary: #8b5cf6;
+    --primary-light: #a78bfa;
+    --primary-dark: #6d28d9;
+    --secondary: #3b82f6;
+    --secondary-light: #60a5fa;
+    --accent: #06b6d4;
+    --accent-light: #22d3ee;
+    --success: #10b981;
+    --success-light: #34d399;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --bg-dark: #0f172a;
+    --bg-darker: #020617;
+    --card-bg: rgba(15, 23, 42, 0.85);
+    --card-border: rgba(139, 92, 246, 0.25);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.85);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --shadow-primary: rgba(139, 92, 246, 0.5);
+    --shadow-secondary: rgba(59, 130, 246, 0.4);
+    --glass-bg: rgba(15, 23, 42, 0.85);
+    --glass-border: rgba(139, 92, 246, 0.2);
+    --shimmer: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.15), transparent);
 }
 
+/* =========================================
+   BASE STYLES
+   ========================================= */
 body {
-    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Premium Background */
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+@keyframes grid-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 60px 60px; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(50px, -50px) rotate(120deg); }
+    66% { transform: translate(-50px, 50px) rotate(240deg); }
+}
+
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+}
+
+/* =========================================
+   BACKGROUND EFFECTS
+   ========================================= */
 .premium-bg {
-    background:
-        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 70%),
-        #0B1120;
+    background: linear-gradient(135deg, #020617 0%, #1e1b4b 40%, #1e293b 70%, #020617 100%);
     background-attachment: fixed;
+    position: relative;
 }
 
-/* Animated Grid */
 .grid-bg {
     background-image:
-        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: grid-move 20s linear infinite;
+        linear-gradient(rgba(139, 92, 246, 0.04) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1.5px, transparent 1.5px);
+    background-size: 60px 60px;
+    animation: grid-move 25s linear infinite;
 }
 
-@keyframes grid-move {
-    0% {
-        background-position: 0 0;
-    }
-
-    100% {
-        background-position: 50px 50px;
-    }
+.particle {
+    border-radius: 50%;
+    filter: blur(100px);
+    animation: float 20s ease-in-out infinite;
 }
 
-/* Project Card */
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
+.gradient-text {
+    background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 40%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: gradient-shift 8s ease infinite;
+}
+
+.text-white\/30 {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.text-text-secondary {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* =========================================
+   CATEGORY FILTERS
+   ========================================= */
+.category-pill {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.category-pill::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #8b5cf6, #60a5fa);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.category-pill:hover {
+    transform: translateY(-4px);
+    border-color: rgba(139, 92, 246, 0.8);
+    color: #ffffff;
+    box-shadow: 0 10px 35px var(--shadow-primary);
+}
+
+.category-pill:hover::before {
+    opacity: 0.15;
+}
+
+.category-pill.active {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 12px 45px var(--shadow-primary), 0 0 0 3px rgba(139, 92, 246, 0.2);
+    transform: translateY(-4px);
+}
+
+.category-pill.active::before {
+    opacity: 0;
+}
+
+/* =========================================
+   PROJECT CARDS
+   ========================================= */
 .project-card {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
+    border: 1.5px solid var(--glass-border);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -74,86 +186,139 @@ body {
 }
 
 .project-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    border-color: rgba(99, 102, 241, 0.4);
-    box-shadow:
-        0 30px 60px -12px rgba(99, 102, 241, 0.3),
-        0 0 80px -20px rgba(168, 85, 247, 0.2);
+    transform: translateY(-12px);
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 
+        0 35px 70px rgba(139, 92, 246, 0.65),
+        0 0 0 1px rgba(139, 92, 246, 0.3),
+        0 0 80px rgba(167, 139, 250, 0.3);
 }
 
-/* Category Pills */
-.category-pill {
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
+/* Project Image */
+.project-image {
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: brightness(0.9);
 }
 
-.category-pill::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
-    opacity: 0;
-    transition: opacity 0.3s;
+.project-card:hover .project-image {
+    transform: scale(1.15);
+    filter: brightness(1);
 }
 
-.category-pill:hover::before,
-.category-pill.active::before {
-    opacity: 1;
-}
-
-.category-pill.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-color: #667eea;
-    box-shadow: 0 10px 40px -5px rgba(102, 126, 234, 0.5);
-    transform: translateY(-3px);
-}
-
-/* Floating Animation */
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0px);
-    }
-
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-.float-animation {
-    animation: float 6s ease-in-out infinite;
-}
-
-/* Gradient Text */
-.gradient-text {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+/* Project Title Hover */
+.group:hover .line-clamp-2 {
+    background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% auto;
-    animation: gradient-shift 3s linear infinite;
 }
 
-@keyframes gradient-shift {
-    0% {
-        background-position: 0% center;
-    }
+/* =========================================
+   BADGES
+   ========================================= */
+.bg-green-500 {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 100%) !important;
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.6);
+}
 
-    100% {
-        background-position: 200% center;
-    }
+.bg-purple-500 {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.6);
+}
+
+.bg-black\/40 {
+    background: rgba(15, 23, 42, 0.85) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(139, 92, 246, 0.3) !important;
+}
+
+.text-primary {
+    color: #a78bfa !important;
+}
+
+.bg-blue-500\/10 {
+    background: rgba(139, 92, 246, 0.15) !important;
+    border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+/* Download Button */
+.from-green-500 {
+    --tw-gradient-from: #10b981 !important;
+}
+
+.to-emerald-500 {
+    --tw-gradient-to: #059669 !important;
+}
+
+.group\/btn .from-green-500.to-emerald-500 {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%) !important;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.5);
+}
+
+.group\/btn:hover .from-green-500.to-emerald-500 {
+    box-shadow: 0 12px 40px rgba(16, 185, 129, 0.7), 0 0 60px rgba(52, 211, 153, 0.3);
+}
+
+/* Surface Button */
+.bg-surface-dark {
+    background: rgba(15, 23, 42, 0.85) !important;
+    border-color: rgba(139, 92, 246, 0.25) !important;
+}
+
+.bg-surface-dark:hover {
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6) !important;
+    border-color: transparent !important;
+}
+
+/* =========================================
+   PAGINATION
+   ========================================= */
+.border-white\/10 {
+    border-color: rgba(139, 92, 246, 0.25) !important;
+}
+
+.hover\:bg-primary:hover {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%) !important;
+    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.7);
+}
+
+.hover\:border-primary:hover {
+    border-color: transparent !important;
+}
+
+/* =========================================
+   EMPTY STATE
+   ========================================= */
+.from-primary\/20 {
+    --tw-gradient-from: rgba(139, 92, 246, 0.3) !important;
+}
+
+.to-secondary\/20 {
+    --tw-gradient-to: rgba(59, 130, 246, 0.25) !important;
+}
+
+/* =========================================
+   UTILITY CLASSES
+   ========================================= */
+.border-white\/5 {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.from-primary.via-secondary.to-accent {
+    --tw-gradient-from: #a78bfa !important;
+    --tw-gradient-via: #60a5fa !important;
+    --tw-gradient-to: #22d3ee !important;
 }
 
 /* Scroll Reveal */
 .scroll-reveal {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scroll-reveal.revealed {
@@ -161,11 +326,29 @@ body {
     transform: translateY(0);
 }
 
-/* Image Hover */
-.project-image {
-    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+@media (max-width: 768px) {
+    .project-card {
+        border-width: 1px;
+    }
+    
+    .category-pill {
+        padding: 8px 16px;
+        font-size: 11px;
+    }
 }
 
-.project-card:hover .project-image {
-    transform: scale(1.15) rotate(2deg);
+/* =========================================
+   FOCUS & SELECTION
+   ========================================= */
+*:focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 2px;
+}
+
+::selection {
+    background: rgba(139, 92, 246, 0.3);
+    color: #ffffff;
 }

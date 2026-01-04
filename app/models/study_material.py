@@ -1,12 +1,26 @@
+"""
+Study Material Model Module
+Manages educational resources and downloadable materials
+"""
+
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
 from app.extensions import db
 from app.models.base import BaseModel
 from app.utils.constants import MATERIAL_FREE, MATERIAL_PAID
+
+
+# =========================================
+# STUDY MATERIAL MODEL
+# =========================================
 
 class StudyMaterial(BaseModel):
     """Model for study materials (PDFs, documents, etc.)"""
     
     __tablename__ = 'study_materials'
     
+    # Columns
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(50), nullable=True)

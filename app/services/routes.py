@@ -1,11 +1,33 @@
+"""
+Services Routes Module
+Handles service listing, details, and data API:
+- Service Browsing & Filtering
+- Category-based Filtering
+- Service Detail Pages
+- JSON API for Client-side Filtering
+"""
+
+# =========================================
+# THIRD-PARTY IMPORTS
+# =========================================
 from flask import render_template, request
+
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
 from app.extensions import db
 from app.services import services
 from app.models.service import Service
 from app.models.service_category import ServiceCategory
 
+
+# =========================================
+# SERVICE LISTING ROUTES
+# =========================================
+
 @services.route("/services")
 def services_list():
+    """Display paginated list of services with category filtering"""
     page = request.args.get('page', 1, type=int)
     category_name = request.args.get('category', 'All')
     
@@ -28,6 +50,11 @@ def services_list():
                          services=services_paginated, 
                          categories=categories_list, 
                          selected_category=category_name)
+
+
+# =========================================
+# SERVICE DATA API ROUTES
+# =========================================
 
 @services.route("/services-data")
 def services_data():
@@ -56,8 +83,13 @@ def services_data():
     }
 
 
+# =========================================
+# SERVICE DETAIL ROUTES
+# =========================================
+
 @services.route("/services/service/<int:service_id>")
 def service_detail(service_id):
+    """Display individual service details"""
     service = Service.query.get_or_404(service_id)
     if not service.is_active:
         return render_template('errors/404.html'), 404

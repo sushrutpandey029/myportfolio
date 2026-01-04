@@ -1,9 +1,29 @@
-from app.extensions import db
+"""
+Blog Post Model Module
+Manages blog posts and articles
+"""
+
+# =========================================
+# STANDARD LIBRARY IMPORTS
+# =========================================
 from datetime import datetime
 
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
+from app.extensions import db
+
+
+# =========================================
+# BLOG POST MODEL
+# =========================================
+
 class BlogPost(db.Model):
+    """Model for blog posts"""
+    
     __tablename__ = 'blog_posts'
 
+    # Columns
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)

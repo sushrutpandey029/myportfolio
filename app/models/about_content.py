@@ -1,5 +1,18 @@
+"""
+About Content Model Module
+Manages editable about page content
+"""
+
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
 from app.extensions import db
 from app.models.base import BaseModel
+
+
+# =========================================
+# ABOUT CONTENT MODEL
+# =========================================
 
 class AboutContent(BaseModel):
     """Model for managing about page content"""
@@ -48,15 +61,12 @@ class AboutContent(BaseModel):
     timeline_year_1 = db.Column(db.String(20), nullable=False, default="2019")
     timeline_title_1 = db.Column(db.String(100), nullable=False, default="The Beginning")
     timeline_content_1 = db.Column(db.Text, nullable=False, default="Founded with a vision to revolutionize team collaboration.")
-    
     timeline_year_2 = db.Column(db.String(20), nullable=False, default="2021")
     timeline_title_2 = db.Column(db.String(100), nullable=False, default="Major Milestone")
     timeline_content_2 = db.Column(db.Text, nullable=False, default="Reached 10,000 users and launched our mobile app.")
-    
     timeline_year_3 = db.Column(db.String(20), nullable=False, default="2023")
     timeline_title_3 = db.Column(db.String(100), nullable=False, default="Enterprise Growth")
     timeline_content_3 = db.Column(db.Text, nullable=False, default="Launched enterprise features and AI-powered tools.")
-    
     timeline_year_4 = db.Column(db.String(20), nullable=False, default="2025 & Beyond")
     timeline_title_4 = db.Column(db.String(100), nullable=False, default="The Future")
     timeline_content_4 = db.Column(db.Text, nullable=False, default="Continuing innovation with advanced AI features.")
@@ -73,7 +83,7 @@ class AboutContent(BaseModel):
     cta_button_link = db.Column(db.String(100), nullable=False, default="services.services_list")
     cta_button_2_link = db.Column(db.String(100), nullable=False, default="projects.projects_list")
     
-    # Only one row should exist
+    # Singleton Guard
     singleton_guard = db.Column(db.Integer, unique=True, default=1)
     
     def __repr__(self):

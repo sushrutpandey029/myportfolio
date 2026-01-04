@@ -1,10 +1,34 @@
+"""
+Admin Forms Module
+Contains all form classes for admin panel operations including:
+- User Management Forms
+- Content Management Forms (Services, Projects, Materials, Videos, Blogs)
+- Category Management Forms
+- Home & About Page Content Forms
+- Skills & Team Management Forms
+"""
+
+# =========================================
+# IMPORTS
+# =========================================
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, TextAreaField, FloatField, SelectField, SubmitField
-from wtforms.validators import Optional, NumberRange, DataRequired, Length, Email, EqualTo
-from wtforms import PasswordField
+from wtforms import (
+    StringField, TextAreaField, FloatField, SelectField, 
+    SubmitField, PasswordField
+)
+from wtforms.validators import (
+    Optional, NumberRange, DataRequired, Length, 
+    Email, EqualTo
+)
+
+
+# =========================================
+# USER MANAGEMENT FORMS
+# =========================================
 
 class UserForm(FlaskForm):
+    """Form for creating and managing user accounts"""
     username = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=50)])
     email = StringField('Email Address', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
@@ -12,24 +36,20 @@ class UserForm(FlaskForm):
     role = SelectField('Assign Role', choices=[('admin', 'Admin'), ('user', 'User/Freelancer')], default='admin')
     submit = SubmitField('Create User')
 
+
+# =========================================
+# SERVICE MANAGEMENT FORMS
+# =========================================
+
 class ServiceCategoryForm(FlaskForm):
+    """Form for creating and editing service categories"""
     name = StringField('Category Name', validators=[DataRequired(), Length(max=50)])
     description = StringField('Description', validators=[Optional(), Length(max=200)])
     submit = SubmitField('Save Category')
 
-class ProjectCategoryForm(FlaskForm):
-    name = StringField('Category Name', validators=[DataRequired(), Length(max=50)])
-    description = StringField('Description', validators=[Optional(), Length(max=200)])
-    submit = SubmitField('Save Category')
-
-class SkillCategoryForm(FlaskForm):
-    name = StringField('Category Name', validators=[DataRequired(), Length(max=50)])
-    description = StringField('Description', validators=[Optional(), Length(max=200)])
-    submit = SubmitField('Save Category')
-
-from flask_wtf.file import FileField, FileAllowed
 
 class ServiceForm(FlaskForm):
+    """Form for creating and editing services"""
     title = StringField('Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     price = FloatField('Price (Optional)', validators=[Optional(), NumberRange(min=0)])
@@ -41,7 +61,20 @@ class ServiceForm(FlaskForm):
     is_active = SelectField('Status', choices=[('True', 'Active'), ('False', 'Inactive')], default='True')
     submit = SubmitField('Save Service')
 
+
+# =========================================
+# PROJECT MANAGEMENT FORMS
+# =========================================
+
+class ProjectCategoryForm(FlaskForm):
+    """Form for creating and editing project categories"""
+    name = StringField('Category Name', validators=[DataRequired(), Length(max=50)])
+    description = StringField('Description', validators=[Optional(), Length(max=200)])
+    submit = SubmitField('Save Category')
+
+
 class ProjectForm(FlaskForm):
+    """Form for creating and editing projects"""
     title = StringField('Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     category_id = SelectField('Category', coerce=int, validators=[Optional()])
@@ -53,12 +86,20 @@ class ProjectForm(FlaskForm):
     is_active = SelectField('Status', choices=[('True', 'Active'), ('False', 'Inactive')], default='True')
     submit = SubmitField('Save Project')
 
+
+# =========================================
+# STUDY MATERIAL MANAGEMENT FORMS
+# =========================================
+
 class StudyMaterialCategoryForm(FlaskForm):
+    """Form for creating and editing study material categories"""
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=50)])
     description = TextAreaField('Description', validators=[Optional(), Length(max=200)])
     submit = SubmitField('Save Category')
 
+
 class StudyMaterialForm(FlaskForm):
+    """Form for creating and editing study materials"""
     title = StringField('Title')
     description = TextAreaField('Description')
     category = SelectField('Category', choices=[], validators=[DataRequired()])
@@ -70,11 +111,12 @@ class StudyMaterialForm(FlaskForm):
     submit = SubmitField('Save')
     
     def validate(self, extra_validators=None):
+        """Custom validation: either file or doc_url must be provided"""
         # First run default validation
         if not super().validate(extra_validators):
             return False
         
-        # Custom validation: either file or doc_url must be provided
+        # Custom validation
         if not self.file.data and not self.doc_url.data:
             self.file.errors.append('Either upload a file or provide a document URL.')
             self.doc_url.errors.append('Either upload a file or provide a document URL.')
@@ -82,12 +124,20 @@ class StudyMaterialForm(FlaskForm):
         
         return True
 
+
+# =========================================
+# YOUTUBE VIDEO MANAGEMENT FORMS
+# =========================================
+
 class YouTubeCategoryForm(FlaskForm):
+    """Form for creating and editing YouTube video categories"""
     name = StringField('Name', validators=[DataRequired(), Length(max=50)])
     description = StringField('Description', validators=[Optional(), Length(max=200)])
     submit = SubmitField('Save Category')
 
+
 class YouTubeVideoForm(FlaskForm):
+    """Form for creating and editing YouTube videos"""
     title = StringField('Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[Optional()])
     video_url = StringField('YouTube URL', validators=[DataRequired()])
@@ -95,18 +145,20 @@ class YouTubeVideoForm(FlaskForm):
     is_active = SelectField('Status', choices=[('True', 'Active'), ('False', 'Inactive')], default='True')
     submit = SubmitField('Save')
 
-class InquiryForm(FlaskForm):
-    status = SelectField('Status', 
-                        choices=[('new', 'New'), ('contacted', 'Contacted'), ('closed', 'Closed')], 
-                        default='new')
-    submit = SubmitField('Update')
+
+# =========================================
+# BLOG MANAGEMENT FORMS
+# =========================================
 
 class BlogCategoryForm(FlaskForm):
+    """Form for creating and editing blog categories"""
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=50)])
     description = TextAreaField('Description', validators=[Optional(), Length(max=200)])
     submit = SubmitField('Save Category')
 
+
 class BlogPostForm(FlaskForm):
+    """Form for creating and editing blog posts"""
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     category = SelectField('Category', choices=[], validators=[DataRequired()])
@@ -115,7 +167,25 @@ class BlogPostForm(FlaskForm):
     is_active = SelectField('Status', choices=[('True', 'Active'), ('False', 'Inactive')], default='True')
     submit = SubmitField('Save Post')
 
+
+# =========================================
+# INQUIRY MANAGEMENT FORMS
+# =========================================
+
+class InquiryForm(FlaskForm):
+    """Form for managing inquiry status"""
+    status = SelectField('Status', 
+                        choices=[('new', 'New'), ('contacted', 'Contacted'), ('closed', 'Closed')], 
+                        default='new')
+    submit = SubmitField('Update')
+
+
+# =========================================
+# HOME PAGE CONTENT FORMS
+# =========================================
+
 class HomeContentForm(FlaskForm):
+    """Form for editing home page content"""
     # Hero Section
     hero_title_line1 = StringField('Hero Title Line 1', validators=[DataRequired(), Length(max=100)])
     hero_title_line2 = StringField('Hero Title Line 2', validators=[DataRequired(), Length(max=100)])
@@ -148,7 +218,13 @@ class HomeContentForm(FlaskForm):
     
     submit = SubmitField('Update Home Page')
 
+
+# =========================================
+# ABOUT PAGE CONTENT FORMS
+# =========================================
+
 class AboutContentForm(FlaskForm):
+    """Form for editing about page content"""
     # Hero Section
     hero_title = StringField('Hero Title', validators=[DataRequired(), Length(max=200)])
     hero_subtitle = TextAreaField('Hero Subtitle', validators=[DataRequired()])
@@ -218,7 +294,20 @@ class AboutContentForm(FlaskForm):
     
     submit = SubmitField('Update About Page')
 
+
+# =========================================
+# SKILLS MANAGEMENT FORMS
+# =========================================
+
+class SkillCategoryForm(FlaskForm):
+    """Form for creating and editing skill categories"""
+    name = StringField('Category Name', validators=[DataRequired(), Length(max=50)])
+    description = StringField('Description', validators=[Optional(), Length(max=200)])
+    submit = SubmitField('Save Category')
+
+
 class SkillForm(FlaskForm):
+    """Form for creating and editing skills"""
     name = StringField('Skill Name', validators=[DataRequired(), Length(max=100)])
     category = SelectField('Category', 
                           choices=[('Frontend', 'Frontend Development'), 
@@ -237,7 +326,13 @@ class SkillForm(FlaskForm):
     is_active = SelectField('Status', choices=[('True', 'Active'), ('False', 'Inactive')], default='True')
     submit = SubmitField('Save Skill')
 
+
+# =========================================
+# TEAM MEMBERS MANAGEMENT FORMS
+# =========================================
+
 class TeamMemberForm(FlaskForm):
+    """Form for creating and editing team members"""
     name = StringField('Full Name', validators=[DataRequired(), Length(max=100)])
     position = StringField('Position/Role', validators=[DataRequired(), Length(max=100)])
     bio = TextAreaField('Short Bio', validators=[Optional()])

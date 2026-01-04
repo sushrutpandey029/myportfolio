@@ -1,12 +1,33 @@
+"""
+User Model Module
+Handles user authentication and account management
+- User registration and login
+- Password hashing and verification
+- Role-based access control (admin/user)
+"""
+
+# =========================================
+# THIRD-PARTY IMPORTS
+# =========================================
 from flask_login import UserMixin
+
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
 from app.extensions import db, bcrypt
 from app.models.base import BaseModel
+
+
+# =========================================
+# USER MODEL
+# =========================================
 
 class User(UserMixin, BaseModel):
     """User model for both admins and regular users"""
     
     __tablename__ = 'users'
     
+    # Columns
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(60), nullable=False)
@@ -17,6 +38,7 @@ class User(UserMixin, BaseModel):
     downloads = db.relationship('Download', backref='user', lazy=True)
     
     def __init__(self, username, email, password, role='user'):
+        """Initialize user with hashed password"""
         self.username = username
         self.email = email
         self.set_password(password)

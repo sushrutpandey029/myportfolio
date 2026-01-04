@@ -1,47 +1,68 @@
 /* 
    Services Page Styles
-   This file contains all the styling for the Services page, including:
-   - Hero Section: Typography and layout for the page title and subtitle.
-   - Animated Background: Floating orbs and dark gradient background.
-   - Search Section: Styling for the search bar, input, and focus effects.
-   - Category Pills: Filter buttons for services with hover and active states.
-   - Service Cards: Glassmorphism effects, hover animations, and layout for service items.
-   - Loading & Empty States: Visuals for when data is loading or no results are found.
-   - Pagination: Styling for page navigation buttons.
+   - Imports & Variables
+   - Animations & Backgrounds
+   - Hero Section
+   - Search & Filters
+   - Service Cards
+   - Empty States & Pagination
+   - Responsive Design
 */
 
+/* =========================================
+   1. IMPORTS & BASE SETUP
+   ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 * {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+/* =========================================
+   2. CSS VARIABLES
+   ========================================= */
 :root {
-    --primary: #7c3aed;
+    --primary: #8b5cf6;
     --primary-light: #a78bfa;
-    --secondary: #2563eb;
-    --accent: #06b6d4;
+    --secondary: #3b82f6;
+    --accent: #22d3ee;
     --success: #10b981;
-    --warning: #f59e0b;
-    --bg-dark: #0a0e1a;
-    --bg-darker: #050812;
-    --card-bg: rgba(20, 25, 45, 0.7);
-    --card-border: rgba(124, 58, 237, 0.15);
+    --warning: #fbbf24;
+    --card-bg: rgba(15, 23, 42, 0.85);
+    --card-border: rgba(139, 92, 246, 0.25);
     --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
-    --text-muted: rgba(255, 255, 255, 0.4);
-}
-
-body {
-    background: linear-gradient(135deg, #0a0e1a 0%, #1a1035 50%, #0f1729 100%);
-    min-height: 100vh;
-    position: relative;
-    color: var(--text-primary);
+    --text-secondary: rgba(255, 255, 255, 0.85);
+    --text-muted: rgba(255, 255, 255, 0.6);
 }
 
 /* =========================================
-   Animated Background
+   3. ANIMATIONS
    ========================================= */
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(50px, -50px) rotate(120deg); }
+    66% { transform: translate(-50px, 50px) rotate(240deg); }
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* =========================================
+   4. BACKGROUND & LAYOUT
+   ========================================= */
+body {
+    background: linear-gradient(135deg, #020617 0%, #1e1b4b 40%, #1e293b 70%, #020617 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--text-primary);
+}
+
 .bg-animated {
     position: fixed;
     inset: 0;
@@ -60,45 +81,29 @@ body {
 }
 
 .bg-animated::before {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.25) 0%, transparent 70%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, transparent 70%);
     top: -10%;
     left: -10%;
 }
 
 .bg-animated::after {
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, transparent 70%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
     bottom: -15%;
     right: -15%;
     animation-delay: -10s;
 }
 
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-
-    33% {
-        transform: translate(50px, -50px) rotate(120deg);
-    }
-
-    66% {
-        transform: translate(-50px, 50px) rotate(240deg);
-    }
-}
-
 /* =========================================
-   Hero Section
+   5. HERO SECTION
    ========================================= */
 .hero-section {
     position: relative;
     z-index: 10;
-    padding: 80px 0 40px;
+    padding: 100px 0 40px;
     text-align: center;
 }
 
@@ -110,29 +115,38 @@ body {
     letter-spacing: -0.01em;
 }
 
+.hero-subtitle-muted {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.hero-subtitle-bright {
+    color: #ffffff;
+}
+
 .gradient-text {
-    background: linear-gradient(135deg, #7c3aed 0%, #2563eb 50%, #06b6d4 100%);
+    background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 40%, #22d3ee 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradientShift 8s ease infinite;
     background-size: 200% auto;
+    animation: gradientShift 8s ease infinite;
 }
 
-@keyframes gradientShift {
+.hero-description {
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
 
-    0%,
-    100% {
-        background-position: 0% center;
-    }
-
-    50% {
-        background-position: 100% center;
-    }
+.hero-description-highlight {
+    color: #ffffff;
+    font-weight: 700;
 }
 
 /* =========================================
-   Search Section
+   6. SEARCH SECTION
    ========================================= */
 .search-section {
     max-width: 750px;
@@ -149,7 +163,7 @@ body {
 .search-glow {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6, #06b6d4);
     border-radius: 24px;
     opacity: 0;
     filter: blur(20px);
@@ -162,29 +176,26 @@ body {
 }
 
 .search-input {
-    position: relative;
     width: 100%;
     padding: 16px 20px 16px 56px;
     font-size: 16px;
     font-weight: 500;
-    color: white !important;
-    background: rgba(20, 25, 45, 0.7) !important;
-    backdrop-filter: blur(20px);
-    border: 1.5px solid rgba(124, 58, 237, 0.2) !important;
+    color: #ffffff !important;
+    background: rgba(15, 23, 42, 0.9) !important;
+    border: 2px solid rgba(139, 92, 246, 0.35) !important;
     border-radius: 20px;
     outline: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: none !important;
+    transition: all 0.3s;
 }
 
 .search-input:focus {
-    border-color: rgba(124, 58, 237, 0.6) !important;
-    background: rgba(20, 25, 45, 0.9) !important;
-    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15) !important;
+    border-color: rgba(139, 92, 246, 0.8) !important;
+    background: rgba(15, 23, 42, 0.95) !important;
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.25) !important;
 }
 
 .search-input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.45);
 }
 
 .search-icon {
@@ -192,18 +203,18 @@ body {
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.5);
     font-size: 24px;
     pointer-events: none;
     transition: color 0.3s;
 }
 
 .search-wrapper:focus-within .search-icon {
-    color: var(--primary);
+    color: #a78bfa;
 }
 
 /* =========================================
-   Category Pills
+   7. CATEGORY FILTERS
    ========================================= */
 .category-pills {
     display: flex;
@@ -217,13 +228,12 @@ body {
     padding: 11px 22px;
     font-size: 13px;
     font-weight: 600;
-    color: var(--text-secondary);
-    background: rgba(20, 25, 45, 0.6);
-    backdrop-filter: blur(10px);
-    border: 1.5px solid rgba(124, 58, 237, 0.15);
+    color: #f1f5f9;
+    background: rgba(15, 23, 42, 0.8);
+    border: 2px solid rgba(139, 92, 246, 0.3);
     border-radius: 50px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s;
     overflow: hidden;
 }
 
@@ -231,16 +241,16 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #8b5cf6, #60a5fa);
     opacity: 0;
     transition: opacity 0.3s;
 }
 
 .category-pill:hover {
     transform: translateY(-4px);
-    border-color: rgba(124, 58, 237, 0.6);
-    color: white;
-    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+    border-color: rgba(139, 92, 246, 0.8);
+    color: #ffffff;
+    box-shadow: 0 10px 35px rgba(139, 92, 246, 0.5);
 }
 
 .category-pill:hover::before {
@@ -248,28 +258,35 @@ body {
 }
 
 .category-pill.active {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
     border-color: transparent;
-    color: white;
+    color: #ffffff;
+    box-shadow: 0 12px 45px rgba(139, 92, 246, 0.7), 0 0 0 3px rgba(139, 92, 246, 0.2);
     transform: translateY(-4px);
-    box-shadow: 0 10px 40px rgba(124, 58, 237, 0.6);
 }
 
 .category-pill.active::before {
     opacity: 0;
 }
 
-/* Results Info */
+.category-pill-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .results-info {
     text-align: center;
     margin: 32px 0;
     font-size: 15px;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 /* =========================================
-   Services Grid & Cards
+   8. SERVICE CARDS
    ========================================= */
 .services-grid {
     display: grid;
@@ -282,11 +299,10 @@ body {
     position: relative;
     background: var(--card-bg);
     backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
+    border: 1.5px solid var(--card-border);
     border-radius: 24px;
     overflow: hidden;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    height: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -295,7 +311,7 @@ body {
     content: '';
     position: absolute;
     inset: -2px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+    background: linear-gradient(135deg, #a78bfa, #60a5fa, #22d3ee);
     border-radius: 24px;
     opacity: 0;
     z-index: -1;
@@ -304,13 +320,15 @@ body {
 
 .service-card:hover {
     transform: translateY(-12px);
-    box-shadow: 0 30px 60px rgba(124, 58, 237, 0.5);
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 35px 70px rgba(139, 92, 246, 0.65);
 }
 
 .service-card:hover::before {
     opacity: 0.4;
 }
 
+/* Card Image */
 .service-image-wrapper {
     position: relative;
     height: 240px;
@@ -321,7 +339,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.7s;
 }
 
 .service-card:hover .service-image {
@@ -332,9 +350,10 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.9) 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.6) 50%, rgba(15, 23, 42, 0.98) 100%);
 }
 
+/* Card Badges */
 .service-badges {
     position: absolute;
     top: 16px;
@@ -342,7 +361,6 @@ body {
     right: 16px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
     z-index: 10;
 }
 
@@ -350,7 +368,7 @@ body {
     padding: 8px 14px;
     border-radius: 12px;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     display: inline-flex;
@@ -359,18 +377,20 @@ body {
 }
 
 .badge-category {
-    background: rgba(124, 58, 237, 0.25);
-    border: 1px solid rgba(124, 58, 237, 0.5);
-    color: #c4b5fd;
-    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    border: 1px solid rgba(167, 139, 250, 0.5);
+    color: #ffffff;
+    backdrop-filter: blur(12px);
 }
 
 .badge-premium {
-    background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
-    color: white;
-    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.6);
+    background: linear-gradient(135deg, #fbbf24, #f59e0b, #ea580c);
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    color: #0f172a;
+    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.7);
 }
 
+/* Card Content */
 .service-content {
     padding: 24px;
     flex: 1;
@@ -381,14 +401,14 @@ body {
 .service-title {
     font-size: 22px;
     font-weight: 800;
-    color: white;
+    color: #ffffff;
     margin-bottom: 12px;
     line-height: 1.3;
     transition: all 0.3s;
 }
 
 .service-card:hover .service-title {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -397,14 +417,13 @@ body {
 .service-description {
     font-size: 14px;
     line-height: 1.7;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.75);
     margin-bottom: 20px;
     flex: 1;
 }
 
 .service-meta {
     display: flex;
-    align-items: center;
     gap: 16px;
     margin-bottom: 20px;
     padding-bottom: 20px;
@@ -417,14 +436,15 @@ body {
     gap: 6px;
     font-size: 13px;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .meta-item .material-symbols-outlined {
     font-size: 18px;
-    color: var(--primary);
+    color: #a78bfa;
 }
 
+/* Card Footer */
 .service-footer {
     display: flex;
     align-items: center;
@@ -441,14 +461,13 @@ body {
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.55);
 }
 
 .price-value {
     font-size: 32px;
     font-weight: 900;
-    background: linear-gradient(135deg, var(--success), #059669);
+    background: linear-gradient(135deg, #34d399, #10b981, #059669);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -457,14 +476,13 @@ body {
 .price-contact {
     font-size: 14px;
     font-weight: 700;
-    color: var(--primary);
-    text-transform: uppercase;
+    color: #a78bfa;
 }
 
 .btn-view {
     padding: 14px 28px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1, #3b82f6);
+    color: #ffffff;
     border: none;
     border-radius: 16px;
     font-size: 14px;
@@ -475,40 +493,16 @@ body {
     align-items: center;
     gap: 8px;
     transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-view::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.btn-view:hover::before {
-    width: 300px;
-    height: 300px;
+    text-decoration: none;
 }
 
 .btn-view:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
-}
-
-.btn-view span {
-    position: relative;
-    z-index: 1;
+    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.7);
 }
 
 /* =========================================
-   Empty State & Loading
+   9. EMPTY STATE & LOADING
    ========================================= */
 .empty-state {
     text-align: center;
@@ -517,37 +511,31 @@ body {
     backdrop-filter: blur(20px);
     border: 1px solid var(--card-border);
     border-radius: 32px;
-    margin: 48px auto;
     max-width: 600px;
+    margin: 48px auto;
 }
 
 .empty-icon {
     width: 120px;
     height: 120px;
     margin: 0 auto 24px;
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(37, 99, 235, 0.2));
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(99, 102, 241, 0.25));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.empty-icon .material-symbols-outlined {
-    font-size: 56px;
-    color: var(--primary);
-}
-
 .empty-title {
     font-size: 32px;
     font-weight: 900;
-    color: white;
+    color: #ffffff;
     margin-bottom: 12px;
 }
 
 .empty-description {
     font-size: 16px;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.75);
     margin-bottom: 32px;
 }
 
@@ -555,39 +543,31 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     padding: 100px 40px;
 }
 
 .loader {
     width: 64px;
     height: 64px;
-    border: 5px solid rgba(99, 102, 241, 0.2);
-    border-top-color: var(--primary);
+    border: 5px solid rgba(139, 92, 246, 0.25);
+    border-top-color: #a78bfa;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 24px;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 .loading-text {
     font-size: 18px;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 /* =========================================
-   Pagination
+   10. PAGINATION
    ========================================= */
 .pagination {
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 12px;
     margin: 64px 0 32px;
 }
@@ -596,31 +576,27 @@ body {
     min-width: 48px;
     height: 48px;
     padding: 0 20px;
-    background: rgba(20, 25, 45, 0.7);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(124, 58, 237, 0.2);
+    background: rgba(15, 23, 42, 0.85);
+    border: 2px solid rgba(139, 92, 246, 0.35);
     border-radius: 16px;
-    color: white;
+    color: #ffffff;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .page-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #8b5cf6, #6366f1, #3b82f6);
     border-color: transparent;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.5);
+    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.7);
 }
 
 .page-btn.active {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #8b5cf6, #6366f1, #3b82f6);
     border-color: transparent;
-    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.6);
+    box-shadow: 0 10px 35px rgba(139, 92, 246, 0.8);
 }
 
 .page-btn:disabled {
@@ -629,7 +605,7 @@ body {
 }
 
 /* =========================================
-   Scroll Reveal Animation
+   11. SCROLL REVEAL
    ========================================= */
 .scroll-reveal {
     opacity: 0;
@@ -642,16 +618,35 @@ body {
     transform: translateY(0);
 }
 
+.scroll-delay-1 { transition-delay: 0.1s; }
+.scroll-delay-2 { transition-delay: 0.2s; }
+
 /* =========================================
-   Responsive Design
+   12. UTILITY CLASSES
+   ========================================= */
+.relative { position: relative; }
+.z-10 { z-index: 10; }
+.grid-full-width { grid-column: 1 / -1; }
+
+/* =========================================
+   13. RESPONSIVE DESIGN
    ========================================= */
 @media (max-width: 768px) {
-    .services-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-    }
+    .hero-section { padding: 80px 0 30px; }
+    .services-grid { grid-template-columns: 1fr; gap: 20px; }
+    .category-pills { gap: 8px; }
+    .category-pill { padding: 9px 18px; font-size: 12px; }
+}
 
-    .hero-section {
-        padding: 80px 0 40px;
-    }
+/* =========================================
+   14. FOCUS & SELECTION
+   ========================================= */
+*:focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 2px;
+}
+
+::selection {
+    background: rgba(139, 92, 246, 0.3);
+    color: #ffffff;
 }

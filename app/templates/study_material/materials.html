@@ -8,8 +8,7 @@
 {% block content %}
 <div class="flex flex-1 w-full max-w-[1440px] mx-auto pt-24">
     <!-- Sidebar Filters -->
-    <aside
-        class="hidden lg:flex flex-col w-72 p-6 border-r border-white/10 bg-surface-dark/30 backdrop-blur-xl h-[calc(100vh-96px)] sticky top-24 overflow-y-auto no-scrollbar">
+    <aside class="hidden lg:flex flex-col w-72 p-6 border-r h-[calc(100vh-96px)] sticky top-24 overflow-y-auto no-scrollbar">
         <!-- Header -->
         <div class="mb-8 animate-fade-in-right" style="animation-delay: 0ms;">
             <div class="flex items-center justify-between mb-2">
@@ -17,7 +16,7 @@
                     <span class="material-symbols-outlined text-primary">tune</span> Filters
                 </h3>
             </div>
-            <div class="h-1 w-12 bg-primary rounded-full"></div>
+            <div class="h-1 w-12 filter-header-line rounded-full"></div>
         </div>
 
         <div class="flex-1 flex flex-col">
@@ -27,49 +26,36 @@
             <div class="flex flex-col gap-1">
                 <!-- All Categories -->
                 <button onclick="filterMaterials('All')"
-                    class="category-filter relative flex items-center gap-3 p-3 rounded-xl group cursor-pointer w-full text-left hover:bg-white/5 transition-all duration-300 animate-fade-in-right"
+                    class="category-filter active relative flex items-center gap-3 p-3 rounded-xl group cursor-pointer w-full text-left transition-all duration-300 animate-fade-in-right"
                     style="animation-delay: 200ms;" data-category="All">
-                    <div
-                        class="check-icon relative z-10 size-5 flex items-center justify-center rounded-md border border-white/20 text-white transition-all duration-300 bg-primary border-primary shadow-[0_0_10px_rgba(var(--primary-rgb),0.3)]">
+                    <div class="check-icon relative z-10 size-5 flex items-center justify-center rounded-md border text-white transition-all duration-300">
                         <span class="material-symbols-outlined text-[10px] font-bold">check</span>
                     </div>
                     <span
                         class="text-white/80 text-sm font-bold group-hover:text-white transition-colors relative z-10">All
                         Categories</span>
-
-                    <!-- Hover Effect -->
-                    <div
-                        class="absolute inset-0 bg-white/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
                 </button>
 
                 <!-- Dynamic Categories -->
                 {% for cat in categories %}
                 <button onclick="filterMaterials('{{ cat }}')"
-                    class="category-filter relative flex items-center gap-3 p-3 rounded-xl group cursor-pointer w-full text-left hover:bg-white/5 transition-all duration-300 animate-fade-in-right"
+                    class="category-filter relative flex items-center gap-3 p-3 rounded-xl group cursor-pointer w-full text-left transition-all duration-300 animate-fade-in-right"
                     style="animation-delay: {{ 200 + loop.index * 50 }}ms;" data-category="{{ cat }}">
                     <div
                         class="check-icon relative z-10 size-5 flex items-center justify-center rounded-md border border-white/20 text-white/50 transition-all duration-300">
                         <span class="material-symbols-outlined text-[10px] font-bold hidden">check</span>
                     </div>
                     <span
-                        class="text-white/60 text-sm font-medium group-hover:text-white transition-colors relative z-10">{{
-                        cat }}</span>
-
-                    <!-- Hover Effect -->
-                    <div
-                        class="absolute inset-0 bg-white/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
+                        class="text-white/60 text-sm font-medium group-hover:text-white transition-colors relative z-10">{{ cat }}</span>
                 </button>
                 {% endfor %}
             </div>
 
             <!-- Reset Filters -->
-            <div class="mt-auto pt-8 border-t border-white/5 animate-fade-in-up" style="animation-delay: 600ms;">
+            <div class="mt-auto pt-8 border-t border-white/10 animate-fade-in-up" style="animation-delay: 600ms;">
                 <button onclick="filterMaterials('All')"
-                    class="group w-full py-3 px-4 bg-surface-highlight border border-white/10 hover:border-primary/50 text-white rounded-xl text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/10">
-                    <span
-                        class="material-symbols-outlined text-[18px] group-hover:rotate-180 transition-transform duration-500">replay</span>
+                    class="reset-filters-btn group w-full py-3 px-4 text-white rounded-xl text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px] group-hover:rotate-180 transition-transform duration-500">replay</span>
                     Reset Filters
                 </button>
             </div>
@@ -79,13 +65,9 @@
     <!-- Main Content -->
     <main class="flex-1 p-4 md:p-8 lg:p-10 flex flex-col min-w-0">
         <!-- Page Header -->
-        <!-- Page Header -->
-        <div
-            class="flex flex-col items-center justify-center text-center gap-4 mb-12 pt-4 relative z-10 animate-fade-in-up">
-
+        <div class="flex flex-col items-center justify-center text-center gap-4 mb-12 pt-4 relative z-10 animate-fade-in-up">
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-2 leading-tight">
-                Study <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">Materials</span>
+                Study <span class="page-header-gradient">Materials</span>
             </h1>
             <p class="text-text-secondary text-base md:text-lg font-medium max-w-2xl leading-relaxed">
                 Boost your freelance career with our curated study materials, guides, and templates designed for
@@ -97,46 +79,36 @@
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {% for material in materials.items %}
             <!-- Material Card -->
-            <div class="material-item group flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300"
-                data-category="{{ material.category or 'Uncategorized' }}">
-                <div class="relative h-48 overflow-hidden">
+            <div class="material-item group flex flex-col rounded-2xl overflow-hidden" data-category="{{ material.category or 'Uncategorized' }}">
+                <div class="material-thumbnail relative h-48 overflow-hidden">
                     {% if material.thumbnail %}
-                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
                         style="background-image: url('{{ url_for('static', filename=material.thumbnail) }}');"></div>
                     {% else %}
-                    <div
-                        class="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-500/20 group-hover:scale-105 transition-transform duration-500">
-                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary/30 to-secondary/20 group-hover:scale-110 transition-transform duration-700"></div>
                     {% endif %}
-                    <div
-                        class="absolute top-3 right-3 bg-black/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide border border-white/10 shadow-lg">
+                    <div class="absolute top-3 right-3 badge-free text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide shadow-lg">
                         Free
                     </div>
-                    <div
-                        class="absolute bottom-3 left-3 bg-white/90 dark:bg-black/70 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium text-white">
+                    <div class="absolute bottom-3 left-3 badge-pdf px-2 py-1 rounded-md flex items-center gap-1.5 text-xs font-medium text-white">
                         <span class="material-symbols-outlined text-sm">description</span> PDF
                     </div>
                 </div>
                 <div class="p-5 flex flex-col flex-1">
                     <div class="flex items-center gap-2 mb-3">
-                        <span class="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">{{
-                            material.category or 'Uncategorized' }}</span>
+                        <span class="category-badge text-xs font-bold px-2 py-0.5 rounded">{{ material.category or 'Uncategorized' }}</span>
                         <span class="text-xs text-text-secondary">• {{ material.download_count or 0 }} downloads</span>
                     </div>
-                    <h3
-                        class="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-secondary transition-all">
                         {{ material.title }}</h3>
                     <p class="text-text-secondary text-sm mb-4 line-clamp-2">{{ material.description }}</p>
                     <div class="mt-auto pt-4 border-t border-white/10 flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <div
-                                class="size-6 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">
-                                A
-                            </div>
+                            <div class="author-avatar size-6 rounded-full flex items-center justify-center font-bold text-xs">A</div>
                             <span class="text-xs font-medium text-white">Admin</span>
                         </div>
                         <a href="{{ url_for('study_material.material_detail', material_id=material.id) }}"
-                            class="bg-surface-highlight hover:bg-primary hover:text-white text-white px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2">
+                            class="view-btn px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 text-white">
                             <span class="material-symbols-outlined text-[18px]">visibility</span> View
                         </a>
                     </div>
@@ -145,65 +117,64 @@
             {% else %}
             <!-- Empty State -->
             <div class="col-span-full flex flex-col items-center justify-center py-16 px-4">
-                <div class="size-24 rounded-full bg-surface-highlight flex items-center justify-center mb-6">
-                    <span class="material-symbols-outlined text-5xl text-text-secondary">school</span>
+                <div class="empty-state-icon size-24 rounded-full flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined text-5xl text-primary">school</span>
                 </div>
                 <h3 class="text-2xl font-bold text-white mb-2">No Materials Available</h3>
                 <p class="text-text-secondary text-center max-w-md">
                     There are no study materials available at the moment. Check back soon for new content!
                 </p>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
 
-        <!-- Client-side No Results (Hidden by default) -->
+        <!-- Client-side No Results -->
         <div id="no-results-message" class="col-span-full hidden flex-col items-center justify-center py-16 px-4">
-            <div class="size-24 rounded-full bg-surface-highlight flex items-center justify-center mb-6">
-                <span class="material-symbols-outlined text-5xl text-text-secondary">search_off</span>
+            <div class="empty-state-icon size-24 rounded-full flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined text-5xl text-primary">search_off</span>
             </div>
             <h3 class="text-2xl font-bold text-white mb-2">No Matches Found</h3>
             <p class="text-text-secondary text-center max-w-md">
                 No study materials match the selected category. Try selecting another category or viewing all materials.
             </p>
             <button onclick="filterMaterials('All')"
-                class="mt-6 px-6 py-2 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-colors">
+                class="mt-6 px-6 py-2 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-all hover:shadow-lg hover:shadow-primary/50">
                 View All Materials
             </button>
         </div>
-</div>
 
-<!-- Pagination -->
-{% if materials.pages > 1 %}
-<div class="mt-12 flex justify-center pb-8">
-    <nav class="flex items-center gap-2">
-        {% if materials.has_prev %}
-        <a href="{{ url_for('study_material.materials_list', page=materials.prev_num) }}"
-            class="px-4 py-2 bg-surface-dark hover:bg-surface-highlight text-white rounded-lg font-medium transition-colors border border-white/10">
-            Previous
-        </a>
-        {% endif %}
+        <!-- Pagination -->
+        {% if materials.pages > 1 %}
+        <div class="mt-12 flex justify-center pb-8">
+            <nav class="flex items-center gap-2">
+                {% if materials.has_prev %}
+                <a href="{{ url_for('study_material.materials_list', page=materials.prev_num) }}"
+                    class="pagination-btn px-4 py-2 text-white rounded-lg font-medium transition-all">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </a>
+                {% endif %}
 
-        {% for page_num in materials.iter_pages() %}
-        {% if page_num %}
-        <a href="{{ url_for('study_material.materials_list', page=page_num) }}"
-            class="px-4 py-2 {% if page_num == materials.page %}bg-primary text-white{% else %}bg-surface-dark hover:bg-surface-highlight text-white{% endif %} rounded-lg font-medium transition-colors border border-white/10">
-            {{ page_num }}
-        </a>
-        {% else %}
-        <span class="px-2 text-text-secondary">...</span>
-        {% endif %}
-        {% endfor %}
+                {% for page_num in materials.iter_pages() %}
+                {% if page_num %}
+                <a href="{{ url_for('study_material.materials_list', page=page_num) }}"
+                    class="pagination-btn px-4 py-2 rounded-lg font-medium transition-all text-white {% if page_num == materials.page %}active{% endif %}">
+                    {{ page_num }}
+                </a>
+                {% else %}
+                <span class="px-2 text-text-secondary">...</span>
+                {% endif %}
+                {% endfor %}
 
-        {% if materials.has_next %}
-        <a href="{{ url_for('study_material.materials_list', page=materials.next_num) }}"
-            class="px-4 py-2 bg-surface-dark hover:bg-surface-highlight text-white rounded-lg font-medium transition-colors border border-white/10">
-            Next
-        </a>
+                {% if materials.has_next %}
+                <a href="{{ url_for('study_material.materials_list', page=materials.next_num) }}"
+                    class="pagination-btn px-4 py-2 text-white rounded-lg font-medium transition-all">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </a>
+                {% endif %}
+            </nav>
+        </div>
         {% endif %}
-    </nav>
-</div>
-{% endif %}
-</main>
+    </main>
 </div>
 
 {% endblock %}

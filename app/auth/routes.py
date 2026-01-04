@@ -1,18 +1,35 @@
+"""
+Authentication Routes Module
+Handles admin authentication operations:
+- Admin Login
+- Logout
+- Session Management
+Note: Public registration removed - users created via admin panel only
+"""
+
+# =========================================
+# THIRD-PARTY IMPORTS
+# =========================================
 from flask import render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
+
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
 from app.extensions import db, limiter
 from app.auth import auth
 from app.auth.forms import LoginForm
 from app.models.user import User
 
 
-
-# Public login removed - Admin login only
-# Users can only be created by admin from admin panel
+# =========================================
+# ADMIN LOGIN ROUTES
+# =========================================
 
 @auth.route("/admin/login", methods=['GET', 'POST'])
 @limiter.limit("5 per minute")
 def admin_login():
+    """Admin login with rate limiting"""
     if current_user.is_authenticated:
         return redirect(url_for('admin_bp.admin_dashboard'))
         
@@ -33,7 +50,13 @@ def admin_login():
             
     return render_template('auth/admin_login.html', title='Admin Login', form=form)
 
+
+# =========================================
+# LOGOUT ROUTES
+# =========================================
+
 @auth.route("/logout")
 def logout():
+    """Logout current user"""
     logout_user()
     return redirect(url_for('pages.home'))

@@ -1,5 +1,18 @@
+"""
+Home Content Model Module
+Manages editable home page content and settings
+"""
+
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
 from app.extensions import db
 from app.models.base import BaseModel
+
+
+# =========================================
+# HOME CONTENT MODEL
+# =========================================
 
 class HomeContent(BaseModel):
     """Model for managing home page content"""
@@ -16,8 +29,6 @@ class HomeContent(BaseModel):
     profile_name = db.Column(db.String(100), nullable=False, default="Michael Chen")
     profile_title = db.Column(db.String(100), nullable=False, default="Lead Developer & Team Manager")
     profile_rating = db.Column(db.String(10), nullable=False, default="5.0")
-    
-    # Profile Skills (comma separated)
     profile_skills = db.Column(db.String(500), nullable=False, default="Python,React,Node.js,UI/UX")
     
     # Stats
@@ -39,7 +50,7 @@ class HomeContent(BaseModel):
     cv_button_link = db.Column(db.String(300), nullable=True)
     hire_button_text = db.Column(db.String(50), nullable=False, default="Hire Me")
     
-    # Only one row should exist
+    # Singleton Guard
     singleton_guard = db.Column(db.Integer, unique=True, default=1)
     
     def __repr__(self):

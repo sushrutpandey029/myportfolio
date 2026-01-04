@@ -1,22 +1,44 @@
-# Constants used throughout the application
+"""
+Application Constants Module
+Defines constant values used throughout the application:
+- User Roles
+- Item Types
+- Project Types
+- Material Types
+- Inquiry Statuses
+"""
 
-# User roles
+# =========================================
+# USER ROLES
+# =========================================
 ROLE_ADMIN = 'admin'
 ROLE_USER = 'user'
 
-# Item types
+
+# =========================================
+# ITEM TYPES
+# =========================================
 ITEM_TYPE_PROJECT = 'project'
 ITEM_TYPE_STUDY_MATERIAL = 'study_material'
 
-# Project categories
+
+# =========================================
+# PROJECT TYPES
+# =========================================
 PROJECT_FREE = 'free'
 PROJECT_DEMO = 'demo'
 
-# Study material categories
+
+# =========================================
+# STUDY MATERIAL TYPES
+# =========================================
 MATERIAL_FREE = 'free'
 MATERIAL_PAID = 'paid'
 
-# Inquiry statuses
+
+# =========================================
+# INQUIRY STATUSES
+# =========================================
 INQUIRY_NEW = 'new'
 INQUIRY_CONTACTED = 'contacted'
 INQUIRY_CLOSED = 'closed'

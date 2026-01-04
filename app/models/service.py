@@ -1,11 +1,25 @@
+"""
+Service Model Module
+Manages freelancing services offered on the platform
+"""
+
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
 from app.extensions import db
 from app.models.base import BaseModel
+
+
+# =========================================
+# SERVICE MODEL
+# =========================================
 
 class Service(BaseModel):
     """Model for freelancing services"""
     
     __tablename__ = 'services'
     
+    # Columns
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     price = db.Column(db.Float, nullable=True)

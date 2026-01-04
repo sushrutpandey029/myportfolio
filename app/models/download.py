@@ -1,11 +1,25 @@
+"""
+Download Model Module
+Tracks user downloads of projects and study materials
+"""
+
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
 from app.extensions import db
 from app.models.base import BaseModel
+
+
+# =========================================
+# DOWNLOAD MODEL
+# =========================================
 
 class Download(BaseModel):
     """Model to track user downloads of projects and study materials"""
     
     __tablename__ = 'downloads'
     
+    # Columns
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     item_type = db.Column(db.String(20), nullable=False)  # 'project' or 'study_material'
     item_id = db.Column(db.Integer, nullable=False)

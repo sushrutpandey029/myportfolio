@@ -1,8 +1,46 @@
+"""
+Admin Routes Module
+Handles all administrative operations including:
+- Dashboard & Analytics
+- User Management
+- Content Management (Services, Projects, Materials, Videos)
+- Category Management
+- Inquiry Management
+- Blog Management
+- Team & Skills Management
+- Home & About Page Content
+"""
+
+# =========================================
+# STANDARD LIBRARY IMPORTS
+# =========================================
+import os
+import re
+import secrets
+
+# =========================================
+# THIRD-PARTY IMPORTS
+# =========================================
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
+from werkzeug.utils import secure_filename
+
+# =========================================
+# LOCAL APPLICATION IMPORTS
+# =========================================
 from app.extensions import db
 from app.admin import admin_bp
-from app.admin.forms import ServiceForm, ProjectForm, StudyMaterialForm, YouTubeVideoForm, YouTubeCategoryForm, InquiryForm, HomeContentForm, AboutContentForm, SkillForm, TeamMemberForm
+
+# Forms
+from app.admin.forms import (
+    ServiceForm, ProjectForm, StudyMaterialForm, YouTubeVideoForm, 
+    YouTubeCategoryForm, InquiryForm, HomeContentForm, AboutContentForm, 
+    SkillForm, TeamMemberForm, ServiceCategoryForm, ProjectCategoryForm, 
+    SkillCategoryForm, StudyMaterialCategoryForm, BlogPostForm, 
+    BlogCategoryForm, UserForm
+)
+
+# Models
 from app.models.user import User
 from app.models.service import Service
 from app.models.service_category import ServiceCategory
@@ -19,15 +57,22 @@ from app.models.home_page import Skill, TeamMember
 from app.models.skill_category import SkillCategory
 from app.models.blog_post import BlogPost
 from app.models.blog_category import BlogCategory
-from app.admin.forms import ServiceCategoryForm, ProjectCategoryForm, SkillCategoryForm, StudyMaterialCategoryForm, BlogPostForm, BlogCategoryForm
+
+# Utilities
 from app.utils.helpers import save_image
 from app.utils.decorators import admin_required
 from app.utils.constants import ROLE_ADMIN, ROLE_USER
+
+
+# =========================================
+# DASHBOARD ROUTES
+# =========================================
 
 @admin_bp.route("/admin")
 @login_required
 @admin_required
 def admin_dashboard():
+    """Admin dashboard with statistics and recent inquiries"""
     # Get counts for dashboard
     user_count = User.query.count()
     service_count = Service.query.count()
@@ -55,35 +100,26 @@ def admin_dashboard():
                           team_count=team_count,
                           recent_inquiries=recent_inquiries)
 
-# Users management
+
+# =========================================
+# USER MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/users")
 @login_required
 @admin_required
 def admin_users():
+    """List all users with pagination"""
     page = request.args.get('page', 1, type=int)
     users = User.query.order_by(User.created_at.desc()).paginate(page=page, per_page=10)
     return render_template('admin/users.html', title='Manage Users', users=users)
 
-@admin_bp.route("/admin/user/<int:user_id>/toggle-status", methods=['POST'])
-@login_required
-@admin_required
-def toggle_user_status(user_id):
-    user = User.query.get_or_404(user_id)
-    if user.role == ROLE_ADMIN and user.id == current_user.id:
-        flash('You cannot deactivate your own admin account!', 'danger')
-    else:
-        user.is_active = not user.is_active
-        db.session.commit()
-        status = "activated" if user.is_active else "deactivated"
-        flash(f'User {user.username} has been {status}.', 'success')
-    return redirect(url_for('admin_bp.admin_users'))
-
-from app.admin.forms import UserForm
 
 @admin_bp.route("/admin/users/new", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_user_new():
+    """Create new admin user"""
     form = UserForm()
     if form.validate_on_submit():
         if User.query.filter_by(email=form.email.data).first():
@@ -104,11 +140,32 @@ def admin_user_new():
             
     return render_template('admin/user_form.html', title='Add Admin User', form=form)
 
-# Services management
+
+@admin_bp.route("/admin/user/<int:user_id>/toggle-status", methods=['POST'])
+@login_required
+@admin_required
+def toggle_user_status(user_id):
+    """Toggle user active/inactive status"""
+    user = User.query.get_or_404(user_id)
+    if user.role == ROLE_ADMIN and user.id == current_user.id:
+        flash('You cannot deactivate your own admin account!', 'danger')
+    else:
+        user.is_active = not user.is_active
+        db.session.commit()
+        status = "activated" if user.is_active else "deactivated"
+        flash(f'User {user.username} has been {status}.', 'success')
+    return redirect(url_for('admin_bp.admin_users'))
+
+
+# =========================================
+# SERVICE MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/services", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_services():
+    """List all services with quick category add"""
     # Category Form Handling (Quick Add)
     cat_form = ServiceCategoryForm()
     if cat_form.validate_on_submit():
@@ -128,11 +185,13 @@ def admin_services():
                          categories=categories,
                          cat_form=cat_form)
 
+
 @admin_bp.route("/admin/service/new", methods=['GET', 'POST'])
 @admin_bp.route("/admin/service/<int:service_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_service_form(service_id=None):
+    """Create or edit service"""
     service = Service.query.get_or_404(service_id) if service_id else None
     form = ServiceForm(obj=service)
     
@@ -148,15 +207,8 @@ def admin_service_form(service_id=None):
         if form.image.data:
             image_file = save_image(form.image.data, folder='services')
             service.image_url = image_file
-        else:
-            # If editing and no new image, we keep the old one
-            # populate_obj would set it to None if not handled
-            pass
             
         form.populate_obj(service)
-        # Note: form.populate_obj(service) might overwrite image_url with the FileField object if not careful
-        # But our field name in form is 'image' and in model is 'image_url', so it should be fine.
-        
         service.is_active = form.is_active.data == 'True'
         
         # Ensure we set the user_id if it's a new service
@@ -169,19 +221,38 @@ def admin_service_form(service_id=None):
         
     return render_template('admin/service_form.html', title='Edit Service' if service else 'New Service', form=form, service=service)
 
-# Category management
+
+@admin_bp.route("/admin/service/<int:service_id>/delete", methods=['POST'])
+@login_required
+@admin_required
+def delete_service(service_id):
+    """Delete service"""
+    service = Service.query.get_or_404(service_id)
+    db.session.delete(service)
+    db.session.commit()
+    flash('Service deleted successfully!', 'success')
+    return redirect(url_for('admin_bp.admin_services'))
+
+
+# =========================================
+# SERVICE CATEGORY MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/categories")
 @login_required
 @admin_required
 def admin_categories():
+    """List all service categories"""
     categories = ServiceCategory.query.all()
     return render_template('admin/categories.html', title='Manage Categories', categories=categories)
+
 
 @admin_bp.route("/admin/category/new", methods=['GET', 'POST'])
 @admin_bp.route("/admin/category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_category_form(category_id=None):
+    """Create or edit service category"""
     category = ServiceCategory.query.get_or_404(category_id) if category_id else None
     form = ServiceCategoryForm(obj=category)
     
@@ -197,12 +268,13 @@ def admin_category_form(category_id=None):
         
     return render_template('admin/category_form.html', title='Edit Category' if category else 'New Category', form=form, category=category)
 
+
 @admin_bp.route("/admin/category/<int:category_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_category(category_id):
+    """Delete service category"""
     category = ServiceCategory.query.get_or_404(category_id)
-    # Check if category has services
     if category.services:
         flash(f'Cannot delete category "{category.name}" as it contains services. Move them first.', 'danger')
     else:
@@ -211,21 +283,16 @@ def delete_category(category_id):
         flash('Category deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_categories'))
 
-@admin_bp.route("/admin/service/<int:service_id>/delete", methods=['POST'])
-@login_required
-@admin_required
-def delete_service(service_id):
-    service = Service.query.get_or_404(service_id)
-    db.session.delete(service)
-    db.session.commit()
-    flash('Service deleted successfully!', 'success')
-    return redirect(url_for('admin_bp.admin_services'))
 
-# Projects management
+# =========================================
+# PROJECT MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/projects", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_projects():
+    """List all projects with quick category add"""
     # Category Form Handling (Quick Add)
     cat_form = ProjectCategoryForm()
     if cat_form.validate_on_submit():
@@ -245,11 +312,13 @@ def admin_projects():
                          categories=categories,
                          cat_form=cat_form)
 
+
 @admin_bp.route("/admin/project/new", methods=['GET', 'POST'])
 @admin_bp.route("/admin/project/<int:project_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_project_form(project_id=None):
+    """Create or edit project"""
     project = Project.query.get_or_404(project_id) if project_id else None
     form = ProjectForm(obj=project)
     
@@ -269,8 +338,6 @@ def admin_project_form(project_id=None):
         
         # Handle project file upload
         if form.file.data:
-            from werkzeug.utils import secure_filename
-            import os
             filename = secure_filename(form.file.data.filename)
             upload_folder = os.path.join('app', 'static', 'uploads', 'project_files')
             os.makedirs(upload_folder, exist_ok=True)
@@ -280,7 +347,7 @@ def admin_project_form(project_id=None):
             
         form.populate_obj(project)
         
-        # Handle category_id - set to None if 0 (which means 'Select Category')
+        # Handle category_id - set to None if 0
         if form.category_id.data == 0:
             project.category_id = None
             
@@ -291,21 +358,28 @@ def admin_project_form(project_id=None):
         
     return render_template('admin/project_form.html', title='Edit Project' if project else 'New Project', form=form, project=project)
 
+
 @admin_bp.route("/admin/project/<int:project_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_project(project_id):
+    """Delete project"""
     project = Project.query.get_or_404(project_id)
     db.session.delete(project)
     db.session.commit()
     flash('Project deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_projects'))
 
-# Project Category management
+
+# =========================================
+# PROJECT CATEGORY MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/project-category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_project_category_form(category_id):
+    """Edit project category"""
     category = ProjectCategory.query.get_or_404(category_id)
     form = ProjectCategoryForm(obj=category)
     
@@ -317,12 +391,13 @@ def admin_project_category_form(category_id):
         
     return render_template('admin/project_category_form.html', title='Edit Category', form=form, category=category)
 
+
 @admin_bp.route("/admin/project-category/<int:category_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_project_category(category_id):
+    """Delete project category"""
     category = ProjectCategory.query.get_or_404(category_id)
-    # Check if category has projects
     if category.projects:
         flash(f'Cannot delete category "{category.name}" as it contains projects. Move them first.', 'danger')
     else:
@@ -331,20 +406,27 @@ def delete_project_category(category_id):
         flash('Category deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_projects'))
 
-# Study materials management
+
+# =========================================
+# STUDY MATERIAL MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/materials")
 @login_required
 @admin_required
 def admin_materials():
+    """List all study materials"""
     page = request.args.get('page', 1, type=int)
     materials = StudyMaterial.query.order_by(StudyMaterial.created_at.desc()).paginate(page=page, per_page=10)
     return render_template('admin/study_material.html', title='Manage Study Materials', materials=materials)
+
 
 @admin_bp.route("/admin/material/new", methods=['GET', 'POST'])
 @admin_bp.route("/admin/material/<int:material_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_material_form(material_id=None):
+    """Create or edit study material"""
     material = StudyMaterial.query.get_or_404(material_id) if material_id else None
     form = StudyMaterialForm(obj=material)
     
@@ -357,29 +439,22 @@ def admin_material_form(material_id=None):
             material = StudyMaterial()
             db.session.add(material)
             
-        # Store existing thumbnail path to prevent overwrite by populate_obj
+        # Store existing paths
         current_thumbnail = material.thumbnail
         current_file_path = material.file_path
             
         form.populate_obj(material)
         
-        # Restore paths (populate_obj might have put FileStorage objects or None)
+        # Restore paths
         material.thumbnail = current_thumbnail
         material.file_path = current_file_path
         
         # Handle file upload (PDF)
         if form.file.data:
-            import os
-            from werkzeug.utils import secure_filename
             filename = secure_filename(form.file.data.filename)
-            # Use timestamp to make unique? or safe_image helper?
-            # Helper logic:
             upload_folder = os.path.join('app', 'static', 'uploads', 'materials')
             os.makedirs(upload_folder, exist_ok=True)
             
-            # Simple unique checking or overwrite?
-            # Let's just prepend random hex to be safe like save_image
-            import secrets
             random_hex = secrets.token_hex(8)
             _, f_ext = os.path.splitext(filename)
             new_filename = random_hex + f_ext
@@ -390,7 +465,6 @@ def admin_material_form(material_id=None):
             
         # Handle thumbnail upload
         if form.thumbnail.data:
-            # save_image handles unique naming
             image_file = save_image(form.thumbnail.data, folder='materials_thumbs')
             material.thumbnail = image_file
             
@@ -401,29 +475,38 @@ def admin_material_form(material_id=None):
         
     return render_template('admin/material_form.html', title='Edit Study Material' if material else 'New Study Material', form=form, material=material)
 
+
 @admin_bp.route("/admin/material/<int:material_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_material(material_id):
+    """Delete study material"""
     material = StudyMaterial.query.get_or_404(material_id)
     db.session.delete(material)
     db.session.commit()
     flash('Study material deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_materials'))
 
-# Study Material Categories
+
+# =========================================
+# STUDY MATERIAL CATEGORY MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/material-categories")
 @login_required
 @admin_required
 def admin_material_categories():
+    """List all material categories"""
     categories = StudyMaterialCategory.query.all()
     return render_template('admin/material_categories.html', title='Manage Categories', categories=categories)
+
 
 @admin_bp.route("/admin/material-category/new", methods=['GET', 'POST'])
 @admin_bp.route("/admin/material-category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_material_category_form(category_id=None):
+    """Create or edit material category"""
     category = StudyMaterialCategory.query.get_or_404(category_id) if category_id else None
     form = StudyMaterialCategoryForm(obj=category)
     
@@ -439,30 +522,39 @@ def admin_material_category_form(category_id=None):
         
     return render_template('admin/material_category_form.html', title='Edit Category' if category else 'New Category', form=form, category=category)
 
+
 @admin_bp.route("/admin/material-category/<int:category_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_material_category(category_id):
+    """Delete material category"""
     category = StudyMaterialCategory.query.get_or_404(category_id)
     db.session.delete(category)
     db.session.commit()
     flash('Category deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_material_categories'))
 
-# YouTube videos management
+
+# =========================================
+# YOUTUBE VIDEO MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/videos")
 @login_required
 @admin_required
 def admin_videos():
+    """List all YouTube videos"""
     page = request.args.get('page', 1, type=int)
     videos = YouTubeVideo.query.order_by(YouTubeVideo.created_at.desc()).paginate(page=page, per_page=10)
     return render_template('admin/youtube_videos.html', title='Manage YouTube Videos', videos=videos)
+
 
 @admin_bp.route("/admin/video/new", methods=['GET', 'POST'])
 @admin_bp.route("/admin/video/<int:video_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_video_form(video_id=None):
+    """Create or edit YouTube video"""
     video = YouTubeVideo.query.get_or_404(video_id) if video_id else None
     form = YouTubeVideoForm(obj=video)
     
@@ -482,14 +574,12 @@ def admin_video_form(video_id=None):
         form.populate_obj(video)
         
         # Extract ID from URL
-        import re
         url = form.video_url.data
-        # Robust regex for different YouTube URL formats
         video_id_match = re.search(r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})', url)
         
         if video_id_match:
              video.video_id = video_id_match.group(1)
-        elif len(url) == 11: # Assume raw ID if 11 chars
+        elif len(url) == 11:
              video.video_id = url
         else:
              flash('Invalid YouTube URL. Please provide a valid link.', 'error')
@@ -502,29 +592,38 @@ def admin_video_form(video_id=None):
         
     return render_template('admin/video_form.html', title='Edit YouTube Video' if video else 'New YouTube Video', form=form, video=video)
 
+
 @admin_bp.route("/admin/video/<int:video_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_video(video_id):
+    """Delete YouTube video"""
     video = YouTubeVideo.query.get_or_404(video_id)
     db.session.delete(video)
     db.session.commit()
     flash('YouTube video deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_videos'))
 
-# YouTube Categories Management
+
+# =========================================
+# YOUTUBE CATEGORY MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/youtube-categories")
 @login_required
 @admin_required
 def admin_youtube_categories():
+    """List all YouTube categories"""
     categories = YouTubeCategory.query.all()
     return render_template('admin/youtube_categories.html', title='Manage YouTube Categories', categories=categories)
+
 
 @admin_bp.route("/admin/youtube-category/new", methods=['GET', 'POST'])
 @admin_bp.route("/admin/youtube-category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_youtube_category_form(category_id=None):
+    """Create or edit YouTube category"""
     category = YouTubeCategory.query.get_or_404(category_id) if category_id else None
     form = YouTubeCategoryForm(obj=category)
     
@@ -544,10 +643,12 @@ def admin_youtube_category_form(category_id=None):
         
     return render_template('admin/youtube_category_form.html', title='Edit Category' if category else 'New Category', form=form, category=category)
 
+
 @admin_bp.route("/admin/youtube-category/<int:category_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_youtube_category(category_id):
+    """Delete YouTube category"""
     category = YouTubeCategory.query.get_or_404(category_id)
     if YouTubeVideo.query.filter_by(category=category.name).first():
         flash(f'Cannot delete category "{category.name}" as it is assigned to videos.', 'error')
@@ -557,19 +658,26 @@ def delete_youtube_category(category_id):
         flash('Category deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_youtube_categories'))
 
-# Inquiries management
+
+# =========================================
+# INQUIRY MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/inquiries")
 @login_required
 @admin_required
 def admin_inquiries():
+    """List all inquiries"""
     page = request.args.get('page', 1, type=int)
     inquiries = Inquiry.query.order_by(Inquiry.created_at.desc()).paginate(page=page, per_page=10)
     return render_template('admin/inquiries.html', title='Manage Inquiries', inquiries=inquiries)
+
 
 @admin_bp.route("/admin/inquiry/<int:inquiry_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_inquiry_form(inquiry_id):
+    """Edit inquiry status"""
     inquiry = Inquiry.query.get_or_404(inquiry_id)
     form = InquiryForm(obj=inquiry)
     
@@ -581,31 +689,94 @@ def admin_inquiry_form(inquiry_id):
         
     return render_template('admin/inquiry_form.html', title='Edit Inquiry', form=form, inquiry=inquiry)
 
+
 @admin_bp.route("/admin/inquiry/<int:inquiry_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_inquiry(inquiry_id):
+    """Delete inquiry"""
     inquiry = Inquiry.query.get_or_404(inquiry_id)
     db.session.delete(inquiry)
     db.session.commit()
     flash('Inquiry deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_inquiries'))
 
-# Content management - About Page View (Preview)
+
+# =========================================
+# HOME PAGE CONTENT MANAGEMENT ROUTES
+# =========================================
+
+@admin_bp.route("/admin/content/home-page")
+@login_required
+@admin_required
+def admin_content_home_page():
+    """View home page content"""
+    content = HomeContent.get_content()
+    return render_template('admin/home_page_content_view.html', 
+                         title='Home Page Content', 
+                         content=content)
+
+
+@admin_bp.route("/admin/content/home-page/edit", methods=['GET', 'POST'])
+@login_required
+@admin_required
+def admin_home_page():
+    """Edit home page content"""
+    content = HomeContent.get_content()
+    form = HomeContentForm(obj=content)
+    
+    if form.validate_on_submit():
+        # Handle profile image upload
+        if form.profile_image.data and not isinstance(form.profile_image.data, str):
+            image_file = save_image(form.profile_image.data, folder='profile')
+            content.profile_image = image_file
+        
+        # Update all fields
+        content.hero_title_line1 = form.hero_title_line1.data
+        content.hero_title_line2 = form.hero_title_line2.data
+        content.hero_subtitle = form.hero_subtitle.data
+        content.stat_projects = form.stat_projects.data
+        content.stat_materials = form.stat_materials.data
+        content.stat_team = form.stat_team.data
+        content.stat_downloads = form.stat_downloads.data
+        content.knowledge_hub_title = form.knowledge_hub_title.data
+        content.knowledge_hub_subtitle = form.knowledge_hub_subtitle.data
+        content.workflow_title = form.workflow_title.data
+        content.workflow_subtitle = form.workflow_subtitle.data
+        content.cv_button_text = form.cv_button_text.data
+        content.cv_button_link = form.cv_button_link.data
+        content.hire_button_text = form.hire_button_text.data
+        
+        db.session.commit()
+        flash('Home page content updated successfully!', 'success')
+        return redirect(url_for('admin_bp.admin_content_home_page'))
+    
+    return render_template('admin/home_page_content.html', 
+                         title='Edit Home Page', 
+                         form=form, 
+                         content=content)
+
+
+# =========================================
+# ABOUT PAGE CONTENT MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/content/home-about")
 @login_required
 @admin_required
 def admin_content_home_about():
+    """View about page content"""
     content = AboutContent.get_content()
     return render_template('admin/about_page_content_view.html', 
                          title='About Page Content', 
                          content=content)
 
-# Content management - About Page Edit
+
 @admin_bp.route("/admin/content/home-about/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_content_about_edit():
+    """Edit about page content"""
     content = AboutContent.get_content()
     form = AboutContentForm(obj=content)
     
@@ -687,60 +858,16 @@ def admin_content_about_edit():
                          form=form, 
                          content=content)
 
-# Home Page Content Management - View (Preview)
-@admin_bp.route("/admin/content/home-page")
-@login_required
-@admin_required
-def admin_content_home_page():
-    content = HomeContent.get_content()
-    return render_template('admin/home_page_content_view.html', 
-                         title='Home Page Content', 
-                         content=content)
 
-# Home Page Content Management - Edit
-@admin_bp.route("/admin/content/home-page/edit", methods=['GET', 'POST'])
-@login_required
-@admin_required
-def admin_home_page():
-    content = HomeContent.get_content()
-    form = HomeContentForm(obj=content)
-    
-    if form.validate_on_submit():
-        # Handle profile image upload
-        if form.profile_image.data and not isinstance(form.profile_image.data, str):
-            image_file = save_image(form.profile_image.data, folder='profile')
-            content.profile_image = image_file
-        
-        # Update all fields except profile_image (already handled above)
-        content.hero_title_line1 = form.hero_title_line1.data
-        content.hero_title_line2 = form.hero_title_line2.data
-        content.hero_subtitle = form.hero_subtitle.data
-        content.stat_projects = form.stat_projects.data
-        content.stat_materials = form.stat_materials.data
-        content.stat_team = form.stat_team.data
-        content.stat_downloads = form.stat_downloads.data
-        content.knowledge_hub_title = form.knowledge_hub_title.data
-        content.knowledge_hub_subtitle = form.knowledge_hub_subtitle.data
-        content.workflow_title = form.workflow_title.data
-        content.workflow_subtitle = form.workflow_subtitle.data
-        content.cv_button_text = form.cv_button_text.data
-        content.cv_button_link = form.cv_button_link.data
-        content.hire_button_text = form.hire_button_text.data
-        
-        db.session.commit()
-        flash('Home page content updated successfully!', 'success')
-        return redirect(url_for('admin_bp.admin_content_home_page'))
-    
-    return render_template('admin/home_page_content.html', 
-                         title='Edit Home Page', 
-                         form=form, 
-                         content=content)
+# =========================================
+# SKILLS MANAGEMENT ROUTES
+# =========================================
 
-# Skills Management
 @admin_bp.route("/admin/skills", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_skills():
+    """List all skills with quick category add"""
     # Category Form Handling (Quick Add)
     cat_form = SkillCategoryForm()
     if cat_form.validate_on_submit():
@@ -759,10 +886,12 @@ def admin_skills():
                          categories=categories,
                          cat_form=cat_form)
 
+
 @admin_bp.route("/admin/skills/create", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_skill_create():
+    """Create new skill"""
     form = SkillForm()
     
     if form.validate_on_submit():
@@ -785,14 +914,16 @@ def admin_skill_create():
                          form=form,
                          action='Create')
 
+
 @admin_bp.route("/admin/skills/edit/<int:id>", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_skill_edit(id):
+    """Edit skill"""
     skill = Skill.query.get_or_404(id)
     form = SkillForm(obj=skill)
     
-    # Pre-populate form with current values
+    # Pre-populate form
     if request.method == 'GET':
         form.percentage.data = str(skill.percentage)
         form.order.data = str(skill.order)
@@ -822,17 +953,23 @@ def admin_skill_edit(id):
 @login_required
 @admin_required
 def admin_skill_delete(id):
+    """Delete skill"""
     skill = Skill.query.get_or_404(id)
     db.session.delete(skill)
     db.session.commit()
     flash('Skill deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_skills'))
 
-# Skill Category Management
+
+# =========================================
+# SKILL CATEGORY MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/skill-category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_skill_category_edit(category_id):
+    """Edit skill category"""
     category = SkillCategory.query.get_or_404(category_id)
     form = SkillCategoryForm(obj=category)
     
@@ -848,10 +985,12 @@ def admin_skill_category_edit(category_id):
                          form=form, 
                          category=category)
 
+
 @admin_bp.route("/admin/skill-category/<int:category_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def admin_skill_category_delete(category_id):
+    """Delete skill category"""
     category = SkillCategory.query.get_or_404(category_id)
     db.session.delete(category)
     db.session.commit()
@@ -859,30 +998,32 @@ def admin_skill_category_delete(category_id):
     return redirect(url_for('admin_bp.admin_skills'))
 
 
-# ============================================
-# Team Members Management Routes
-# ============================================
+# =========================================
+# TEAM MEMBERS MANAGEMENT ROUTES
+# =========================================
 
 @admin_bp.route("/admin/team-members", methods=['GET'])
 @login_required
 @admin_required
 def admin_team_members():
+    """List all team members"""
     team_members = TeamMember.query.order_by(TeamMember.order, TeamMember.id).all()
     return render_template('admin/team_members_list.html', 
                          title='Manage Team Members', 
                          team_members=team_members)
 
+
 @admin_bp.route("/admin/team-members/create", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_team_member_create():
+    """Create new team member"""
     form = TeamMemberForm()
     
     if form.validate_on_submit():
-        # Handle image - priority to upload over URL
+        # Handle image
         image_url = form.image_url.data
         if form.image_upload.data:
-            # Save uploaded image
             image_url = save_image(form.image_upload.data, folder='team')
         elif not image_url:
             flash('Please provide either an image upload or image URL', 'error')
@@ -914,14 +1055,16 @@ def admin_team_member_create():
                          form=form,
                          action='Add')
 
+
 @admin_bp.route("/admin/team-members/edit/<int:id>", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_team_member_edit(id):
+    """Edit team member"""
     team_member = TeamMember.query.get_or_404(id)
     form = TeamMemberForm(obj=team_member)
     
-    # Pre-populate form with current values
+    # Pre-populate form
     if request.method == 'GET':
         form.order.data = str(team_member.order)
         form.is_active.data = 'True' if team_member.is_active else 'False'
@@ -954,27 +1097,33 @@ def admin_team_member_edit(id):
                          team_member=team_member,
                          action='Update')
 
+
 @admin_bp.route("/admin/team-members/delete/<int:id>", methods=['POST'])
 @login_required
 @admin_required
 def admin_team_member_delete(id):
+    """Delete team member"""
     team_member = TeamMember.query.get_or_404(id)
     db.session.delete(team_member)
     db.session.commit()
     flash('Team member deleted successfully!', 'success')
     return redirect(url_for('admin_bp.admin_team_members'))
-# Team Member Management
+
+
 @admin_bp.route("/admin/team", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_team():
+    """Alternative team listing route"""
     team_members = TeamMember.query.order_by(TeamMember.order, TeamMember.id).all()
     return render_template('admin/team_list.html', title='Manage Team', team_members=team_members)
+
 
 @admin_bp.route("/admin/team/create", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_team_create():
+    """Alternative team creation route"""
     form = TeamMemberForm()
     if form.validate_on_submit():
         member = TeamMember(
@@ -1002,10 +1151,12 @@ def admin_team_create():
         
     return render_template('admin/team_form.html', title='Add Team Member', form=form, action='Create')
 
+
 @admin_bp.route("/admin/team/edit/<int:id>", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_team_edit(id):
+    """Alternative team edit route"""
     member = TeamMember.query.get_or_404(id)
     form = TeamMemberForm(obj=member)
     
@@ -1028,10 +1179,12 @@ def admin_team_edit(id):
         
     return render_template('admin/team_form.html', title='Edit Team Member', form=form, member=member, action='Update')
 
+
 @admin_bp.route("/admin/team/delete/<int:id>", methods=['POST'])
 @login_required
 @admin_required
 def admin_team_delete(id):
+    """Alternative team delete route"""
     member = TeamMember.query.get_or_404(id)
     db.session.delete(member)
     db.session.commit()
@@ -1039,20 +1192,26 @@ def admin_team_delete(id):
     return redirect(url_for('admin_bp.admin_team'))
 
 
-# Blog Management
+# =========================================
+# BLOG MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/blogs")
 @login_required
 @admin_required
 def admin_blogs():
+    """List all blog posts"""
     page = request.args.get('page', 1, type=int)
     blogs = BlogPost.query.order_by(BlogPost.created_at.desc()).paginate(page=page, per_page=10)
     return render_template('admin/blogs.html', title='Manage Blogs', blogs=blogs)
+
 
 @admin_bp.route("/admin/blog/new", methods=['GET', 'POST'])
 @admin_bp.route("/admin/blog/<int:blog_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_blog_form(blog_id=None):
+    """Create or edit blog post"""
     blog = BlogPost.query.get_or_404(blog_id) if blog_id else None
     form = BlogPostForm(obj=blog)
     
@@ -1067,7 +1226,7 @@ def admin_blog_form(blog_id=None):
             
         current_thumbnail = blog.thumbnail
         form.populate_obj(blog)
-        blog.thumbnail = current_thumbnail # Restore to handle file upload manually
+        blog.thumbnail = current_thumbnail
         
         if form.thumbnail.data:
             image_file = save_image(form.thumbnail.data, folder='blog_thumbs')
@@ -1080,10 +1239,12 @@ def admin_blog_form(blog_id=None):
         
     return render_template('admin/blog_form.html', title='Edit Blog Post' if blog else 'New Blog Post', form=form, blog=blog)
 
+
 @admin_bp.route("/admin/blog/<int:blog_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_blog(blog_id):
+    """Delete blog post"""
     blog = BlogPost.query.get_or_404(blog_id)
     db.session.delete(blog)
     db.session.commit()
@@ -1091,19 +1252,25 @@ def delete_blog(blog_id):
     return redirect(url_for('admin_bp.admin_blogs'))
 
 
-# Blog Categories Management
+# =========================================
+# BLOG CATEGORY MANAGEMENT ROUTES
+# =========================================
+
 @admin_bp.route("/admin/blog-categories")
 @login_required
 @admin_required
 def admin_blog_categories():
+    """List all blog categories"""
     categories = BlogCategory.query.all()
     return render_template('admin/blog_categories.html', title='Manage Blog Categories', categories=categories)
+
 
 @admin_bp.route("/admin/blog-category/new", methods=['GET', 'POST'])
 @admin_bp.route("/admin/blog-category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_blog_category_form(category_id=None):
+    """Create or edit blog category"""
     category = BlogCategory.query.get_or_404(category_id) if category_id else None
     form = BlogCategoryForm(obj=category)
     
@@ -1119,10 +1286,12 @@ def admin_blog_category_form(category_id=None):
         
     return render_template('admin/blog_category_form.html', title='Edit Category' if category else 'New Category', form=form, category=category)
 
+
 @admin_bp.route("/admin/blog-category/<int:category_id>/delete", methods=['POST'])
 @login_required
 @admin_required
 def delete_blog_category(category_id):
+    """Delete blog category"""
     category = BlogCategory.query.get_or_404(category_id)
     db.session.delete(category)
     db.session.commit()
